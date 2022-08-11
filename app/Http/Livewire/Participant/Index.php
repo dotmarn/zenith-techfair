@@ -67,7 +67,8 @@ class Index extends Component
             'area_of_responsibility' => ['required', 'string'],
             'selectedInterests' => ['required', 'array']
         ], [
-            'have_an_account.required' => "This field is required"
+            'have_an_account.required' => "This field is required",
+            'selectedInterests.required' => "This field is required"
         ]);
 
         if (count($this->class_session) > 0) {

@@ -63,11 +63,12 @@
 
                     <div class="space-y-5 mb-2">
                         <div class="w-full">
-                            <label for="have_an_account" class="block font-semibold text-[#544837] mb-2">Do you have a zenith
+                            <label for="have_an_account" class="block font-semibold text-[#544837] mb-2">Do you have a
+                                zenith
                                 account?
                                 <span class="text-red-400">*</span></label>
                             <select wire:model.lazy="have_an_account" id="have_an_account"
-                                class="w-full px-4 py-3 rounded border border-[#ccd1d9] outline-none focus:border-[#063970]">
+                                class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                 <option value="">Choose One...</option>
                                 <option value="yes">Yes</option>
                                 <option value="no">No</option>
@@ -101,15 +102,20 @@
                     </div>
 
                     <div class="w-full mb-2">
-                        <label for="" class="w-full md:w-4/5 block font-semibold mb-2 text-[#544837]">Select Class</label>
+                        <label for="" class="w-full md:w-4/5 block font-semibold mb-2 text-[#544837]">Select
+                            Class</label>
                         <div wire:ignore>
-                            <select wire:model="class_session" class="w-full px-4 py-3 rounded border border-[#ccd1d9] outline-none focus:border-[#063970] js-example-basic-multiple appearance-none" multiple="multiple">
+                            <select wire:model="class_session"
+                                class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] js-example-basic-multiple appearance-none"
+                                multiple="multiple">
                                 @foreach ($super_sessions as $super_session)
-                                <option value="{{ $super_session->id }}">{{ $super_session->title }}</option>
+                                    <option value="{{ $super_session->id }}">{{ $super_session->title }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        @error('class_session') <p class="text-red-600 font-bold">{{ $message }}</p> @enderror
+                        @error('class_session')
+                            <p class="text-red-600 font-bold">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2">
@@ -117,7 +123,7 @@
                             <label for="gender" class="block font-semibold text-[#544837] mb-2">Gender
                                 <span class="text-red-400">*</span></label>
                             <select wire:model.lazy="gender" id="gender"
-                                class="w-full px-4 py-3 rounded border border-[#ccd1d9] outline-none focus:border-[#063970]">
+                                class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                 <option value="">Choose One...</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -131,7 +137,7 @@
                             <label for="job_function" class="block font-semibold text-[#544837] mb-2">Job Function
                                 <span class="text-red-400">*</span></label>
                             <select wire:model.lazy="job_function" id="job_function"
-                                class="w-full px-4 py-3 rounded border border-[#ccd1d9] outline-none focus:border-[#063970]">
+                                class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                 <option value="">Choose One...</option>
                                 @foreach ($job_functions as $job)
                                     <option value="{{ $job }}">{{ ucwords($job) }}</option>
@@ -149,7 +155,7 @@
                                 of Responsibility
                                 <span class="text-red-400">*</span></label>
                             <select wire:model.lazy="area_of_responsibility" id="area_of_responsibility"
-                                class="w-full px-4 py-3 rounded border border-[#ccd1d9] outline-none focus:border-[#063970]">
+                                class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                 <option value="">Choose One...</option>
                                 <option value="area_one">Area One</option>
                                 <option value="area_two">Area Two</option>
@@ -163,7 +169,7 @@
                             <label for="industry_type" class="block font-semibold text-[#544837] mb-2">Industry Type
                                 <span class="text-red-400">*</span></label>
                             <select wire:model.lazy="industry_type" id="industry_type"
-                                class="w-full px-4 py-3 rounded border border-[#ccd1d9] outline-none focus:border-[#063970]">
+                                class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                 <option value="">Choose One...</option>
                                 @foreach ($industries as $industry)
                                     <option value="{{ $industry }}">{{ $industry }}</option>
@@ -191,9 +197,12 @@
                             </div>
                         @endforeach
                     </div>
+                    @error('selectedInterests')
+                        <p class="text-red-600 font-semibold text-xs clear-both mb-5">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <div class="clear-both">
+                <div class="clear-left">
                     <button type="submit" class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4">
                         Register
                         <i class="fas fa-spinner fa-spin" wire:loading wire:target="bookSummit"></i>
