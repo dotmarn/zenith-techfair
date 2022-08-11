@@ -14,6 +14,9 @@
 <body class="font-Poppins">
     @yield('content')
     @livewireScripts
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <x-livewire-alert::scripts />
+    <x-livewire-alert::flash />
     @yield('scripts')
 </body>
 </html>

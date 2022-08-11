@@ -718,6 +718,11 @@ select{
 .max-w-3xl{
   max-width: 48rem;
 }
+.appearance-none{
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
 .items-center{
   align-items: center;
 }
@@ -742,6 +747,9 @@ select{
 }
 .border{
   border-width: 1px;
+}
+.border-2{
+  border-width: 2px;
 }
 .border-b{
   border-bottom-width: 1px;
@@ -790,6 +798,9 @@ select{
 }
 .font-semibold{
   font-weight: 600;
+}
+.font-bold{
+  font-weight: 700;
 }
 .text-\[\#544837\]{
   --tw-text-opacity: 1;
@@ -855,6 +866,13 @@ select{
 .focus\:border-\[\#063970\]:focus{
   --tw-border-opacity: 1;
   border-color: rgb(6 57 112 / var(--tw-border-opacity));
+}
+
+@media (min-width: 768px){
+
+  .md\:w-4\/5{
+    width: 80%;
+  }
 }
 
 @media (min-width: 1024px){

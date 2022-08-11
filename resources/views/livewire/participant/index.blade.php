@@ -1,4 +1,7 @@
 @section('title', 'Zenith Tech Fair::Welcome')
+@section('styles')
+    <link href="/assets/css/select2.min.css" rel="stylesheet" />
+@endsection
 <div>
     <div class="text-center mx-auto border-b border-gray-100">
         <div class="mb-4">
@@ -60,7 +63,7 @@
 
                     <div class="space-y-5 mb-2">
                         <div class="w-full">
-                            <label for="account" class="block font-semibold text-[#544837] mb-2">Do you have a zenith
+                            <label for="have_an_account" class="block font-semibold text-[#544837] mb-2">Do you have a zenith
                                 account?
                                 <span class="text-red-400">*</span></label>
                             <select wire:model.lazy="have_an_account" id="have_an_account"
@@ -95,6 +98,18 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="w-full mb-2">
+                        <label for="" class="w-full md:w-4/5 block font-semibold mb-2 text-[#544837]">Select Class</label>
+                        <div wire:ignore>
+                            <select wire:model="class_session" class="w-full px-4 py-3 rounded border border-[#ccd1d9] outline-none focus:border-[#063970] js-example-basic-multiple appearance-none" multiple="multiple">
+                                @foreach ($super_sessions as $super_session)
+                                <option value="{{ $super_session->id }}">{{ $super_session->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('class_session') <p class="text-red-600 font-bold">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2">
@@ -162,7 +177,8 @@
                 </div>
 
                 <div class="w-full relative">
-                    <label for="" class="block font-semibold text-[#544837] mb-4">Area of Interest <span class="text-red-400">*</span></label>
+                    <label for="" class="block font-semibold text-[#544837] mb-4">Area of Interest <span
+                            class="text-red-400">*</span></label>
                     <div class="">
                         @foreach ($area_of_interests as $key => $item)
                             <div class="btn_check mb-4 mr-4">
@@ -189,4 +205,15 @@
 </div>
 @section('scripts')
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+
+            $('.js-example-basic-multiple').on('change', function(event) {
+                let data = $(this).val();
+                @this.set('class_session', data);
+            });
+        });
+    </script>
 @endsection
