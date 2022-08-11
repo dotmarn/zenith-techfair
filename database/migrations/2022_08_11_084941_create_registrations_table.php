@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('industry_type');
             $table->string('area_of_responsibility');
             $table->text('interests');
+            $table->enum('status', ['pending', 'verified'])->default('pending');
             $table->timestamps();
         });
     }

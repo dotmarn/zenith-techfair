@@ -4,15 +4,19 @@ namespace App\Http\Livewire\Participant;
 
 use Livewire\Component;
 use App\Facade\AppUtils;
+use Illuminate\Support\Str;
+use App\Models\Registration;
 use App\Models\SuperSession;
 use Illuminate\Validation\Rule;
+use App\Models\VerificationCode;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Validation\ValidationException;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class Index extends Component
 {
     use LivewireAlert;
-    public $super_sessions, $firstname, $lastname, $email, $phone, $gender, $account_number, $have_an_account, $job_function, $industry_type, $area_of_responsibility, $selectedInterests = [], $class_session = [];
+    public $super_sessions, $firstname, $lastname, $email, $phone, $gender, $account_number, $have_an_account, $job_function, $industry_type, $area_of_responsibility, $selectedInterests = [], $class_session = [], $qr_code;
 
     public bool $show_account_section = false;
 
@@ -72,11 +76,40 @@ class Index extends Component
             'selectedInterests.required' => "This field is required"
         ]);
 
-        if (count($this->class_session) > 0) {
-            $this->alert('success', 'Basic Alert');
-        } else {
-            $this->alert('error', 'Got heree');
-        }
+        $token = "ZEN-".Str::random(5)."-".mt_rand(1000, 9999);
+
+        $registration = Registration::create([
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'email' => $this->email,
+            'job_function' => $this->job_function,
+            'phone' => $this->phone,
+            'gender' => $this->gender,
+            'have_an_account' => $this->have_an_account,
+            'account_number' => $this->account_number,
+            'industry_type' => $this->industry_type,
+            'area_of_responsibility' => $this->area_of_responsibility,
+            'interests' => json_encode($this->selectedInterests)
+        ]);
+
+        $image = \QrCode::size(500)
+            ->format('png')
+            ->generate(config('app.url').$token);
+
+        $base64 = "data:image/png;base64,".base64_encode($image);
+        $qr_url = Cloudinary::upload($base64)->getSecurePath();
+
+        VerificationCode::create([
+            'registration_id' => $registration->id,
+            'qrcode_url' => $qr_url,
+            'token' => $token
+        ]);
+
+        // if (count($this->class_session) > 0) {
+        //     $this->alert('success', 'Basic Alert');
+        // } else {
+        //     $this->alert('error', 'Got heree');
+        // }
 
     }
 
