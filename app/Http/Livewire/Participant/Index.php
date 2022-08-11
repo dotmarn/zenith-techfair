@@ -54,6 +54,7 @@ class Index extends Component
     public function bookSummit()
     {
         $have_an_account_rule = ($this->have_an_account == "yes") ? ['required', 'numeric', 'digits:10'] : ['nullable'];
+
         $this->validate([
             'firstname' => ['required', 'string', 'min:3'],
             'lastname' => ['required', 'string', 'min:3'],

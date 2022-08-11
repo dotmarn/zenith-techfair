@@ -927,5 +927,10 @@ select{
     padding-left: 2rem;
     padding-right: 2rem;
   }
+
+  .lg\:py-8{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
 }
 

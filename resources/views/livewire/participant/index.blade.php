@@ -2,7 +2,7 @@
 @section('styles')
     <link href="/assets/css/select2.min.css" rel="stylesheet" />
 @endsection
-<div>
+<div class="py-4 lg:py-8">
     <div class="text-center mx-auto border-b border-gray-100">
         <div class="mb-4">
             <img src="/assets/images/zfair-logo.png" alt="" class="mx-auto">
