@@ -9,6 +9,7 @@
         </div>
     </div>
     <div class="max-w-3xl px-4 mx-auto">
+        @if ($step_one)
         <div class="py-8 px-4 lg:px-8">
             <form method="POST" wire:submit.prevent="bookSummit">
                 {{ csrf_field() }}
@@ -210,6 +211,34 @@
                 </div>
             </form>
         </div>
+        @endif
+
+        @if ($final_step)
+        <div class="flex flex-col h-screen ">
+            <div class="grid grid-cols-1 place-items-center w-full my-auto">
+                <div class="bg-white border border-gray-100 shadow-lg py-4 rounded-2xl">
+                    <div class="mb-5 py-4">
+                        <div class="text-center mb-4">
+                            <h6 class="text-2xl mb-2 font-semibold">Registration Successful</h6>
+                        </div>
+                        <div class="text-center mb-4">
+                            <img src="{{ $qr_code_url }}" alt="" srcset="" class="mx-auto w-1/2">
+                            {{-- <h1 class="font-semibold text-2xl">{{ $token }}</h1>
+                            <a href="javascript:void(0)" onclick="copyCode({{ json_encode($token) }})"
+                                class="py-2 px-4 text-sm text-gray-700 border border-gray-300 rounded-lg">
+                                <i class="fas fa-copy"></i>
+                            </a> --}}
+                        </div>
+                        <div class="text-center px-6 lg:px-8">
+                            <p class="text-[#4F596A] font-medium mb-4">Hey <strong>{{ $firstname }}</strong>, thank
+                                you for registering for the Zenith Tech Fair.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 @section('scripts')
