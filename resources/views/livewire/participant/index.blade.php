@@ -118,6 +118,26 @@
                         @enderror
                     </div>
 
+                    <div class="w-full relative">
+                        <label for="" class="block font-semibold text-[#544837] mb-4">Area of Interest <span
+                                class="text-red-400">*</span></label>
+                        <div class="">
+                            @foreach ($area_of_interests as $key => $item)
+                                <div class="btn_check mb-4 mr-4">
+                                    <input type="checkbox" wire:model.lazy="selectedInterests"
+                                        value="{{ $item }}" id="area_of_interest{{ $key }}" />
+                                    <label class="check-btn" for="area_of_interest{{ $key }}">
+                                        <i class="fas fa-square"></i>
+                                        {{ ucfirst($item) }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        @error('selectedInterests')
+                            <p class="text-red-600 font-semibold text-xs clear-both mb-5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2">
                         <div class="w-full">
                             <label for="gender" class="block font-semibold text-[#544837] mb-2">Gender
@@ -182,27 +202,7 @@
                     </div>
                 </div>
 
-                <div class="w-full relative">
-                    <label for="" class="block font-semibold text-[#544837] mb-4">Area of Interest <span
-                            class="text-red-400">*</span></label>
-                    <div class="">
-                        @foreach ($area_of_interests as $key => $item)
-                            <div class="btn_check mb-4 mr-4">
-                                <input type="checkbox" wire:model.lazy="selectedInterests"
-                                    value="{{ $item }}" id="area_of_interest{{ $key }}" />
-                                <label class="check-btn" for="area_of_interest{{ $key }}">
-                                    <i class="fas fa-square"></i>
-                                    {{ ucfirst($item) }}
-                                </label>
-                            </div>
-                        @endforeach
-                    </div>
-                    @error('selectedInterests')
-                        <p class="text-red-600 font-semibold text-xs clear-both mb-5">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="clear-left">
+                <div class="">
                     <button type="submit" class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4">
                         Register
                         <i class="fas fa-spinner fa-spin" wire:loading wire:target="bookSummit"></i>
