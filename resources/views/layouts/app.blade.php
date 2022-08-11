@@ -9,9 +9,11 @@
     <link href="/css/app.css" rel="stylesheet">
     <script src="/assets/js/font-awesome.js"></script>
     @livewireStyles
+    @yield('styles')
 </head>
 <body class="font-Poppins">
     @yield('content')
     @livewireScripts
+    @yield('scripts')
 </body>
 </html>

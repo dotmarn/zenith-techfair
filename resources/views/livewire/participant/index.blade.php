@@ -73,7 +73,7 @@
                             @enderror
                         </div>
 
-                        <div id="account_section" class="hidden">
+                        <div id="account_section" class="{{ $show_account_section ? '' : 'hidden' }}">
                             <div class="flex items-center justify-between space-x-3 w-full">
                                 <div class="w-2/3 lg:w-3/4">
                                     <input type="text" wire:model.lazy="account_number"
@@ -228,3 +228,6 @@
         </div>
     </div>
 </div>
+@section('scripts')
+<script src=""></script>
+@endsection
