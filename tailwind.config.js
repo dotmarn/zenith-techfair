@@ -5,7 +5,12 @@ module.exports = {
         "./resources/**/*.js",
     ],
     theme: {
+        fontFamily: {
+            'Poppins': ['Poppins', 'sans-serif']
+        },
         extend: {},
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/forms'),
+    ],
 }
