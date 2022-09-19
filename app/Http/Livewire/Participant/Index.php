@@ -16,17 +16,18 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class Index extends Component
 {
     use LivewireAlert;
-    public $super_sessions, $firstname, $lastname, $email, $phone, $gender, $account_number, $have_an_account, $job_function, $industry_type, $area_of_responsibility, $selectedInterests = [], $class_session = [], $qr_code_url;
+    public $super_sessions, $firstname, $lastname, $email, $phone, $role, $account_number, $have_an_account, $job_function, $industry_type, $area_of_responsibility, $selectedInterests = [], $class_session = [], $qr_code_url, $reason;
 
     public bool $show_account_section = false;
     public bool $step_one = true;
+    public bool $step_two = false;
     public bool $final_step = false;
 
-    public $job_functions, $area_of_interests, $industries;
+    public $roles, $area_of_interests, $industries;
 
     public function mount()
     {
-        $this->job_functions = AppUtils::jobFunctionsData();
+        $this->roles = AppUtils::roles();
         $this->area_of_interests = AppUtils::areaOfInterestsData();
         $this->industries = AppUtils::industriesData();
         $this->super_sessions = SuperSession::select('id', 'title', 'description', 'max_participants')->get();
@@ -57,7 +58,7 @@ class Index extends Component
         }
     }
 
-    public function bookSummit()
+    public function nextStepLogic()
     {
         $have_an_account_rule = ($this->have_an_account == "yes") ? ['required', 'numeric', 'digits:10'] : ['nullable'];
 
@@ -65,16 +66,26 @@ class Index extends Component
             'firstname' => ['required', 'string', 'min:3'],
             'lastname' => ['required', 'string', 'min:3'],
             'email' => ['required', 'string', 'email', 'unique:registrations,email'],
-            'job_function' => ['required', 'string', Rule::in($this->job_functions)],
+            'role' => ['required', 'string', Rule::in($this->roles)],
             'phone' => ['required', 'numeric', 'digits:11', 'unique:registrations,phone'],
-            'gender' => ['required', 'string'],
             'have_an_account' => ['required', Rule::in(['yes', 'no'])],
-            'account_number' => $have_an_account_rule,
-            'industry_type' => ['required', 'string', Rule::in($this->industries)],
-            'area_of_responsibility' => ['required', 'string'],
-            'selectedInterests' => ['required', 'array']
+            'account_number' => $have_an_account_rule
         ], [
-            'have_an_account.required' => "This field is required",
+            'have_an_account.required' => "This field is required"
+        ]);
+
+        $this->step_two = true;
+        $this->step_one = false;
+
+    }
+
+    public function bookSummit()
+    {
+
+        $this->validate([
+            'selectedInterests' => ['required', 'array'],
+            'reason' => ['nullable', 'string']
+        ], [
             'selectedInterests.required' => "This field is required"
         ]);
 
@@ -105,7 +116,7 @@ class Index extends Component
             'token' => $token
         ]);
 
-        $this->step_one = false;
+        $this->step_two = false;
         $this->final_step = true;
 
         // if (count($this->class_session) > 0) {

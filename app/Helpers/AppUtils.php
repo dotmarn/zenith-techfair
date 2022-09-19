@@ -13,6 +13,16 @@ class AppUtils
         ];
     }
 
+    public function roles() : array
+    {
+        return [
+            'student',
+            'freelancer',
+            'employee',
+            'business owner'
+        ];
+    }
+
     public function areaOfInterestsData() : array
     {
         return [

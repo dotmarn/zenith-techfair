@@ -9,12 +9,54 @@
         </div>
     </div>
     <div class="max-w-3xl px-4 mx-auto">
-        @if ($step_one)
-            <div class="grid grid-cols-1">
-                <div class="py-8 px-4 lg:px-8">
-                    <form method="POST" wire:submit.prevent="bookSummit">
+        <div class="grid grid-cols-1">
+            <div class="py-8 px-4 lg:px-8">
+                @if ($step_one)
+                    <form method="POST" wire:submit.prevent="nextStepLogic">
                         {{ csrf_field() }}
                         <div class="py-4">
+                            <div class="space-y-5 mb-2">
+                                <div class="w-full">
+                                    <label for="have_an_account" class="block font-semibold text-[#544837] mb-2">Do you
+                                        have a
+                                        zenith
+                                        account?
+                                        <span class="text-red-400">*</span></label>
+                                    <select wire:model.lazy="have_an_account" id="have_an_account"
+                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
+                                        <option value="">Choose One...</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                    @error('have_an_account')
+                                        <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div id="account_section" class="{{ $show_account_section ? '' : 'hidden' }}">
+                                    <div class="flex items-center justify-between space-x-3 w-full">
+                                        <div class="w-2/3 lg:w-3/4">
+                                            <input type="text" wire:model.lazy="account_number"
+                                                class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]"
+                                                id="account_number" placeholder="Enter your 10-digit account number">
+                                            @error('account_number')
+                                                <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="">
+                                            <button type="button"
+                                                class="bg-red-600 text-white px-8 py-3 rounded-lg border border-[#ccd1d9]"
+                                                wire:click.prevent="verifyAccount">
+                                                Verify
+                                                <i class="fas fa-spinner fa-spin" wire:loading
+                                                    wire:target="verifyAccount"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2">
                                 <div class="w-full">
                                     <label for="firstname" class="block font-semibold text-[#544837] mb-2">First Name
@@ -63,52 +105,58 @@
                                 </div>
                             </div>
 
-                            <div class="space-y-5 mb-2">
+                            <div
+                                class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2 clear-both">
                                 <div class="w-full">
-                                    <label for="have_an_account" class="block font-semibold text-[#544837] mb-2">Do you
-                                        have a
-                                        zenith
-                                        account?
+                                    <label for="role" class="block font-semibold text-[#544837] mb-2">Role
                                         <span class="text-red-400">*</span></label>
-                                    <select wire:model.lazy="have_an_account" id="have_an_account"
+                                    <select wire:model.lazy="role" id="role"
                                         class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                         <option value="">Choose One...</option>
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
+                                        <option value="student">Student</option>
+                                        <option value="freelancer">Freelancer</option>
+                                        <option value="employee">Employee</option>
+                                        <option value="business owner">Business Owner</option>
                                     </select>
-                                    @error('have_an_account')
+                                    @error('role')
                                         <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
                                     @enderror
                                 </div>
 
-                                <div id="account_section" class="{{ $show_account_section ? '' : 'hidden' }}">
-                                    <div class="flex items-center justify-between space-x-3 w-full">
-                                        <div class="w-2/3 lg:w-3/4">
-                                            <input type="text" wire:model.lazy="account_number"
-                                                class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]"
-                                                id="account_number" placeholder="Enter your 10-digit account number">
-                                            @error('account_number')
-                                                <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-
-                                        <div class="">
-                                            <button type="button"
-                                                class="bg-red-600 text-white px-8 py-3 rounded-lg border border-[#ccd1d9]"
-                                                wire:click.prevent="verifyAccount">
-                                                Verify
-                                                <i class="fas fa-spinner fa-spin" wire:loading
-                                                    wire:target="verifyAccount"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                                <div class="w-full">
+                                    <label for="sector"
+                                        class="block font-semibold text-[#544837] mb-2">Sector
+                                        <span class="text-red-400">*</span></label>
+                                    <select wire:model.lazy="sector" id="sector"
+                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
+                                        <option value="">Choose One...</option>
+                                        @foreach ($industries as $industry)
+                                            <option value="{{ $industry }}">{{ $industry }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('sector')
+                                        <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
+                                    @enderror
                                 </div>
-                            </div>
 
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <button type="submit" class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4 uppercase">
+                                Next
+                                <i class="fas fa-spinner fa-spin" wire:loading wire:target="nextStepLogic"></i>
+                            </button>
+                        </div>
+                    </form>
+                @endif
+
+                @if ($step_two)
+                    <form method="POST" wire:submit.prevent="bookSummit">
+                        <div class="py-4">
                             <div class="w-full mb-2 clear-both">
-                                <label for=""
-                                    class="w-full block font-semibold mb-2 text-[#544837]">Select
-                                    Class</label>
+                                <label for="" class="w-full block font-semibold mb-2 text-[#544837]">Select
+                                    Master Class</label>
                                 <div wire:ignore>
                                     <select wire:model="class_session"
                                         class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] js-example-basic-multiple appearance-none"
@@ -145,71 +193,16 @@
                                 @enderror
                             </div>
 
-                            <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2 clear-both">
-                                <div class="w-full">
-                                    <label for="gender" class="block font-semibold text-[#544837] mb-2">Gender
-                                        <span class="text-red-400">*</span></label>
-                                    <select wire:model.lazy="gender" id="gender"
-                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
-                                        <option value="">Choose One...</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                    @error('gender')
+                            <div class="w-full relative">
+                                <label for="" class="block font-semibold text-[#544837] mb-4">Reason for attending this event</label>
+                                <textarea wire:model="reason" id="reason" cols="30" rows="5"
+                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]"
+                                        id="reason">
+                                    @error('reason')
                                         <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
                                     @enderror
-                                </div>
-
-                                <div class="w-full">
-                                    <label for="job_function" class="block font-semibold text-[#544837] mb-2">Job
-                                        Function
-                                        <span class="text-red-400">*</span></label>
-                                    <select wire:model.lazy="job_function" id="job_function"
-                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
-                                        <option value="">Choose One...</option>
-                                        @foreach ($job_functions as $job)
-                                            <option value="{{ $job }}">{{ ucwords($job) }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('job_function')
-                                        <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
-                                    @enderror
-                                </div>
                             </div>
 
-                            <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2">
-                                <div class="w-full">
-                                    <label for="area_of_responsibility"
-                                        class="block font-semibold text-[#544837] mb-2">Area
-                                        of Responsibility
-                                        <span class="text-red-400">*</span></label>
-                                    <select wire:model.lazy="area_of_responsibility" id="area_of_responsibility"
-                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
-                                        <option value="">Choose One...</option>
-                                        <option value="area_one">Area One</option>
-                                        <option value="area_two">Area Two</option>
-                                    </select>
-                                    @error('area_of_responsibility')
-                                        <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div class="w-full">
-                                    <label for="industry_type"
-                                        class="block font-semibold text-[#544837] mb-2">Industry Type
-                                        <span class="text-red-400">*</span></label>
-                                    <select wire:model.lazy="industry_type" id="industry_type"
-                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
-                                        <option value="">Choose One...</option>
-                                        @foreach ($industries as $industry)
-                                            <option value="{{ $industry }}">{{ $industry }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('industry_type')
-                                        <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
                         </div>
 
                         <div class="">
@@ -219,9 +212,9 @@
                             </button>
                         </div>
                     </form>
-                </div>
+                @endif
             </div>
-        @endif
+        </div>
 
         @if ($final_step)
             <div class="flex flex-col h-screen ">

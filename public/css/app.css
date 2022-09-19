@@ -684,9 +684,6 @@ select{
 .relative{
   position: relative;
 }
-.float-none{
-  float: none;
-}
 .clear-both{
   clear: both;
 }
@@ -857,6 +854,9 @@ select{
 .font-medium{
   font-weight: 500;
 }
+.uppercase{
+  text-transform: uppercase;
+}
 .text-\[\#544837\]{
   --tw-text-opacity: 1;
   color: rgb(84 72 55 / var(--tw-text-opacity));
@@ -949,13 +949,6 @@ select{
 .focus\:border-\[\#063970\]:focus{
   --tw-border-opacity: 1;
   border-color: rgb(6 57 112 / var(--tw-border-opacity));
-}
-
-@media (min-width: 768px){
-
-  .md\:w-4\/5{
-    width: 80%;
-  }
 }
 
 @media (min-width: 1024px){
