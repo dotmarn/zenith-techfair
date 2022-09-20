@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,20 +22,20 @@ Route::group(['namespace' => '\App\Http\Livewire'], function() {
 
         Route::get('/login', \Portal\Login::class)->name('login');
 
-        // Route::group(['middleware' => 'auth'], function() {
+        Route::group(['middleware' => 'auth'], function() {
 
-        //     Route::get('/dashboard', \Portal\Dashboard::class)->name('dashboard');
+            Route::get('/dashboard', \Portal\Dashboard::class)->name('dashboard');
 
-        //     Route::get('/verify-participant', \Portal\Verify::class)->name('verify');
+            // Route::get('/verify-participant', \Portal\Verify::class)->name('verify');
 
-        //     Route::get('/participant/{id}', \Portal\View::class)->name('view');
+            // Route::get('/participant/{id}', \Portal\View::class)->name('view');
 
-        // });
+        });
 
-        // Route::get('/logout', function() {
-        //     Auth::logout();
-        //     return redirect()->to(route('portal.login'));
-        // })->name('logout');
+        Route::get('/logout', function() {
+            Auth::logout();
+            return redirect()->to(route('portal.login'));
+        })->name('logout');
     });
 
 });
