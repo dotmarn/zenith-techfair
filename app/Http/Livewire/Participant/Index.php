@@ -93,34 +93,34 @@ class Index extends Component
             'selectedInterests.required' => "This field is required"
         ]);
 
-        $token = "ZEN-".Str::random(5)."-".mt_rand(1000, 9999);
+        // $token = "ZEN-".Str::random(5)."-".mt_rand(1000, 9999);
 
-        $registration = Registration::create([
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'email' => $this->email,
-            'role' => $this->role,
-            'phone' => $this->phone,
-            'sector' => $this->sector,
-            'have_an_account' => $this->have_an_account,
-            'account_number' => $this->account_number,
-            'reason' => $this->reason,
-            'interests' => json_encode($this->selectedInterests)
-        ]);
+        // $registration = Registration::create([
+        //     'firstname' => $this->firstname,
+        //     'lastname' => $this->lastname,
+        //     'email' => $this->email,
+        //     'role' => $this->role,
+        //     'phone' => $this->phone,
+        //     'sector' => $this->sector,
+        //     'have_an_account' => $this->have_an_account,
+        //     'account_number' => $this->account_number,
+        //     'reason' => $this->reason,
+        //     'interests' => json_encode($this->selectedInterests)
+        // ]);
 
-        $image = \QrCode::size(500)->format('png')->generate(config('app.url').$token);
+        // $image = \QrCode::size(500)->format('png')->generate(config('app.url').$token);
 
-        $base64 = "data:image/png;base64,".base64_encode($image);
-        $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
+        // $base64 = "data:image/png;base64,".base64_encode($image);
+        // $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
 
-        VerificationCode::create([
-            'registration_id' => $registration->id,
-            'qrcode_url' => $this->qr_code_url,
-            'token' => $token
-        ]);
+        // VerificationCode::create([
+        //     'registration_id' => $registration->id,
+        //     'qrcode_url' => $this->qr_code_url,
+        //     'token' => $token
+        // ]);
 
-        $this->step_two = false;
-        $this->final_step = true;
+        // $this->step_two = false;
+        // $this->final_step = true;
 
         // if (count($this->class_session) > 0) {
         //     $this->alert('success', 'Basic Alert');
