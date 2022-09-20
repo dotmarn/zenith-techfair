@@ -23,6 +23,8 @@ class Index extends Component
 
     public $roles, $area_of_interests, $sectors;
 
+    public $inputs = [], $i = 1, $platform, $handle;
+
     public function mount()
     {
         $this->roles = AppUtils::roles();
@@ -38,6 +40,18 @@ class Index extends Component
 
     public function verifyAccount()
     {
+    }
+
+    public function add($i)
+    {
+        $i = $i + 1;
+        $this->i = $i;
+        array_push($this->inputs ,$i);
+    }
+
+    public function remove($i)
+    {
+        unset($this->inputs[$i]);
     }
 
     public function updatedHaveAnAccount($value)
@@ -74,10 +88,23 @@ class Index extends Component
             'phone' => ['required', 'numeric', 'digits:11', 'unique:registrations,phone'],
             'have_an_account' => ['required', Rule::in(['yes', 'no'])],
             'account_number' => $have_an_account_rule,
-            'sector' => ['nullable', 'string', Rule::in($this->sectors)]
+            'sector' => ['nullable', 'string', Rule::in($this->sectors)],
+            'platform.0' => ['required', 'string'],
+            'handle.0' => ['required', 'string'],
+            'platform.*' => ['required', 'string'],
+            'handle.*' => ['required','string'],
         ], [
-            'have_an_account.required' => "This field is required"
+            'have_an_account.required' => "This field is required",
+            'platform.0.required' => 'The platform field is required',
+            'handle.0.required' => 'The social media handle field is required',
+            'platform.*.required' => 'The platform field is required',
+            'handle.*.required' => 'The social media handle field is required',
         ]);
+
+        $duplicates = collect($this->platform)->duplicates();
+        if ($duplicates->isNotEmpty()) {
+            return $this->alert('info', 'Entry contains one or more duplicates');
+        }
 
         $this->step_two = true;
         $this->step_one = false;
