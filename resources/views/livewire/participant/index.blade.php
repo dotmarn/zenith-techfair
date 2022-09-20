@@ -200,8 +200,17 @@
                             <div class="w-full relative clear-both">
                                 <label for="" class="block font-semibold text-[#544837] mb-4">Reason for
                                     attending this event</label>
-                                <textarea wire:model.defer="reason" id="reason" cols="30" rows="5"
-                                    class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]"></textarea>
+                                    <select wire:model.defer="reason" id="reason"
+                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
+                                        <option value="">Choose One...</option>
+                                        <option value="Source products/services">Source products/services</option>
+                                        <option value="Attend workshops/conferences">Attend workshops/conferences</option>
+                                        <option value="Network with partners, clients and suppliers">Network with partners, clients and suppliers</option>
+                                        <option value="Evaluate exhibiting opportunities">Evaluate exhibiting opportunities</option>
+                                        <option value="Keep an eye on my competitors">Keep an eye on my competitors</option>
+                                        <option value="Learn about the latest industry trends">Learn about the latest industry trends</option>
+                                        <option value="Find startups to invest in">Find startups to invest in</option>
+                                    </select>
                                     @error('reason')
                                         <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
                                     @enderror

@@ -104,4 +104,17 @@ class AppUtils
             "Other"
         ];
     }
+
+    public function acceptedReasons() : array
+    {
+        return [
+            "Source products/services",
+            "Attend workshops/conferences",
+            "Network with partners, clients and suppliers",
+            "Evaluate exhibiting opportunities",
+            "Keep an eye on my competitors",
+            "Learn about the latest industry trends",
+            "Find startups to invest in"
+        ];
+    }
 }

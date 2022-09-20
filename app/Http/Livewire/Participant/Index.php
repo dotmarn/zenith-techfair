@@ -88,7 +88,7 @@ class Index extends Component
 
         $this->validate([
             'selectedInterests' => ['required', 'array'],
-            'reason' => ['nullable', 'string']
+            'reason' => ['required', 'string', Rule::in(AppUtils::acceptedReasons)]
         ], [
             'selectedInterests.required' => "This field is required"
         ]);
