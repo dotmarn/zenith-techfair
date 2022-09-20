@@ -26,6 +26,8 @@ Route::group(['namespace' => '\App\Http\Livewire'], function() {
 
             Route::get('/dashboard', \Portal\Dashboard::class)->name('dashboard');
 
+            Route::get('/masterclass', \Portal\MasterClass::class)->name('master-class');
+
             // Route::get('/verify-participant', \Portal\Verify::class)->name('verify');
 
             // Route::get('/participant/{id}', \Portal\View::class)->name('view');
