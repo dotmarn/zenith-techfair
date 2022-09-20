@@ -69,4 +69,39 @@ class AppUtils
             "Other"
         ];
     }
+
+    public function sectorsData() : array
+    {
+        return [
+            "Agriculture",
+            "Arts Entertainment",
+            "Automotive",
+            "Aviation",
+            "Construction & Infrastructure",
+            "Cosmetics",
+            "Defense & Space",
+            "Education",
+            "Energy",
+            "Environmental Services",
+            "Fashion & Apparel",
+            "Finance & Insurance",
+            "FMCG",
+            "Government",
+            "Healthcare",
+            "Hospitality & Travel",
+            "Import & Export",
+            "Jewellery & Luxury Goods",
+            "Legal",
+            "Logistics & Supply Chain",
+            "Manufacturing",
+            "Real Estate",
+            "Research & Development",
+            "Retail Trade",
+            "Technology",
+            "Telecoms",
+            "Utilities",
+            "Wholesale Trade",
+            "Other"
+        ];
+    }
 }

@@ -18,14 +18,13 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->string('email')->unique();
-            $table->string('job_function');
+            $table->string('role')->nullable();
             $table->string('phone')->unique();
-            $table->string('gender');
+            $table->string('sector')->nullable();
             $table->enum('have_an_account', ['yes', 'no'])->default('no');
             $table->string('account_number')->nullable();
-            $table->string('industry_type');
-            $table->string('area_of_responsibility');
-            $table->text('interests');
+            $table->string('reason')->nullable();
+            $table->text('interests')->nullable();
             $table->enum('status', ['pending', 'verified'])->default('pending');
             $table->timestamps();
         });

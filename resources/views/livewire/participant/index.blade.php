@@ -12,6 +12,7 @@
         <div class="grid grid-cols-1">
             <div class="py-8 px-4 lg:px-8">
                 @if ($step_one)
+                <div>
                     <form method="POST" wire:submit.prevent="nextStepLogic">
                         {{ csrf_field() }}
                         <div class="py-4">
@@ -110,7 +111,7 @@
                                 <div class="w-full">
                                     <label for="role" class="block font-semibold text-[#544837] mb-2">Role
                                         <span class="text-red-400">*</span></label>
-                                    <select wire:model.lazy="role" id="role"
+                                    <select wire:model.defer="role" id="role"
                                         class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                         <option value="">Choose One...</option>
                                         <option value="student">Student</option>
@@ -124,14 +125,13 @@
                                 </div>
 
                                 <div class="w-full">
-                                    <label for="sector"
-                                        class="block font-semibold text-[#544837] mb-2">Sector
+                                    <label for="sector" class="block font-semibold text-[#544837] mb-2">Sector
                                         <span class="text-red-400">*</span></label>
-                                    <select wire:model.lazy="sector" id="sector"
+                                    <select wire:model.defer="sector" id="sector"
                                         class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                         <option value="">Choose One...</option>
-                                        @foreach ($industries as $industry)
-                                            <option value="{{ $industry }}">{{ $industry }}</option>
+                                        @foreach ($sectors as $sect)
+                                            <option value="{{ $sect }}">{{ $sect }}</option>
                                         @endforeach
                                     </select>
                                     @error('sector')
@@ -143,21 +143,25 @@
                         </div>
 
                         <div class="">
-                            <button type="submit" class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4 uppercase">
+                            <button type="submit"
+                                class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4 uppercase">
                                 Next
                                 <i class="fas fa-spinner fa-spin" wire:loading wire:target="nextStepLogic"></i>
                             </button>
                         </div>
                     </form>
+                </div>
                 @endif
 
                 @if ($step_two)
+                <div>
                     <form method="POST" wire:submit.prevent="bookSummit">
+                        {{ csrf_field() }}
                         <div class="py-4">
-                            <div class="w-full mb-2 clear-both">
+                            <div class="w-full mb-2" wire:ignore id="select-class">
                                 <label for="" class="w-full block font-semibold mb-2 text-[#544837]">Select
                                     Master Class</label>
-                                <div wire:ignore>
+                                <div>
                                     <select wire:model="class_session"
                                         class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] js-example-basic-multiple appearance-none"
                                         multiple="multiple">
@@ -178,7 +182,7 @@
                                 <div class="">
                                     @foreach ($area_of_interests as $key => $item)
                                         <div class="btn_check mb-4 mr-4">
-                                            <input type="checkbox" wire:model.lazy="selectedInterests"
+                                            <input type="checkbox" wire:model.defer="selectedInterests"
                                                 value="{{ $item }}"
                                                 id="area_of_interest{{ $key }}" />
                                             <label class="check-btn" for="area_of_interest{{ $key }}">
@@ -193,11 +197,11 @@
                                 @enderror
                             </div>
 
-                            <div class="w-full relative">
-                                <label for="" class="block font-semibold text-[#544837] mb-4">Reason for attending this event</label>
-                                <textarea wire:model="reason" id="reason" cols="30" rows="5"
-                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]"
-                                        id="reason">
+                            <div class="w-full relative clear-both">
+                                <label for="" class="block font-semibold text-[#544837] mb-4">Reason for
+                                    attending this event</label>
+                                <textarea wire:model.defer="reason" id="reason" cols="30" rows="5"
+                                    class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]"></textarea>
                                     @error('reason')
                                         <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
                                     @enderror
@@ -205,19 +209,24 @@
 
                         </div>
 
-                        <div class="">
+                        <div class="flex items-center justify-between space-x-3">
+                            <a href="#" class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4 text-center" wire:click.prevent="goBack">
+                                Prev
+                            </a>
+
                             <button type="submit" class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4">
-                                Register
+                                Submit
                                 <i class="fas fa-spinner fa-spin" wire:loading wire:target="bookSummit"></i>
                             </button>
                         </div>
                     </form>
+                </div>
                 @endif
             </div>
         </div>
 
         @if ($final_step)
-            <div class="flex flex-col h-screen ">
+            <div class="flex flex-col h-screen">
                 <div class="grid grid-cols-1 place-items-center w-full my-auto">
                     <div class="bg-white border border-gray-100 shadow-lg py-4 rounded-2xl">
                         <div class="mb-5 py-4">
@@ -246,16 +255,28 @@
     </div>
 </div>
 @section('scripts')
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
+        <script src="/assets/js/jquery-3.6.0.min.js"></script>
+        <script src="/assets/js/select2.min.js"></script>
+        <script>
+            var select_layout = document.getElementById('select-class');
+            $(document).ready(function() {
+                $('.js-example-basic-multiple').select2();
 
-            $('.js-example-basic-multiple').on('change', function(event) {
-                let data = $(this).val();
-                @this.set('class_session', data);
+                $('.js-example-basic-multiple').on('change', function(event) {
+                    let data = $(this).val();
+                    @this.set('class_session', data);
+                });
             });
-        });
-    </script>
+
+            window.addEventListener("livewire:load", () => {
+                Livewire.hook('message.processed', (message, component) => {
+                    $('.js-example-basic-multiple').select2()
+                    if(component.serverMemo.data.step_two) {
+                        select_layout.style.display = ""
+                    } else {
+                        select_layout.style.display = "none"
+                    }
+                });
+            });
+        </script>
 @endsection
