@@ -98,13 +98,14 @@
         <div class="lg:w-1/3 lg:float-right font-Poppins max-h-[-webkit-fill-available] overflow-y-scroll">
             <div class="py-8 px-12 bg-[#f5f6f9] min-h-screen">
                 <div class="flex justify-between items-center mb-8">
-                    <h2 class="font-semibold text-lg">Create Master Class</h2>
+                    <h2 class="font-semibold text-lg">{{ $modal_title }}</h2>
                     <a href="#" @click="showModal = false">
                         <i class="far fa-times-circle fa-2x"></i>
                     </a>
                 </div>
                 <form class="space-y-5 font-Poppins" wire:submit.prevent="createNew">
                     {{ csrf_field() }}
+                    <input type="hidden" wire:model="selected_id">
                     <div>
                         <label for="" class="w-full md:w-4/5 block font-semibold text-[#544837] mb-2">Title</label>
                         <input type="text" wire:model.defer="title" class="w-full px-4 py-2 rounded border border-[#ccd1d9] outline-none focus:border-[#063970]">
@@ -166,7 +167,7 @@
                     this.showModal = true;
                 },
                 toggleEditModal(item) {
-                    this.showEditModal = true;
+                    this.showModal = true;
                     Livewire.emit('edit_data_updated', item);
                 }
             }
