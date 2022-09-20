@@ -9,7 +9,7 @@
     <script src="/assets/js/font-awesome.js"></script>
     @livewireStyles
 </head>
-<body>
+<body class="font-Poppins">
     @yield('content')
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

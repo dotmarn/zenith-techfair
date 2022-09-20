@@ -15,7 +15,7 @@
     @livewireStyles
 </head>
 
-<body class="bg-gray-200">
+<body class="bg-gray-200 font-Poppins">
     <div>
         <div x-data="{ sidebarOpen: false }">
             <div class="flex h-screen font-Lato">
