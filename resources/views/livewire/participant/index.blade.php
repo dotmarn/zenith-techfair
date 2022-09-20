@@ -158,42 +158,42 @@
                     <form method="POST" wire:submit.prevent="bookSummit">
                         {{ csrf_field() }}
                         <div class="py-4">
-                            <div class="w-full mb-2" wire:ignore id="select-class">
-                                <label for="" class="w-full block font-semibold mb-2 text-[#544837]">Select
-                                    Master Class</label>
-                                <div>
-                                    <select wire:model="class_session"
-                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] js-example-basic-multiple appearance-none"
-                                        multiple="multiple">
-                                        @foreach ($super_sessions as $super_session)
-                                            <option value="{{ $super_session->id }}">{{ $super_session->title }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('class_session')
-                                    <p class="text-red-600 font-bold">{{ $message }}</p>
-                                @enderror
-                            </div>
 
                             <div class="w-full relative">
-                                <label for="" class="block font-semibold text-[#544837] mb-4">Area of Interest
+                                <label for="" class="block font-semibold text-[#544837] mb-4">Master Class
                                     <span class="text-red-400">*</span></label>
                                 <div class="">
-                                    @foreach ($area_of_interests as $key => $item)
+                                    @foreach ($super_sessions as $key => $item)
                                         <div class="btn_check mb-4 mr-4">
-                                            <input type="checkbox" wire:model.defer="selectedInterests"
-                                                value="{{ $item }}"
-                                                id="area_of_interest{{ $key }}" />
+                                            <input type="checkbox" wire:model.defer="class_session"
+                                            value="{{ $item->id }}"
+                                            id="area_of_interest{{ $key }}" />
                                             <label class="check-btn" for="area_of_interest{{ $key }}">
                                                 <i class="fas fa-square"></i>
-                                                {{ ucfirst($item) }}
+                                                {{ ucfirst($item->title) }}
                                             </label>
                                         </div>
                                     @endforeach
                                 </div>
+                                @error('class_session')
+                                <p class="text-red-600 font-semibold text-xs clear-both mb-5">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="w-full mb-2 clear-both" wire:ignore id="select-class">
+                                <label for="" class="w-full block font-semibold mb-2 text-[#544837]">Area of Interest</label>
+                                <div>
+                                    <select wire:model="selectedInterests"
+                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] js-example-basic-multiple appearance-none"
+                                        multiple="multiple">
+                                        @foreach ($area_of_interests as $aoi)
+                                            <option value="{{ $aoi }}">{{ $aoi }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 @error('selectedInterests')
-                                    <p class="text-red-600 font-semibold text-xs clear-both mb-5">{{ $message }}</p>
+                                    <p class="text-red-600 font-bold">{{ $message }}</p>
                                 @enderror
                             </div>
 

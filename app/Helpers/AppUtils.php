@@ -26,9 +26,33 @@ class AppUtils
     public function areaOfInterestsData() : array
     {
         return [
-            "crypto",
-            "stocks",
-            "technology"
+            "5G & Telecommunications",
+            "AgriTech & FoodTech",
+            "Artificial Intelligence & Robotics",
+            "Big Data & Analytics",
+            "Blockchain",
+            "Cloud Services",
+            "Coding and Development",
+            "ConstrucTech & PropTech",
+            "Consulting Services",
+            "Consumer Tech, Smart Home & Smart Workplace",
+            "Creative Economy",
+            "Cyber security",
+            "Data Centres & Data Management",
+            "EdTech",
+            "Environmental, Sustainability & Social Impact Tech",
+            "Fintech, Finance and Ecommerce",
+            "Future Mobility & Transportation",
+            "Gaming",
+            "Government & Public Policy",
+            "HealthTech",
+            "Internet of Things (IOT)",
+            "Investment / VC / M&A/ PE",
+            "Marketing Tech & Services",
+            "Media, Content & Entertainment",
+            "Metaverse & Immersive Tech",
+            "Research & Development",
+            "Smart Cities"
         ];
     }
 

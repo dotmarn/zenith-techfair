@@ -9,6 +9,12 @@ class SuperSession extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'description',
+        'max_participants'
+    ];
+
     public function registrations()
     {
         return $this->hasMany(ClassRegistration::class, 'super_session_id', 'id');
