@@ -160,7 +160,7 @@
                         <div class="py-4">
 
                             <div class="w-full relative">
-                                <label for="" class="block font-semibold text-[#544837] mb-4">Master Class
+                                <label for="" class="block font-semibold text-[#544837] mb-4">Select Master Class
                                     <span class="text-red-400">*</span></label>
                                 <div class="">
                                     @foreach ($super_sessions as $key => $item)
