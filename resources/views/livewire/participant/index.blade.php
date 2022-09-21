@@ -150,7 +150,7 @@
 
                                     <div class="flex justify-between items-center space-x-5 mb-5">
                                         <div class="w-full">
-                                            <select wire:model.defer="platform.0"
+                                            <select wire:model="platform.0"
                                                 class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                 <option value="">Choose One...</option>
                                                 <option value="facebook">Facebook</option>
@@ -182,7 +182,7 @@
                                     @foreach ($inputs as $key => $value)
                                         <div class="flex justify-between items-center space-x-5 mb-4">
                                             <div class="w-full">
-                                                <select wire:model.defer="platform.{{ $value }}"
+                                                <select wire:model="platform.{{ $value }}"
                                                     id="platform{{ $key }}"
                                                     class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                     <option value="">Choose One...</option>

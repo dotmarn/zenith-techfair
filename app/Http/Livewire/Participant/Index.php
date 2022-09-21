@@ -88,22 +88,18 @@ class Index extends Component
             'phone' => ['required', 'numeric', 'digits:11', 'unique:registrations,phone'],
             'have_an_account' => ['required', Rule::in(['yes', 'no'])],
             'account_number' => $have_an_account_rule,
-            'sector' => ['nullable', 'string', Rule::in($this->sectors)],
-            'platform.0' => ['required', 'string'],
-            'handle.0' => ['required', 'string'],
-            'platform.*' => ['required', 'string'],
-            'handle.*' => ['required','string'],
+            'sector' => ['nullable', 'string', Rule::in($this->sectors)]
         ], [
             'have_an_account.required' => "This field is required",
-            'platform.0.required' => 'The platform field is required',
-            'handle.0.required' => 'The social media handle field is required',
-            'platform.*.required' => 'The platform field is required',
-            'handle.*.required' => 'The social media handle field is required',
         ]);
+
+        if (count($this->platform ?? []) !== count($this->handle ?? [])) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
 
         $duplicates = collect($this->platform)->duplicates();
         if ($duplicates->isNotEmpty()) {
-            return $this->alert('info', 'Entry contains one or more duplicates');
+            return $this->alert('info', 'Platform field contains one or more duplicates');
         }
 
         $this->step_two = true;
