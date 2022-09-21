@@ -189,6 +189,7 @@
                                                     <option value="facebook">Facebook</option>
                                                     <option value="linkedin">LinkedIn</option>
                                                     <option value="instagram">Instagram</option>
+                                                    <option value="twitter">Twitter</option>
                                                 </select>
                                                 @error('platform.*')
                                                     <p class="text-red-600 font-semibold text-xs text-right">
@@ -235,8 +236,7 @@
                             <div class="py-4">
 
                                 <div class="w-full relative">
-                                    <label for="" class="block font-semibold text-[#544837] mb-4">Select
-                                        Master Class
+                                    <label for="" class="block font-semibold text-[#544837] mb-4">Would you like to attend our Masterclass?
                                         <span class="text-red-400">*</span></label>
                                     <div class="">
                                         @foreach ($super_sessions as $key => $item)

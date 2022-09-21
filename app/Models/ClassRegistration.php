@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ClassRegistration extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'super_session_id',
+        'admitted_at',
+        'registration_id'
+    ];
 }

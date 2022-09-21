@@ -9,6 +9,8 @@ use App\Models\Registration;
 use App\Models\SuperSession;
 use Illuminate\Validation\Rule;
 use App\Models\VerificationCode;
+use App\Models\ClassRegistration;
+use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Validation\ValidationException;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -108,48 +110,61 @@ class Index extends Component
 
     public function bookSummit()
     {
-
         $this->validate([
-            'selectedInterests' => ['required', 'array'],
             'reason' => ['required', 'string', Rule::in(AppUtils::acceptedReasons())]
-        ], [
-            'selectedInterests.required' => "This field is required"
         ]);
 
-        // $token = "ZEN-".Str::random(5)."-".mt_rand(1000, 9999);
+        DB::transaction(function () {
+            $token = "ZEN-".Str::random(5)."-".mt_rand(1000, 9999);
 
-        // $registration = Registration::create([
-        //     'firstname' => $this->firstname,
-        //     'lastname' => $this->lastname,
-        //     'email' => $this->email,
-        //     'role' => $this->role,
-        //     'phone' => $this->phone,
-        //     'sector' => $this->sector,
-        //     'have_an_account' => $this->have_an_account,
-        //     'account_number' => $this->account_number,
-        //     'reason' => $this->reason,
-        //     'interests' => json_encode($this->selectedInterests)
-        // ]);
+            if (count($this->platform) > 0) {
+                $social_media = array_combine($this->platform, $this->handle);
+            }
 
-        // $image = \QrCode::size(500)->format('png')->generate(config('app.url').$token);
+            $registration = Registration::create([
+                'firstname' => $this->firstname,
+                'lastname' => $this->lastname,
+                'email' => $this->email,
+                'role' => $this->role,
+                'phone' => $this->phone,
+                'sector' => $this->sector,
+                'have_an_account' => $this->have_an_account,
+                'account_number' => $this->account_number,
+                'reason' => $this->reason,
+                'interests' => $this->selectedInterests,
+                'social_media' => $social_media ?? []
+            ]);
 
-        // $base64 = "data:image/png;base64,".base64_encode($image);
-        // $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
+            $image = \QrCode::size(500)->format('png')->generate(config('app.url').$token);
 
-        // VerificationCode::create([
-        //     'registration_id' => $registration->id,
-        //     'qrcode_url' => $this->qr_code_url,
-        //     'token' => $token
-        // ]);
+            $base64 = "data:image/png;base64,".base64_encode($image);
+            $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
 
-        // $this->step_two = false;
-        // $this->final_step = true;
+            VerificationCode::create([
+                'registration_id' => $registration->id,
+                'qrcode_url' => $this->qr_code_url,
+                'token' => $token
+            ]);
 
-        // if (count($this->class_session) > 0) {
-        //     $this->alert('success', 'Basic Alert');
-        // } else {
-        //     $this->alert('error', 'Got heree');
-        // }
+            if (count($this->class_session) > 0) {
+                $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->class_session)->get();
+                foreach ($this->class_session as $key => $session) {
+                    $count = collect($classes)->where('super_session_id', $session)->count();
+                    $session_details = collect($this->super_sessions)->where('id', $session)->first();
+                    if ($count < $session_details->max_participants) {
+                        $registration->super_session()->create([
+                            'super_session_id' => $session
+                        ]);
+                    }
+                }
+            }
+
+            $this->alert('success', 'Registration successful.');
+
+            $this->step_two = false;
+            $this->final_step = true;
+
+        });
 
     }
 
