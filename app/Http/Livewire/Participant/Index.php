@@ -99,7 +99,7 @@ class Index extends Component
 
         $duplicates = collect($this->platform)->duplicates();
         if ($duplicates->isNotEmpty()) {
-            return $this->alert('info', 'Platform field contains one or more duplicates');
+            return $this->alert('error', 'Platform field contains one or more duplicates');
         }
 
         $this->step_two = true;

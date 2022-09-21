@@ -150,7 +150,7 @@
 
                                     <div class="flex justify-between items-center space-x-5 mb-5">
                                         <div class="w-full">
-                                            <select wire:model="platform.0"
+                                            <select wire:model.defer="platform.0"
                                                 class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                 <option value="">Choose One...</option>
                                                 <option value="facebook">Facebook</option>
@@ -164,7 +164,7 @@
                                         </div>
 
                                         <div class="w-full">
-                                            <input type="text" wire:model="handle.0"
+                                            <input type="text" wire:model.defer="handle.0"
                                                 class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none">
                                             @error('handle.0')
                                                 <p class="text-red-600 font-semibold text-xs text-left">{{ $message }}
@@ -182,7 +182,7 @@
                                     @foreach ($inputs as $key => $value)
                                         <div class="flex justify-between items-center space-x-5 mb-4">
                                             <div class="w-full">
-                                                <select wire:model="platform.{{ $value }}"
+                                                <select wire:model.defer="platform.{{ $value }}"
                                                     id="platform{{ $key }}"
                                                     class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                     <option value="">Choose One...</option>
@@ -197,7 +197,7 @@
                                             </div>
 
                                             <div class="w-full">
-                                                <input type="text" wire:model="handle.{{ $value }}"
+                                                <input type="text" wire:model.defer="handle.{{ $value }}"
                                                     id="handle{{ $key }}"
                                                     class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none">
                                                 @error('handle.*')

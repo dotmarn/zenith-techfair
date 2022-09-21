@@ -14,16 +14,17 @@ class Registration extends Model
         'lastname',
         'email',
         'phone',
-        'job_function',
-        'gender',
+        'role',
+        'sector',
         'have_an_account',
         'account_number',
-        'industry_type',
-        'area_of_responsibility',
-        'interests'
+        'interests',
+        'social_media',
+        'reason'
     ];
 
     protected $casts = [
-        'interests' => 'array'
+        'interests' => 'array',
+        'social_media' => 'array'
     ];
 }
