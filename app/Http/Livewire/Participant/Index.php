@@ -18,21 +18,21 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class Index extends Component
 {
     use LivewireAlert;
-    public $super_sessions, $firstname, $lastname, $email, $phone, $role, $account_number, $have_an_account, $sector, $selectedInterests = [], $class_session = [], $qr_code_url, $reason;
+    public $super_sessions, $firstname, $lastname, $email, $phone, $role, $account_number, $have_an_account, $sector, $selectedInterests = [], $qr_code_url, $reason;
 
     public bool $show_account_section = false;
-    public $step_one = true, $step_two = false, $final_step = false;
+    public $step_one = false, $step_two = true, $final_step = false;
 
     public $roles, $area_of_interests, $sectors;
 
-    public $inputs = [], $i = 1, $platform, $handle;
+    public $inputs = [], $class_session_inputs = [], $i = 1, $s = 1, $platform, $handle, $c_session, $event_date, $event_time;
 
     public function mount()
     {
         $this->roles = AppUtils::roles();
         $this->area_of_interests = AppUtils::areaOfInterestsData();
         $this->sectors = AppUtils::sectorsData();
-        $this->super_sessions = SuperSession::select('id', 'title', 'description', 'max_participants')->get();
+        $this->super_sessions = SuperSession::select('id', 'title', 'max_participants', 'event_date', 'event_time')->get();
     }
 
     public function render()
@@ -51,9 +51,22 @@ class Index extends Component
         array_push($this->inputs ,$i);
     }
 
+    public function addMore($i)
+    {
+        $i = $i + 1;
+        $this->s = $i;
+        array_push($this->class_session_inputs, $i);
+    }
+
     public function remove($i)
     {
         unset($this->inputs[$i]);
+    }
+
+    public function delete($i)
+    {
+        $this->s -= 1;
+        unset($this->class_session_inputs[$i]);
     }
 
     public function updatedHaveAnAccount($value)
