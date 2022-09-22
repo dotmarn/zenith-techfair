@@ -21,7 +21,7 @@ class Index extends Component
     public $super_sessions, $firstname, $lastname, $email, $phone, $role, $account_number, $have_an_account, $sector, $selectedInterests = [], $qr_code_url, $reason;
 
     public bool $show_account_section = false;
-    public $step_one = false, $step_two = true, $final_step = false;
+    public $step_one = true, $step_two = false, $final_step = false;
 
     public $roles, $area_of_interests, $sectors;
 
