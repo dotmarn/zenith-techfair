@@ -12,7 +12,14 @@ class SuperSession extends Model
     protected $fillable = [
         'title',
         'description',
-        'max_participants'
+        'max_participants',
+        'event_date',
+        'event_time'
+    ];
+
+    protected $casts = [
+        'event_date' => 'array',
+        'event_time' => 'array'
     ];
 
     public function registrations()

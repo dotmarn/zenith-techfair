@@ -9,6 +9,8 @@ use App\Models\Registration;
 use App\Models\SuperSession;
 use Illuminate\Validation\Rule;
 use App\Models\VerificationCode;
+use App\Models\ClassRegistration;
+use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Validation\ValidationException;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -16,21 +18,21 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class Index extends Component
 {
     use LivewireAlert;
-    public $super_sessions, $firstname, $lastname, $email, $phone, $role, $account_number, $have_an_account, $sector, $selectedInterests = [], $class_session = [], $qr_code_url, $reason;
+    public $super_sessions, $firstname, $lastname, $email, $phone, $role, $account_number, $have_an_account, $sector, $selectedInterests = [], $qr_code_url, $reason;
 
     public bool $show_account_section = false;
     public $step_one = true, $step_two = false, $final_step = false;
 
     public $roles, $area_of_interests, $sectors;
 
-    public $inputs = [], $i = 1, $platform, $handle;
+    public $inputs = [], $class_session_inputs = [], $i = 1, $s = 0, $platform, $handle, $c_session, $event_date, $event_time;
 
     public function mount()
     {
         $this->roles = AppUtils::roles();
         $this->area_of_interests = AppUtils::areaOfInterestsData();
         $this->sectors = AppUtils::sectorsData();
-        $this->super_sessions = SuperSession::select('id', 'title', 'description', 'max_participants')->get();
+        $this->super_sessions = SuperSession::select('id', 'title', 'max_participants', 'event_date', 'event_time')->get();
     }
 
     public function render()
@@ -49,9 +51,27 @@ class Index extends Component
         array_push($this->inputs ,$i);
     }
 
+    public function addMore($i)
+    {
+        if (count($this->class_session_inputs) < 1) {
+            $i = $i + 1;
+            $this->s = $i;
+            array_push($this->class_session_inputs, $i);
+        }
+    }
+
     public function remove($i)
     {
         unset($this->inputs[$i]);
+    }
+
+    public function delete($i)
+    {
+        $this->s -= 1;
+        unset($this->class_session_inputs[$i - 1]);
+        unset($this->c_session[$i]);
+        unset($this->event_date[$i]);
+        unset($this->event_time[$i]);
     }
 
     public function updatedHaveAnAccount($value)
@@ -97,6 +117,10 @@ class Index extends Component
             return $this->alert('error', 'Please fill all the required field(s)');
         }
 
+        if (in_array("", $this->platform ?? []) || in_array("", $this->handle ?? [])) {
+            return $this->alert('error', 'Cannot be empty');
+        }
+
         $duplicates = collect($this->platform)->duplicates();
         if ($duplicates->isNotEmpty()) {
             return $this->alert('error', 'Platform field contains one or more duplicates');
@@ -108,48 +132,98 @@ class Index extends Component
 
     public function bookSummit()
     {
-
         $this->validate([
-            'selectedInterests' => ['required', 'array'],
             'reason' => ['required', 'string', Rule::in(AppUtils::acceptedReasons())]
-        ], [
-            'selectedInterests.required' => "This field is required"
         ]);
 
-        // $token = "ZEN-".Str::random(5)."-".mt_rand(1000, 9999);
+        DB::transaction(function () {
+            $token = "ZEN-".Str::random(5)."-".mt_rand(1000, 9999);
 
-        // $registration = Registration::create([
-        //     'firstname' => $this->firstname,
-        //     'lastname' => $this->lastname,
-        //     'email' => $this->email,
-        //     'role' => $this->role,
-        //     'phone' => $this->phone,
-        //     'sector' => $this->sector,
-        //     'have_an_account' => $this->have_an_account,
-        //     'account_number' => $this->account_number,
-        //     'reason' => $this->reason,
-        //     'interests' => json_encode($this->selectedInterests)
-        // ]);
+            if (count($this->platform ?? []) > 0) {
+                $social_media = array_combine($this->platform, $this->handle);
+            }
 
-        // $image = \QrCode::size(500)->format('png')->generate(config('app.url').$token);
+            if (is_null($this->c_session) && (!is_null($this->event_date) || !is_null($this->event_time))) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
 
-        // $base64 = "data:image/png;base64,".base64_encode($image);
-        // $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
+            if (is_null($this->event_date) && (!is_null($this->c_session) || !is_null($this->event_time))) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
 
-        // VerificationCode::create([
-        //     'registration_id' => $registration->id,
-        //     'qrcode_url' => $this->qr_code_url,
-        //     'token' => $token
-        // ]);
+            if (is_null($this->event_time) && (!is_null($this->c_session) || !is_null($this->event_date))) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
 
-        // $this->step_two = false;
-        // $this->final_step = true;
+            if (in_array("", $this->c_session ?? []) || in_array("", $this->event_date ?? []) || in_array("", $this->event_time ?? [])) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
 
-        // if (count($this->class_session) > 0) {
-        //     $this->alert('success', 'Basic Alert');
-        // } else {
-        //     $this->alert('error', 'Got heree');
-        // }
+            if (
+                count($this->c_session ?? []) > 0 &&
+                (count($this->event_date ?? []) !== count($this->c_session ?? [])) ||
+                (count($this->event_time ?? []) !== count($this->c_session ?? []))
+            ) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
+
+            $c_dup = collect($this->c_session)->duplicates();
+            if ($c_dup->isNotEmpty()) {
+                return $this->alert('error', 'Master class contains one or more duplicates');
+            }
+
+            $d_dup = collect($this->event_date)->duplicates();
+            if ($d_dup->isNotEmpty()) {
+                return $this->alert('error', 'You can only attend one event per day');
+            }
+
+            $registration = Registration::create([
+                'firstname' => $this->firstname,
+                'lastname' => $this->lastname,
+                'email' => $this->email,
+                'role' => $this->role,
+                'phone' => $this->phone,
+                'sector' => $this->sector,
+                'have_an_account' => $this->have_an_account,
+                'account_number' => $this->account_number,
+                'reason' => $this->reason,
+                'interests' => $this->selectedInterests,
+                'social_media' => $social_media ?? []
+            ]);
+
+            $image = \QrCode::size(500)->format('png')->generate(config('app.url').$token);
+
+            $base64 = "data:image/png;base64,".base64_encode($image);
+            $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
+
+            VerificationCode::create([
+                'registration_id' => $registration->id,
+                'qrcode_url' => $this->qr_code_url,
+                'token' => $token
+            ]);
+
+
+            if (count($this->c_session ?? []) > 0 ) {
+                $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
+                foreach ($this->c_session as $key => $session) {
+                    $count = collect($classes)->where('super_session_id', $session)->count();
+                    $session_details = collect($this->super_sessions)->where('id', $session)->first();
+                    if ($count < $session_details->max_participants) {
+                        $registration->super_session()->create([
+                            'super_session_id' => $session,
+                            'preferred_date' => $this->event_date[$key],
+                            'preferred_time' => $this->event_time[$key]
+                        ]);
+                    }
+                }
+            }
+
+            $this->alert('success', 'Registration successful.');
+
+            $this->step_two = false;
+            $this->final_step = true;
+
+        });
 
     }
 

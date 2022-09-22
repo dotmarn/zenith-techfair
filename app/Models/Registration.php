@@ -27,4 +27,9 @@ class Registration extends Model
         'interests' => 'array',
         'social_media' => 'array'
     ];
+
+    public function super_session()
+    {
+        return $this->hasMany(ClassRegistration::class, 'registration_id', 'id');
+    }
 }
