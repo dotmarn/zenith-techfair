@@ -110,43 +110,26 @@
                                     </div>
                                 </div>
 
-                                <div
-                                    class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2 clear-both">
-                                    <div class="w-full">
-                                        <label for="role" class="block font-semibold text-[#544837] mb-2">Role
-                                            <span class="text-red-400">*</span></label>
-                                        <select wire:model.defer="role" id="role"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
-                                            <option value="">Choose One...</option>
-                                            <option value="student">Student</option>
-                                            <option value="freelancer">Freelancer</option>
-                                            <option value="employee">Employee</option>
-                                            <option value="business owner">Business Owner</option>
-                                        </select>
-                                        @error('role')
-                                            <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <div class="w-full">
-                                        <label for="sector" class="block font-semibold text-[#544837] mb-2">Sector
-                                            <span class="text-red-400">*</span></label>
-                                        <select wire:model.defer="sector" id="sector"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
-                                            <option value="">Choose One...</option>
-                                            @foreach ($sectors as $sect)
-                                                <option value="{{ $sect }}">{{ $sect }}</option>
+                                <div class="w-full mb-2 clear-both" id="select-class">
+                                    <label for="" class="w-full block font-semibold mb-2 text-[#544837]">Area
+                                        of Interest</label>
+                                    <div wire:ignore>
+                                        <select wire:model="interests"
+                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] js-example-basic-multiple appearance-none"
+                                            multiple="multiple">
+                                            @foreach ($area_of_interests as $aoi)
+                                                <option value="{{ $aoi }}">{{ $aoi }}</option>
                                             @endforeach
                                         </select>
-                                        @error('sector')
-                                            <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
-                                        @enderror
                                     </div>
-
+                                    @error('interests')
+                                        <p class="text-red-600 font-bold">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div>
-                                    <label for="" class="block font-semibold text-[#544837] mb-2">Social Media</label>
+                                    <label for="" class="block font-semibold text-[#544837] mb-2">Social
+                                        Media</label>
 
                                     <div class="flex justify-between items-center space-x-5 mb-5">
                                         <div class="w-full">
@@ -165,9 +148,11 @@
 
                                         <div class="w-full">
                                             <input type="text" wire:model.defer="handle.0"
-                                                class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none" placeholder="e.g @ john doe">
+                                                class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none"
+                                                placeholder="e.g @ john doe">
                                             @error('handle.0')
-                                                <p class="text-red-600 font-semibold text-xs text-left">{{ $message }}
+                                                <p class="text-red-600 font-semibold text-xs text-left">
+                                                    {{ $message }}
                                                 </p>
                                             @enderror
                                         </div>
@@ -200,7 +185,8 @@
                                             <div class="w-full">
                                                 <input type="text" wire:model.defer="handle.{{ $value }}"
                                                     id="handle{{ $key }}"
-                                                    class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none" placeholder="e.g @ john doe">
+                                                    class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none"
+                                                    placeholder="e.g @ john doe">
                                                 @error('handle.*')
                                                     <p class="text-red-600 font-semibold text-xs text-right">
                                                         {{ $message }}</p>
@@ -239,104 +225,127 @@
                                     $events_time = $super_sessions->first()->event_time;
                                 @endphp
                                 <div class="w-full relative">
-                                    <label for="" class="block font-semibold text-[#544837] mb-4">Would you like to attend our Masterclass?
+                                    <label for="" class="block font-semibold text-[#544837] mb-4">Would you
+                                        like to attend our Masterclass?
                                         <span class="text-red-400">*</span></label>
-                                        <div class="flex justify-between items-center space-x-5 mb-5">
+                                    <div class="flex justify-between items-center space-x-5 mb-5">
+                                        <div class="w-full">
+                                            <select wire:model.defer="c_session.0" id="c_session"
+                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
+                                                <option value="">Choose One...</option>
+                                                @foreach ($super_sessions as $key => $item)
+                                                    <option value="{{ $item->id }}">{{ $item->title }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="w-full">
+                                            <select wire:model.defer="event_date.0" id="event_date"
+                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
+                                                <option value="">Choose Date...</option>
+                                                @foreach ($events_date as $date_)
+                                                    <option value="{{ $date_ }}">{{ $date_ }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="w-full">
+                                            <select wire:model.defer="event_time.0" id="event_time"
+                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
+                                                <option value="">Choose Time...</option>
+                                                @foreach ($events_time as $time_)
+                                                    <option value="{{ $time_ }}">{{ $time_ }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <button type="button"
+                                            class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-green-600 text-white font-semibold shadow-sm"
+                                            wire:click.prevent="addMore({{ $s }})">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+
+                                    @foreach ($class_session_inputs as $keyy => $value)
+                                        <div class="flex justify-between items-center space-x-5 mb-4">
                                             <div class="w-full">
-                                                <select wire:model.defer="c_session.0" id="c_session"
+                                                <select wire:model.defer="c_session.{{ $value }}"
+                                                    id="c_session{{ $keyy }}"
                                                     class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                     <option value="">Choose One...</option>
-                                                    @foreach ($super_sessions as $key => $item)
-                                                    <option value="{{ $item->id }}">{{ $item->title }}</option>
+                                                    @foreach ($super_sessions as $item_)
+                                                        <option value="{{ $item_->id }}">{{ $item_->title }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
 
                                             <div class="w-full">
-                                                <select wire:model.defer="event_date.0" id="event_date"
+                                                <select wire:model.defer="event_date.{{ $value }}"
+                                                    id="event_date{{ $keyy }}"
                                                     class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                     <option value="">Choose Date...</option>
-                                                    @foreach ($events_date as $date_)
-                                                    <option value="{{ $date_ }}">{{ $date_ }}</option>
+                                                    @foreach ($events_date as $date_item)
+                                                        <option value="{{ $date_item }}">{{ $date_item }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
 
                                             <div class="w-full">
-                                                <select wire:model.defer="event_time.0" id="event_time"
+                                                <select wire:model.defer="event_time.{{ $value }}"
+                                                    id="event_time{{ $keyy }}"
                                                     class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                     <option value="">Choose Time...</option>
-                                                    @foreach ($events_time as $time_)
-                                                    <option value="{{ $time_ }}">{{ $time_ }}</option>
+                                                    @foreach ($events_time as $time_item)
+                                                        <option value="{{ $time_item }}">{{ $time_item }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
 
                                             <button type="button"
-                                                class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-green-600 text-white font-semibold shadow-sm"
-                                                wire:click.prevent="addMore({{ $s }})">
-                                                <i class="fas fa-plus"></i>
+                                                class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-red-600 text-white font-semibold shadow-sm"
+                                                wire:click.prevent="delete({{ $keyy + 1 }})">
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
-
-                                        @foreach ($class_session_inputs as $keyy => $value)
-                                            <div class="flex justify-between items-center space-x-5 mb-4">
-                                                <div class="w-full">
-                                                    <select wire:model.defer="c_session.{{ $value }}"
-                                                        id="c_session{{ $keyy }}"
-                                                        class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
-                                                        <option value="">Choose One...</option>
-                                                        @foreach ($super_sessions as $item_)
-                                                        <option value="{{ $item_->id }}">{{ $item_->title }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-
-                                                <div class="w-full">
-                                                    <select wire:model.defer="event_date.{{ $value }}" id="event_date{{ $keyy }}"
-                                                        class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
-                                                        <option value="">Choose Date...</option>
-                                                        @foreach ($events_date as $date_item)
-                                                        <option value="{{ $date_item }}">{{ $date_item }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-
-                                                <div class="w-full">
-                                                    <select wire:model.defer="event_time.{{ $value }}" id="event_time{{ $keyy }}"
-                                                        class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
-                                                        <option value="">Choose Time...</option>
-                                                        @foreach ($events_time as $time_item)
-                                                        <option value="{{ $time_item }}">{{ $time_item }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-
-                                                <button type="button"
-                                                    class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-red-600 text-white font-semibold shadow-sm"
-                                                    wire:click.prevent="delete({{ $keyy + 1 }})">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        @endforeach
+                                    @endforeach
                                 </div>
 
-                                <div class="w-full mb-2 clear-both" wire:ignore id="select-class">
-                                    <label for="" class="w-full block font-semibold mb-2 text-[#544837]">Area
-                                        of Interest</label>
-                                    <div>
-                                        <select wire:model="selectedInterests"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] js-example-basic-multiple appearance-none"
-                                            multiple="multiple">
-                                            @foreach ($area_of_interests as $aoi)
-                                                <option value="{{ $aoi }}">{{ $aoi }}
-                                                </option>
+                                <div
+                                    class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2 clear-both">
+                                    <div class="w-full">
+                                        <label for="role" class="block font-semibold text-[#544837] mb-2">Role
+                                            <span class="text-red-400">*</span></label>
+                                        <select wire:model.defer="role" id="role"
+                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
+                                            <option value="">Choose One...</option>
+                                            <option value="student">Student</option>
+                                            <option value="freelancer">Freelancer</option>
+                                            <option value="employee">Employee</option>
+                                            <option value="business owner">Business Owner</option>
+                                        </select>
+                                        @error('role')
+                                            <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="w-full">
+                                        <label for="sector" class="block font-semibold text-[#544837] mb-2">Sector
+                                            <span class="text-red-400">*</span></label>
+                                        <select wire:model.defer="sector" id="sector"
+                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
+                                            <option value="">Choose One...</option>
+                                            @foreach ($sectors as $sect)
+                                                <option value="{{ $sect }}">{{ $sect }}</option>
                                             @endforeach
                                         </select>
+                                        @error('sector')
+                                            <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
+                                        @enderror
                                     </div>
-                                    @error('selectedInterests')
-                                        <p class="text-red-600 font-bold">{{ $message }}</p>
-                                    @enderror
+
                                 </div>
 
                                 <div class="w-full relative clear-both">
@@ -417,24 +426,18 @@
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script src="/assets/js/select2.min.js"></script>
     <script>
-        var select_layout = document.getElementById('select-class');
-        $(document).ready(function() {
+        window.addEventListener('DOMContentLoaded', event => {
             $('.js-example-basic-multiple').select2();
 
             $('.js-example-basic-multiple').on('change', function(event) {
                 let data = $(this).val();
-                @this.set('selectedInterests', data);
+                @this.set('interests', data);
             });
         });
 
         window.addEventListener("livewire:load", () => {
             Livewire.hook('message.processed', (message, component) => {
                 $('.js-example-basic-multiple').select2()
-                if (component.serverMemo.data.step_two) {
-                    select_layout.style.display = ""
-                } else {
-                    select_layout.style.display = "none"
-                }
             });
         });
     </script>
