@@ -11,7 +11,7 @@ class View extends Component
 
     public function mount($token)
     {
-        $this->details = VerificationCode::with('class_reg.masterclass')->where('token', $token)->first();
+        $this->details = VerificationCode::with('reg_info.super_session.masterclass')->where('token', $token)->first();
         abort_if(!$this->details, 404);
     }
 

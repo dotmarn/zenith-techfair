@@ -16,8 +16,8 @@ class VerificationCode extends Model
         'date_used'
     ];
 
-    public function class_reg()
+    public function reg_info()
     {
-        return $this->hasMany(ClassRegistration::class, 'registration_id', 'registration_id');
+        return $this->hasOne(Registration::class, 'id', 'registration_id');
     }
 }
