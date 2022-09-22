@@ -256,8 +256,8 @@
                                                 <select wire:model.defer="event_date.0" id="event_date"
                                                     class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                     <option value="">Choose Date...</option>
-                                                    @foreach ($events_date as $keyd => $date_item)
-                                                    <option value="{{ $date_item }}">{{ $date_item }}</option>
+                                                    @foreach ($events_date as $date_)
+                                                    <option value="{{ $date_ }}">{{ $date_ }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -266,8 +266,8 @@
                                                 <select wire:model.defer="event_time.0" id="event_time"
                                                     class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                     <option value="">Choose Time...</option>
-                                                    @foreach ($events_time as $keyd => $time_item)
-                                                    <option value="{{ $time_item }}">{{ $time_item }}</option>
+                                                    @foreach ($events_time as $time_)
+                                                    <option value="{{ $time_ }}">{{ $time_ }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -286,8 +286,8 @@
                                                         id="c_session{{ $keyy }}"
                                                         class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                         <option value="">Choose One...</option>
-                                                        @foreach ($super_sessions as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->title }}</option>
+                                                        @foreach ($super_sessions as $item_)
+                                                        <option value="{{ $item_->id }}">{{ $item_->title }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -296,7 +296,7 @@
                                                     <select wire:model.defer="event_date.{{ $value }}" id="event_date{{ $keyy }}"
                                                         class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                         <option value="">Choose Date...</option>
-                                                        @foreach ($events_date as $keyd => $date_item)
+                                                        @foreach ($events_date as $date_item)
                                                         <option value="{{ $date_item }}">{{ $date_item }}</option>
                                                         @endforeach
                                                     </select>
@@ -306,7 +306,7 @@
                                                     <select wire:model.defer="event_time.{{ $value }}" id="event_time{{ $keyy }}"
                                                         class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                         <option value="">Choose Time...</option>
-                                                        @foreach ($events_time as $keyd => $time_item)
+                                                        @foreach ($events_time as $time_item)
                                                         <option value="{{ $time_item }}">{{ $time_item }}</option>
                                                         @endforeach
                                                     </select>
@@ -314,7 +314,7 @@
 
                                                 <button type="button"
                                                     class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-red-600 text-white font-semibold shadow-sm"
-                                                    wire:click.prevent="delete({{ $keyy }})">
+                                                    wire:click.prevent="delete({{ $keyy + 1 }})">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>

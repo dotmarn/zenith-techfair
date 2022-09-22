@@ -25,7 +25,7 @@ class Index extends Component
 
     public $roles, $area_of_interests, $sectors;
 
-    public $inputs = [], $class_session_inputs = [], $i = 1, $s = 1, $platform, $handle, $c_session, $event_date, $event_time;
+    public $inputs = [], $class_session_inputs = [], $i = 1, $s = 0, $platform, $handle, $c_session, $event_date, $event_time;
 
     public function mount()
     {
@@ -53,9 +53,11 @@ class Index extends Component
 
     public function addMore($i)
     {
-        $i = $i + 1;
-        $this->s = $i;
-        array_push($this->class_session_inputs, $i);
+        if (count($this->class_session_inputs) < 1) {
+            $i = $i + 1;
+            $this->s = $i;
+            array_push($this->class_session_inputs, $i);
+        }
     }
 
     public function remove($i)
@@ -66,7 +68,10 @@ class Index extends Component
     public function delete($i)
     {
         $this->s -= 1;
-        unset($this->class_session_inputs[$i]);
+        unset($this->class_session_inputs[$i - 1]);
+        unset($this->c_session[$i]);
+        unset($this->event_date[$i]);
+        unset($this->event_time[$i]);
     }
 
     public function updatedHaveAnAccount($value)
@@ -130,52 +135,79 @@ class Index extends Component
         DB::transaction(function () {
             $token = "ZEN-".Str::random(5)."-".mt_rand(1000, 9999);
 
-            if (count($this->platform) > 0) {
-                $social_media = array_combine($this->platform, $this->handle);
+            // if (count($this->platform ?? []) > 0) {
+            //     $social_media = array_combine($this->platform, $this->handle);
+            // }
+
+            if (is_null($this->c_session) && (!is_null($this->event_date) || !is_null($this->event_time))) {
+                return $this->alert('success', 'Nah here');
             }
 
-            $registration = Registration::create([
-                'firstname' => $this->firstname,
-                'lastname' => $this->lastname,
-                'email' => $this->email,
-                'role' => $this->role,
-                'phone' => $this->phone,
-                'sector' => $this->sector,
-                'have_an_account' => $this->have_an_account,
-                'account_number' => $this->account_number,
-                'reason' => $this->reason,
-                'interests' => $this->selectedInterests,
-                'social_media' => $social_media ?? []
-            ]);
+            if (is_null($this->event_date) && (!is_null($this->c_session) || !is_null($this->event_time))) {
+                return $this->alert('success', 'Nah here');
+            }
 
-            $image = \QrCode::size(500)->format('png')->generate(config('app.url').$token);
+            if (is_null($this->event_time) && (!is_null($this->c_session) || !is_null($this->event_date))) {
+                return $this->alert('success', 'Nah here');
+            }
 
-            $base64 = "data:image/png;base64,".base64_encode($image);
-            $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
+            if (in_array("", $this->c_session ?? []) || in_array("", $this->event_date ?? []) || in_array("", $this->event_time ?? [])) {
+                return $this->alert('error', 'Cannot be empty');
+            }
 
-            VerificationCode::create([
-                'registration_id' => $registration->id,
-                'qrcode_url' => $this->qr_code_url,
-                'token' => $token
-            ]);
+            if (
+                count($this->c_session ?? []) > 0 &&
+                (count($this->event_date ?? []) !== count($this->c_session ?? [])) ||
+                (count($this->event_time ?? []) !== count($this->c_session ?? []))
+            ) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
 
-            if (count($this->class_session) > 0) {
-                $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->class_session)->get();
-                foreach ($this->class_session as $key => $session) {
-                    $count = collect($classes)->where('super_session_id', $session)->count();
-                    $session_details = collect($this->super_sessions)->where('id', $session)->first();
-                    if ($count < $session_details->max_participants) {
-                        $registration->super_session()->create([
-                            'super_session_id' => $session
-                        ]);
-                    }
-                }
+            // $registration = Registration::create([
+            //     'firstname' => $this->firstname,
+            //     'lastname' => $this->lastname,
+            //     'email' => $this->email,
+            //     'role' => $this->role,
+            //     'phone' => $this->phone,
+            //     'sector' => $this->sector,
+            //     'have_an_account' => $this->have_an_account,
+            //     'account_number' => $this->account_number,
+            //     'reason' => $this->reason,
+            //     'interests' => $this->selectedInterests,
+            //     'social_media' => $social_media ?? []
+            // ]);
+
+            // $image = \QrCode::size(500)->format('png')->generate(config('app.url').$token);
+
+            // $base64 = "data:image/png;base64,".base64_encode($image);
+            // $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
+
+            // VerificationCode::create([
+            //     'registration_id' => $registration->id,
+            //     'qrcode_url' => $this->qr_code_url,
+            //     'token' => $token
+            // ]);
+
+
+            if (count($this->c_session ?? []) > 0 ) {
+                info("c_session:".json_encode($this->c_session));
+                return $this->alert('success', 'Got here.');
+                // $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->class_session)->get();
+                // foreach ($this->c_session as $key => $session) {
+                //     $count = collect($classes)->where('super_session_id', $session)->count();
+                //     $session_details = collect($this->super_sessions)->where('id', $session)->first();
+                //     if ($count < $session_details->max_participants) {
+                //         $registration->super_session()->create([
+                //             'super_session_id' => $session
+                //         ]);
+                //     }
+                // }
             }
 
             $this->alert('success', 'Registration successful.');
 
-            $this->step_two = false;
-            $this->final_step = true;
+            // $this->step_two = false;
+            // $this->final_step = true;
 
         });
 
