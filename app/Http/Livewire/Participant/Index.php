@@ -18,7 +18,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class Index extends Component
 {
     use LivewireAlert;
-    public $super_sessions, $firstname, $lastname, $email, $phone, $role, $account_number, $have_an_account, $sector, $selectedInterests = [], $qr_code_url, $reason;
+    public $super_sessions, $firstname, $lastname, $email, $phone, $role, $account_number, $have_an_account, $sector, $interests = [], $qr_code_url, $reason;
 
     public bool $show_account_section = false;
     public $step_one = true, $step_two = false, $final_step = false;
@@ -104,11 +104,9 @@ class Index extends Component
             'firstname' => ['required', 'string', 'min:3'],
             'lastname' => ['required', 'string', 'min:3'],
             'email' => ['required', 'string', 'email', 'unique:registrations,email'],
-            'role' => ['nullable', 'string', Rule::in($this->roles)],
             'phone' => ['required', 'numeric', 'digits:11', 'unique:registrations,phone'],
             'have_an_account' => ['required', Rule::in(['yes', 'no'])],
-            'account_number' => $have_an_account_rule,
-            'sector' => ['nullable', 'string', Rule::in($this->sectors)]
+            'account_number' => $have_an_account_rule
         ], [
             'have_an_account.required' => "This field is required",
         ]);
@@ -118,7 +116,7 @@ class Index extends Component
         }
 
         if (in_array("", $this->platform ?? []) || in_array("", $this->handle ?? [])) {
-            return $this->alert('error', 'Cannot be empty');
+            return $this->alert('error', 'Please fill all the required field(s)');
         }
 
         $duplicates = collect($this->platform)->duplicates();
@@ -133,7 +131,9 @@ class Index extends Component
     public function bookSummit()
     {
         $this->validate([
-            'reason' => ['required', 'string', Rule::in(AppUtils::acceptedReasons())]
+            'reason' => ['required', 'string', Rule::in(AppUtils::acceptedReasons())],
+            'role' => ['nullable', 'string', Rule::in($this->roles)],
+            'sector' => ['nullable', 'string', Rule::in($this->sectors)]
         ]);
 
         DB::transaction(function () {
@@ -187,7 +187,7 @@ class Index extends Component
                 'have_an_account' => $this->have_an_account,
                 'account_number' => $this->account_number,
                 'reason' => $this->reason,
-                'interests' => $this->selectedInterests,
+                'interests' => $this->interests,
                 'social_media' => $social_media ?? []
             ]);
 
