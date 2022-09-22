@@ -118,7 +118,7 @@
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('j F, Y H:i a') }}
                             </td>
                             <td class="px-6 py-4 font-light text-[#323232] flex space-x-3">
-                                <a href="#" class="bg-[#063970] text-white py-1 px-2 rounded-md" title="View">
+                                <a href="{{ route('portal.view-registration', $item->tokens->token) }}" class="bg-[#063970] text-white py-1 px-2 rounded-md" title="View">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>

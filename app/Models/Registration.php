@@ -32,4 +32,9 @@ class Registration extends Model
     {
         return $this->hasMany(ClassRegistration::class, 'registration_id', 'id');
     }
+
+    public function tokens()
+    {
+        return $this->hasOne(VerificationCode::class, 'registration_id', 'id');
+    }
 }
