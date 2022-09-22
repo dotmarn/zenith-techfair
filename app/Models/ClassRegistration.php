@@ -16,4 +16,9 @@ class ClassRegistration extends Model
         'preferred_date',
         'preferred_time'
     ];
+
+    public function masterclass()
+    {
+        return $this->belongsTo(SuperSession::class, 'super_session_id', 'id');
+    }
 }

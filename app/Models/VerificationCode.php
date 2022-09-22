@@ -15,4 +15,9 @@ class VerificationCode extends Model
         'token',
         'date_used'
     ];
+
+    public function class_reg()
+    {
+        return $this->hasMany(ClassRegistration::class, 'registration_id', 'registration_id');
+    }
 }

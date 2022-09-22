@@ -191,7 +191,7 @@ class Index extends Component
                 'social_media' => $social_media ?? []
             ]);
 
-            $image = \QrCode::size(500)->format('png')->generate(config('app.url').$token);
+            $image = \QrCode::size(500)->format('png')->generate(route('portal.view-registration', $token));
 
             $base64 = "data:image/png;base64,".base64_encode($image);
             $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
