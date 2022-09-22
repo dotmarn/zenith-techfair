@@ -12,6 +12,8 @@ class ClassRegistration extends Model
     protected $fillable = [
         'super_session_id',
         'admitted_at',
-        'registration_id'
+        'registration_id',
+        'preferred_date',
+        'preferred_time'
     ];
 }
