@@ -163,6 +163,16 @@ class Index extends Component
                 return $this->alert('error', 'Please fill all the required field(s)');
             }
 
+            $c_dup = collect($this->c_session)->duplicates();
+            if ($c_dup->isNotEmpty()) {
+                return $this->alert('error', 'Master class contains one or more duplicates');
+            }
+
+            $d_dup = collect($this->event_date)->duplicates();
+            if ($d_dup->isNotEmpty()) {
+                return $this->alert('error', 'You can only attend one event per day');
+            }
+
             // $registration = Registration::create([
             //     'firstname' => $this->firstname,
             //     'lastname' => $this->lastname,
