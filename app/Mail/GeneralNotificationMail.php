@@ -18,7 +18,7 @@ class GeneralNotificationMail extends Mailable
      */
     public function __construct($data)
     {
-        $this->data = $data;
+        $this->data = json_decode($data);
     }
 
     /**

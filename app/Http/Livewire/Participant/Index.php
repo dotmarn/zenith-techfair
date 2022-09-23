@@ -11,7 +11,8 @@ use Illuminate\Validation\Rule;
 use App\Models\VerificationCode;
 use App\Models\ClassRegistration;
 use Illuminate\Support\Facades\DB;
-use App\Jobs\DefaultNotificationJob;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\GeneralNotificationMail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Validation\ValidationException;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -214,7 +215,12 @@ class Index extends Component
             ];
 
             $payload = json_encode($payload);
-            DefaultNotificationJob::dispatch($payload);
+
+            try {
+                Mail::to($this->email)->send(new GeneralNotificationMail($payload));
+            } catch (\Exception $e) {
+                \Log::info($e->getMessage());
+            }
 
             if (count($this->c_session ?? []) > 0 ) {
                 $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
