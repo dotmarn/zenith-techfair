@@ -39,9 +39,9 @@
                         <th class="font-semibold text-sm px-6 py-4">
                             Number Registered
                         </th>
-                        <th class="font-semibold text-sm px-6 py-4">
+                        {{-- <th class="font-semibold text-sm px-6 py-4">
                             Description
-                        </th>
+                        </th> --}}
                         {{-- <th class="font-semibold text-sm px-6 py-4">
                             Action
                         </th> --}}
@@ -68,9 +68,9 @@
                                     {{ $item->registrations_count }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 font-normal whitespace-normal">
+                            {{-- <td class="px-6 py-4 font-normal whitespace-normal">
                                 {{ $item->description }}
-                            </td>
+                            </td> --}}
 
                             {{-- <td class="px-6 py-4 font-light text-[#323232] flex space-x-3">
                                 <a href="" class="bg-[#063970] text-white py-1 px-2 rounded-md" title="View">
