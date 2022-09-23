@@ -1,6 +1,5 @@
 <?php
 
-use App\Jobs\DefaultNotificationJob;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -31,10 +30,6 @@ Route::group(['namespace' => '\App\Http\Livewire'], function() {
 
             Route::get('/registration/view/{token}', \Portal\View::class)->name('view-registration');
 
-            // Route::get('/verify-participant', \Portal\Verify::class)->name('verify');
-
-            // Route::get('/participant/{id}', \Portal\View::class)->name('view');
-
         });
 
         Route::get('/logout', function() {
@@ -43,20 +38,4 @@ Route::group(['namespace' => '\App\Http\Livewire'], function() {
         })->name('logout');
     });
 
-});
-
-
-Route::get('/quick-test', function() {
-    $body = "<p>Thank you for registering for the Zenith Tech Fair.</p>";
-    $body .= "<div style='text-align:center'><img src='https://res.cloudinary.com/igbalode/image/upload/v1663755729/s9z1f0zaxsog9ebijdma.png' style='width:50%' /></div>";
-
-    $payload = [
-        'username' => "Ridwan",
-        'email' => "kasimsheyi20@gmail.com",
-        'subject' => "Ridwan, thank you for registering for the event",
-        'body' => $body
-    ];
-
-    $payload = json_encode($payload);
-    DefaultNotificationJob::dispatch($payload);
 });
