@@ -23,7 +23,7 @@ class Login extends Component
             'password' => ['required']
         ]);
 
-        if (Auth::attempt(['email' => $this->username, 'password' => $this->password])) {
+        if (Auth::attempt(['username' => $this->username, 'password' => $this->password])) {
             $user = Auth::user();
             $user->last_login = now();
             $user->update();
