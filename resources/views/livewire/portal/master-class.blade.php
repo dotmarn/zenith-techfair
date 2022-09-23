@@ -7,7 +7,7 @@
         <div>
             <div class="flex items-center justify-between mb-4">
                 <h2 class="font-bold text-[#101010] text-base lg:text-2xl">Master Classes</h2>
-                <a href="#"
+                {{-- <a href="#"
                     class="flex items-center space-x-1 lg:space-x-3 py-1 lg:py-2 bg-red-600 text-white rounded-lg px-6 text-xs" @click.prevent="toggleModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
@@ -16,7 +16,7 @@
                             clip-rule="evenodd" />
                     </svg>
                     <span class="font-semibold">Add New</span>
-                </a>
+                </a> --}}
             </div>
         </div>
     </div>
@@ -42,9 +42,9 @@
                         <th class="font-semibold text-sm px-6 py-4">
                             Description
                         </th>
-                        <th class="font-semibold text-sm px-6 py-4">
+                        {{-- <th class="font-semibold text-sm px-6 py-4">
                             Action
-                        </th>
+                        </th> --}}
                     </tr>
                 </thead>
 
@@ -72,7 +72,7 @@
                                 {{ $item->description }}
                             </td>
 
-                            <td class="px-6 py-4 font-light text-[#323232] flex space-x-3">
+                            {{-- <td class="px-6 py-4 font-light text-[#323232] flex space-x-3">
                                 <a href="" class="bg-[#063970] text-white py-1 px-2 rounded-md" title="View">
                                     <i class="fas fa-eye"></i>
                                 </a>
@@ -80,7 +80,7 @@
                                 <a href="#" class="bg-gray-600 text-white py-1 px-2 rounded-md" title="Edit" @click.prevent="toggleEditModal({{ $item }})">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>
