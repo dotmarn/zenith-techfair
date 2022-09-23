@@ -7,7 +7,7 @@
         <div>
             <div class="flex items-center justify-between mb-4">
                 <h2 class="font-bold text-[#101010] text-base lg:text-2xl">Dashboard</h2>
-                <a href="#"
+                {{-- <a href="#"
                     class="flex items-center space-x-1 lg:space-x-3 py-1 lg:py-2 bg-red-600 text-white rounded-lg px-6 text-xs">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
@@ -16,7 +16,7 @@
                             clip-rule="evenodd" />
                     </svg>
                     <span class="font-semibold">Verification</span>
-                </a>
+                </a> --}}
             </div>
 
             {{-- <div id="container" wire:ignore></div> --}}
