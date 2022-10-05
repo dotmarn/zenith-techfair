@@ -85,6 +85,17 @@
                                     </div>
                                 </div>
 
+                                <div class="w-full mb-2">
+                                    <label for="middlename" class="block font-semibold text-[#544837] mb-2">Middle
+                                        Name</label>
+                                    <input type="text" wire:model.lazy="middlename"
+                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]"
+                                        id="middlename">
+                                    @error('middlename')
+                                        <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
                                 <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2">
                                     <div class="w-full">
                                         <label for="email" class="block font-semibold text-[#544837] mb-2">Email
@@ -159,7 +170,7 @@
                                         </div>
 
                                         <button type="button"
-                                            class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-gray-600 text-white font-semibold shadow-sm"
+                                            class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-[#1e1e1e] text-white font-medium shadow-sm"
                                             wire:click.prevent="add({{ $i }})">
                                             <i class="fas fa-plus"></i>
                                         </button>
@@ -261,7 +272,7 @@
                                         </div>
 
                                         <button type="button"
-                                            class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-green-600 text-white font-semibold shadow-sm"
+                                            class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-[#1e1e1e] text-white font-medium shadow-sm"
                                             wire:click.prevent="addMore({{ $s }})">
                                             <i class="fas fa-plus"></i>
                                         </button>

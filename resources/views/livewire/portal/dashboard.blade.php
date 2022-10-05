@@ -78,7 +78,7 @@
                                 {{ $count++ }}
                             </td>
                             <td class="px-6 py-4 font-normal">
-                                {{ $item->firstname . ' ' . $item->lastname }}
+                                {{ $item->firstname . ' ' . $item->lastname.' '.$item->middlename }}
                             </td>
                             <td class="px-6 py-4 font-normal">
                                 {{ $item->email }}

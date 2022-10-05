@@ -20,7 +20,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class Index extends Component
 {
     use LivewireAlert;
-    public $super_sessions, $firstname, $lastname, $email, $phone, $role, $account_number, $have_an_account, $sector, $interests = [], $qr_code_url, $reason;
+    public $super_sessions, $firstname, $lastname, $middlename, $email, $phone, $role, $account_number, $have_an_account, $sector, $interests = [], $qr_code_url, $reason;
 
     public bool $show_account_section = false;
     public $step_one = true, $step_two = false, $final_step = false;
@@ -105,6 +105,7 @@ class Index extends Component
         $this->validate([
             'firstname' => ['required', 'string', 'min:3'],
             'lastname' => ['required', 'string', 'min:3'],
+            'middlename' => ['nullable', 'string', 'min:3'],
             'email' => ['required', 'string', 'email', 'unique:registrations,email'],
             'phone' => ['required', 'numeric', 'digits:11', 'unique:registrations,phone'],
             'have_an_account' => ['required', Rule::in(['yes', 'no'])],
@@ -182,6 +183,7 @@ class Index extends Component
             $registration = Registration::create([
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
+                'middlename' => $this->middlename,
                 'email' => $this->email,
                 'role' => $this->role,
                 'phone' => $this->phone,
