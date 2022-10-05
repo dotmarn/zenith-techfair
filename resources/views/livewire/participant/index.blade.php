@@ -123,7 +123,9 @@
 
                                 <div class="w-full mb-2 clear-both" id="select-class">
                                     <label for="" class="w-full block font-semibold mb-2 text-[#544837]">Area
-                                        of Interest</label>
+                                        of Interest <br>
+                                        <small class="text-gray-500 font-light">Please select what areas of tech you are involved or interested in. You can select more than one</small>
+                                    </label>
                                     <div wire:ignore>
                                         <select wire:model="interests"
                                             class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] js-example-basic-multiple appearance-none"
@@ -140,7 +142,9 @@
 
                                 <div>
                                     <label for="" class="block font-semibold text-[#544837] mb-2">Social
-                                        Media</label>
+                                        Media<br>
+                                        <small class="text-gray-500 font-light">Let's get to know you. Add one or more of your social media handles.</small>
+                                    </label>
 
                                     <div class="flex justify-between items-center space-x-5 mb-5">
                                         <div class="w-full">
@@ -238,8 +242,9 @@
                                 @endphp
                                 <div class="w-full relative">
                                     <label for="" class="block font-semibold text-[#544837] mb-4">Would you
-                                        like to attend our MasterClass?
-                                        <span class="text-red-400">*</span></label>
+                                        like to attend our MasterClass?<br>
+                                        <small class="text-gray-500 font-light">Sign up for any of our MasterClass sessions with leading tech industry experts from different fields.</small>
+                                    </label>
                                     <div class="flex justify-between items-center space-x-5 mb-5">
                                         <div class="w-full">
                                             <select wire:model.defer="c_session.0" id="c_session"
@@ -328,7 +333,9 @@
                                 <div
                                     class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2 clear-both">
                                     <div class="w-full">
-                                        <label for="job_function" class="block font-semibold text-[#544837] mb-2">Job Function</label>
+                                        <label for="job_function" class="block font-semibold text-[#544837] mb-2">Job Function
+                                            <br><small class="text-gray-500 font-light">What is your current job function/role?</small>
+                                        </label>
                                         <select wire:model.defer="job_function" id="job_function"
                                             class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                             <option value="">Choose One...</option>
@@ -343,7 +350,9 @@
 
                                     <div class="w-full">
                                         <label for="sector" class="block font-semibold text-[#544837] mb-2">Sector
-                                            <span class="text-red-400">*</span></label>
+                                            <br>
+                                        <small class="text-gray-500 font-light">What sector/industry, do you operate in?</small>
+                                        </label>
                                         <select wire:model.defer="sector" id="sector"
                                             class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                             <option value="">Choose One...</option>
@@ -360,7 +369,10 @@
 
                                 <div class="w-full relative clear-both">
                                     <label for="" class="block font-semibold text-[#544837] mb-4">Reason for
-                                        attending this event</label>
+                                        attending this event
+                                        <br>
+                                        <small class="text-gray-500 font-light">Why would you be attending the Zenith Tech Fair 2022?</small>
+                                    </label>
                                     <select wire:model.defer="reason" id="reason"
                                         class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                         <option value="">Choose One...</option>
