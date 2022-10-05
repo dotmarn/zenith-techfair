@@ -139,6 +139,7 @@
                                                 <option value="facebook">Facebook</option>
                                                 <option value="linkedin">LinkedIn</option>
                                                 <option value="instagram">Instagram</option>
+                                                <option value="twitter">Twitter</option>
                                             </select>
                                             @error('platform.0')
                                                 <p class="text-red-600 font-semibold text-xs text-left">{{ $message }}
@@ -158,7 +159,7 @@
                                         </div>
 
                                         <button type="button"
-                                            class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-green-600 text-white font-semibold shadow-sm"
+                                            class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-gray-600 text-white font-semibold shadow-sm"
                                             wire:click.prevent="add({{ $i }})">
                                             <i class="fas fa-plus"></i>
                                         </button>
