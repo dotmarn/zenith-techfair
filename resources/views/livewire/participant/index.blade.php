@@ -226,7 +226,7 @@
                                 @endphp
                                 <div class="w-full relative">
                                     <label for="" class="block font-semibold text-[#544837] mb-4">Would you
-                                        like to attend our Masterclass?
+                                        like to attend our MasterClass?
                                         <span class="text-red-400">*</span></label>
                                     <div class="flex justify-between items-center space-x-5 mb-5">
                                         <div class="w-full">
