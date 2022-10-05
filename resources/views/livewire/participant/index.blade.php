@@ -328,17 +328,15 @@
                                 <div
                                     class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2 clear-both">
                                     <div class="w-full">
-                                        <label for="role" class="block font-semibold text-[#544837] mb-2">Role
-                                            <span class="text-red-400">*</span></label>
-                                        <select wire:model.defer="role" id="role"
+                                        <label for="job_function" class="block font-semibold text-[#544837] mb-2">Job Function</label>
+                                        <select wire:model.defer="job_function" id="job_function"
                                             class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]">
                                             <option value="">Choose One...</option>
-                                            <option value="student">Student</option>
-                                            <option value="freelancer">Freelancer</option>
-                                            <option value="employee">Employee</option>
-                                            <option value="business owner">Business Owner</option>
+                                            @foreach ($job_functions as $jb)
+                                            <option value="{{ $jb }}">{{ $jb }}</option>
+                                            @endforeach
                                         </select>
-                                        @error('role')
+                                        @error('job_function')
                                             <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
                                         @enderror
                                     </div>

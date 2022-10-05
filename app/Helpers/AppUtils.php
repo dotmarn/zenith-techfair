@@ -7,9 +7,35 @@ class AppUtils
     public function jobFunctionsData() : array
     {
         return [
-            "academic",
-            "automation",
-            "advisory and consulting services"
+            "Academic",
+            "Advisory & Consulting Services",
+            "Automation",
+            "Business Management & Strategy",
+            "C-Level / Board Director",
+            "Coder / Developer / Programmer",
+            "Customer Relationship Management",
+            "Data Scientist/Architect/Artificial intelligence",
+            "Digital Services",
+            "Editorial",
+            "Engineering",
+            "Entrepreneurship",
+            "Finance & Accounting",
+            "Govt. Official",
+            "Human Resources & Administration",
+            "Information Technology & Management Information",
+            "Manufacturing",
+            "Marketing",
+            "Media / Broadcasting / Communications",
+            "Product or Service Development",
+            "Project Management",
+            "Quality Assurance / Control / Regulatory / Compliance",
+            "Research / Development",
+            "Sales",
+            "Sales / Business Development",
+            "Student",
+            "Supply Chain / Logistics",
+            "Training & Education",
+            "Other"
         ];
     }
 
@@ -105,6 +131,7 @@ class AppUtils
             "Cosmetics",
             "Defense & Space",
             "Education",
+            "Fintech",
             "Energy",
             "Environmental Services",
             "Fashion & Apparel",

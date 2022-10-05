@@ -20,18 +20,18 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class Index extends Component
 {
     use LivewireAlert;
-    public $super_sessions, $firstname, $lastname, $middlename, $email, $phone, $role, $account_number, $have_an_account, $sector, $interests = [], $qr_code_url, $reason;
+    public $super_sessions, $firstname, $lastname, $middlename, $email, $phone, $job_function, $account_number, $have_an_account, $sector, $interests = [], $qr_code_url, $reason;
 
     public bool $show_account_section = false;
     public $step_one = true, $step_two = false, $final_step = false;
 
-    public $roles, $area_of_interests, $sectors;
+    public $job_functions, $area_of_interests, $sectors;
 
     public $inputs = [], $class_session_inputs = [], $i = 1, $s = 0, $platform, $handle, $c_session, $event_date, $event_time;
 
     public function mount()
     {
-        $this->roles = AppUtils::roles();
+        $this->job_functions = AppUtils::jobFunctionsData();
         $this->area_of_interests = AppUtils::areaOfInterestsData();
         $this->sectors = AppUtils::sectorsData();
         $this->super_sessions = SuperSession::select('id', 'title', 'max_participants', 'event_date', 'event_time')->get();
@@ -135,7 +135,7 @@ class Index extends Component
     {
         $this->validate([
             'reason' => ['required', 'string', Rule::in(AppUtils::acceptedReasons())],
-            'role' => ['nullable', 'string', Rule::in($this->roles)],
+            'job_function' => ['nullable', 'string', Rule::in($this->job_functions)],
             'sector' => ['nullable', 'string', Rule::in($this->sectors)]
         ]);
 
@@ -185,7 +185,7 @@ class Index extends Component
                 'lastname' => $this->lastname,
                 'middlename' => $this->middlename,
                 'email' => $this->email,
-                'role' => $this->role,
+                'role' => $this->job_function,
                 'phone' => $this->phone,
                 'sector' => $this->sector,
                 'have_an_account' => $this->have_an_account,
