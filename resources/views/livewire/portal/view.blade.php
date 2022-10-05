@@ -1,5 +1,12 @@
 @section('title', 'Zenith Tech Fair::Participant')
 <div class="container mx-auto px-6 py-8">
+    <style>
+        .instagram {
+            background: #d6249f;
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+  box-shadow: 0px 3px 10px rgba(0,0,0,.25);
+        }
+    </style>
     <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 gap-y-5 mb-4">
         <div class="lg:col-span-2">
             <div class="p-4 bg-white rounded-lg">
@@ -11,7 +18,7 @@
                     <div class="text-center">
                         <div class="mb-8">
                             <h6 class="font-semibold">
-                                {{ ucfirst($details->reg_info->firstname) . ' ' . ucfirst($details->reg_info->lastname) }}
+                                {{ ucfirst($details->reg_info->firstname) . ' ' . ucfirst($details->reg_info->lastname).' '.ucfirst($details->reg_info->middlename) }}
                             </h6>
                             <h1 class="text-2xl font-semibold">{{ $details->token }}</h1>
                         </div>
@@ -71,6 +78,45 @@
                                 @endforelse
                             </div>
                         </div>
+                        @php
+                            $social_media = $details->reg_info->social_media;
+                        @endphp
+
+                        @if (@count($social_media) > 0)
+                        <div class="border-b-2 border-gray-200 pb-4 mb-4">
+                            <h6 class="text-left font-semibold mb-2">Social Media:</h6>
+                            <div class="lg:flex lg:space-x-3 lg:overflow-x-scroll lg:w-full">
+                                @foreach ($social_media as $platform => $handle)
+                                <div class="flex items-center space-x-3 mb-2">
+                                    @if ($platform == "twitter")
+                                    <a href="#" class="py-2 px-3 rounded-full bg-[#00acee]">
+                                        <i class="fab fa-twitter text-white"></i>
+                                    </a>
+                                    @endif
+
+                                    @if ($platform == "facebook")
+                                    <a href="#" class="py-2 px-4 rounded-full bg-[#3b5998]">
+                                        <i class="fab fa-facebook-f text-white"></i>
+                                    </a>
+                                    @endif
+
+                                    @if ($platform == "instagram")
+                                    <a href="#" class="py-2 px-3 rounded-full instagram">
+                                        <i class="fab fa-instagram text-white"></i>
+                                    </a>
+                                    @endif
+
+                                    @if ($platform == "linkedin")
+                                    <a href="#" class="py-2 px-3 rounded-full bg-[#0072B1]">
+                                        <i class="fab fa-linkedin-in text-white"></i>
+                                    </a>
+                                    @endif
+                                    <label>{{ $handle }}</label>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="flex justify-between pb-4 mb-4 clear-both">
                             <h6 class="text-left font-semibold">Date Registered:</h6>
