@@ -36,8 +36,7 @@
                                             @enderror
                                         </div>
 
-                                        @if ($have_an_account == "yes")
-                                        <div id="account_section" class="">
+                                        <div id="account_section" class="" wire:ignore>
                                             <div class="flex items-center justify-between space-x-3 w-full">
                                                 <div class="w-2/3 lg:w-3/4">
                                                     <input type="text" wire:model.lazy="account_number"
@@ -51,7 +50,7 @@
 
                                                 <div class="">
                                                     <button type="button"
-                                                        class="bg-red-600 text-white px-8 py-3 rounded-lg border border-[#ccd1d9]"
+                                                        class="bg-red-600 text-white px-8 py-2 lg:py-3 rounded-lg border border-[#ccd1d9] text-xs lg:text-base"
                                                         wire:click.prevent="verifyAccount">
                                                         Verify
                                                         <i class="fas fa-spinner fa-spin" wire:loading
@@ -60,7 +59,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @endif
+                                        {{-- @if ($have_an_account == "yes")
+                                        @endif --}}
                                     </div>
 
                                     <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2">
@@ -452,6 +452,8 @@
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script src="/assets/js/select2.min.js"></script>
     <script>
+        $('#account_section').hide();
+
         window.addEventListener('DOMContentLoaded', event => {
             $('.js-example-basic-multiple').select2();
 
@@ -459,6 +461,15 @@
                 let data = $(this).val();
                 @this.set('interests', data);
             });
+
+            $('#have_an_account').on('change', function(event) {
+                let selected = $(this).val();
+                if (selected == "yes") {
+                    $('#account_section').show();
+                } else {
+                    $('#account_section').hide();
+                }
+            })
         });
 
         window.addEventListener("livewire:load", () => {
