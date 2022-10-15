@@ -22,7 +22,6 @@ class Index extends Component
     use LivewireAlert;
     public $super_sessions, $firstname, $lastname, $middlename, $email, $phone, $job_function, $account_number, $have_an_account, $sector, $interests = [], $qr_code_url, $reason;
 
-    public bool $show_account_section = false;
     public $step_one = true, $step_two = false, $final_step = false;
 
     public $job_functions, $area_of_interests, $sectors;
@@ -79,15 +78,12 @@ class Index extends Component
     public function updatedHaveAnAccount($value)
     {
         if (empty($value) || $value == "") {
-            $this->show_account_section = false;
             throw ValidationException::withMessages([
                 'have_an_account' => "Please choose from the option"
             ]);
         } else if ($value == "yes") {
-            $this->show_account_section = true;
             $this->clearErrorMessage(key: "have_an_account");
         } else {
-            $this->show_account_section = false;
             $this->clearErrorMessage(key: "have_an_account");
         }
     }
