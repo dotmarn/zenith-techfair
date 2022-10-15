@@ -5,7 +5,7 @@
             px-6 py-10 sm:px-10 sm:py-6
             bg-white rounded-lg shadow-md lg:shadow-lg">
             <div class="text-center mb-5">
-                <img src="/assets/images/zenith-bank.png" alt="" class="mx-auto w-24">
+                <img src="/assets/images/zfair-logo.png" alt="" class="mx-auto w-24">
             </div>
             <form class="space-y-5" method="POST" wire:submit.prevent="authenticateUser">
                 {{ csrf_field() }}
