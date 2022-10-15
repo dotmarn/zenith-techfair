@@ -206,7 +206,12 @@ class Index extends Component
                 'token' => $token
             ]);
 
-            $body = "<p>Thank you for registering for the Zenith Tech Fair.</p>";
+            $body = "<p style='text-align:center; font-weight:bold'>Thank you,  {$this->firstname} {$this->lastname}</p>";
+            $body .= "<p style='text-align:center;'>You are all signed up for <b>The Zenith Tech Fair 2022</b></p>";
+            $body .= "<p style='text-align:center; font-weight:bold'>Theme: FUTURE FORWARD 2.0</p>";
+            $body .= "<p><b>Address: </b>Eko Hotels, Plot 1415 Adetokunbo Ademola Street, Victoria Island, Lagos.</p>";
+            $body .= "<p><b>Date: </b>22nd and 23rd November 2022</p>";
+            $body .= "<p><b>Time: </b>8am to 6pm</p>";
             $body .= "<div style='text-align:center'><img src='{$this->qr_code_url}' style='width:50%' /></div>";
 
             $payload = [
