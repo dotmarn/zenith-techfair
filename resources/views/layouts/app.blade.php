@@ -12,9 +12,7 @@
     @yield('styles')
 </head>
 <body class="font-Poppins">
-    <div class="max-w-3xl px-4 mx-auto">
-        @yield('content')
-    </div>
+    @yield('content')
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <x-livewire-alert::scripts />
