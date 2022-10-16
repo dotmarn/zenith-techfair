@@ -5,7 +5,7 @@
 <div class="">
     <div class="max-w-3xl mx-auto">
         <div class="grid grid-cols-1">
-            <div class="text-center mx-auto">
+            <div class="text-center mx-auto w-full">
                 <img src="/assets/images/banner.jpg" alt="" class="mx-auto">
             </div>
 
