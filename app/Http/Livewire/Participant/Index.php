@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Participant;
 
 use Livewire\Component;
 use App\Facade\AppUtils;
+use App\Models\Attendance;
 use Illuminate\Support\Str;
 use App\Models\Registration;
 use App\Models\SuperSession;
@@ -49,7 +50,7 @@ class Index extends Component
     {
         $i = $i + 1;
         $this->i = $i;
-        array_push($this->inputs ,$i);
+        array_push($this->inputs, $i);
     }
 
     public function addMore($i)
@@ -136,7 +137,7 @@ class Index extends Component
         ]);
 
         DB::transaction(function () {
-            $token = "ZEN-".Str::random(5)."-".mt_rand(1000, 9999);
+            $token = "ZEN-" . Str::random(5) . "-" . mt_rand(1000, 9999);
 
             if (count($this->platform ?? []) > 0) {
                 $social_media = array_combine($this->platform, $this->handle);
@@ -193,7 +194,7 @@ class Index extends Component
 
             $image = \QrCode::size(500)->format('png')->generate(route('portal.view-registration', $token));
 
-            $base64 = "data:image/png;base64,".base64_encode($image);
+            $base64 = "data:image/png;base64," . base64_encode($image);
             $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
 
             VerificationCode::create([
@@ -201,6 +202,25 @@ class Index extends Component
                 'qrcode_url' => $this->qr_code_url,
                 'token' => $token
             ]);
+
+            $event_data = [
+                (object) [
+                    "label" => "Day 1",
+                    "date" => "2022-11-22"
+                ],
+                (object) [
+                    "label" => "Day 2",
+                    "date" => "2022-11-23"
+                ]
+            ];
+
+            foreach ($event_data as $key => $ev) {
+                Attendance::create([
+                    'registration_id' => $registration->id,
+                    'event_label' => $ev->label,
+                    'event_date' => $ev->date
+                ]);
+            }
 
             $body = "<p style='text-align:center; font-weight:bold'>Thank you,  {$this->firstname} {$this->lastname}</p>";
             $body .= "<p style='text-align:center;'>You are all signed up for <b>The Zenith Tech Fair 2022</b></p>";
@@ -225,7 +245,7 @@ class Index extends Component
                 \Log::info($e->getMessage());
             }
 
-            if (count($this->c_session ?? []) > 0 ) {
+            if (count($this->c_session ?? []) > 0) {
                 $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
                 foreach ($this->c_session as $key => $session) {
                     $count = collect($classes)->where('super_session_id', $session)->count();
@@ -244,9 +264,7 @@ class Index extends Component
 
             $this->step_two = false;
             $this->final_step = true;
-
         });
-
     }
 
     private function clearErrorMessage(string $key)

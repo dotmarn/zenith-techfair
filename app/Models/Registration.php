@@ -38,4 +38,9 @@ class Registration extends Model
     {
         return $this->hasOne(VerificationCode::class, 'registration_id', 'id');
     }
+
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class, 'registration_id', 'id');
+    }
 }

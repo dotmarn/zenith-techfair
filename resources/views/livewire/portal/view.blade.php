@@ -1,15 +1,18 @@
 @section('title', 'Zenith Tech Fair::Participant')
-<div class="container mx-auto px-6 py-8">
+@section('styles')
+    <link type="text/css" href="/assets/css/datatables.min.css" rel="stylesheet" />
     <style>
         .instagram {
             background: #d6249f;
-  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
-  box-shadow: 0px 3px 10px rgba(0,0,0,.25);
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, .25);
         }
     </style>
+@endsection
+<div class="container mx-auto px-6 py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 gap-y-5 mb-4">
         <div class="lg:col-span-2">
-            <div class="p-4 bg-white rounded-lg">
+            <div class="p-4 bg-white rounded-lg mb-4">
                 <div class="text-center">
                     <div class="mb-4">
                         <img src="/assets/images/default-avatar.jpg" alt="" srcset=""
@@ -18,7 +21,7 @@
                     <div class="text-center">
                         <div class="mb-8">
                             <h6 class="font-semibold">
-                                {{ ucfirst($details->reg_info->firstname) . ' ' . ucfirst($details->reg_info->lastname).' '.ucfirst($details->reg_info->middlename) }}
+                                {{ ucfirst($details->reg_info->firstname) . ' ' . ucfirst($details->reg_info->lastname) . ' ' . ucfirst($details->reg_info->middlename) }}
                             </h6>
                             <h1 class="text-2xl font-semibold">{{ $details->token }}</h1>
                         </div>
@@ -83,39 +86,39 @@
                         @endphp
 
                         @if (@count($social_media) > 0)
-                        <div class="border-b-2 border-gray-200 pb-4 mb-4">
-                            <h6 class="text-left font-semibold mb-2">Social Media:</h6>
-                            <div class="lg:flex lg:space-x-3 lg:overflow-x-scroll lg:w-full">
-                                @foreach ($social_media as $platform => $handle)
-                                <div class="flex items-center space-x-3 mb-2">
-                                    @if ($platform == "twitter")
-                                    <a href="#" class="py-2 px-3 rounded-full bg-[#00acee]">
-                                        <i class="fab fa-twitter text-white"></i>
-                                    </a>
-                                    @endif
+                            <div class="border-b-2 border-gray-200 pb-4 mb-4">
+                                <h6 class="text-left font-semibold mb-2">Social Media:</h6>
+                                <div class="lg:flex lg:space-x-3 lg:overflow-x-scroll lg:w-full">
+                                    @foreach ($social_media as $platform => $handle)
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            @if ($platform == 'twitter')
+                                                <a href="#" class="py-2 px-3 rounded-full bg-[#00acee]">
+                                                    <i class="fab fa-twitter text-white"></i>
+                                                </a>
+                                            @endif
 
-                                    @if ($platform == "facebook")
-                                    <a href="#" class="py-2 px-4 rounded-full bg-[#3b5998]">
-                                        <i class="fab fa-facebook-f text-white"></i>
-                                    </a>
-                                    @endif
+                                            @if ($platform == 'facebook')
+                                                <a href="#" class="py-2 px-4 rounded-full bg-[#3b5998]">
+                                                    <i class="fab fa-facebook-f text-white"></i>
+                                                </a>
+                                            @endif
 
-                                    @if ($platform == "instagram")
-                                    <a href="#" class="py-2 px-3 rounded-full instagram">
-                                        <i class="fab fa-instagram text-white"></i>
-                                    </a>
-                                    @endif
+                                            @if ($platform == 'instagram')
+                                                <a href="#" class="py-2 px-3 rounded-full instagram">
+                                                    <i class="fab fa-instagram text-white"></i>
+                                                </a>
+                                            @endif
 
-                                    @if ($platform == "linkedin")
-                                    <a href="#" class="py-2 px-3 rounded-full bg-[#0072B1]">
-                                        <i class="fab fa-linkedin-in text-white"></i>
-                                    </a>
-                                    @endif
-                                    <label>{{ $handle }}</label>
+                                            @if ($platform == 'linkedin')
+                                                <a href="#" class="py-2 px-3 rounded-full bg-[#0072B1]">
+                                                    <i class="fab fa-linkedin-in text-white"></i>
+                                                </a>
+                                            @endif
+                                            <label>{{ $handle }}</label>
+                                        </div>
+                                    @endforeach
                                 </div>
-                                @endforeach
                             </div>
-                        </div>
                         @endif
 
                         <div class="flex justify-between pb-4 mb-4 clear-both">
@@ -125,6 +128,65 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="p-4 bg-white rounded-lg">
+                <div class='overflow-x-auto w-full'>
+                    <table
+                        class='mx-auto w-full whitespace-nowrap rounded-lg divide-y divide-gray-300 overflow-hidden datatable'>
+                        <thead class="bg-gray-50 font-Mulish">
+                            <tr class="text-left text-darkskin">
+                                <th class="font-semibold text-sm px-6 py-4">
+                                    #
+                                </th>
+                                <th class="font-semibold text-sm px-6 py-4">
+                                    Label
+                                </th>
+                                <th class="font-semibold text-sm px-6 py-4">
+                                    Date
+                                </th>
+                                <th class="font-semibold text-sm px-6 py-4">
+                                    Time In
+                                </th>
+                                <th class="font-semibold text-sm px-6 py-4">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="divide-y divide-gray-200 font-Mulish text-sm">
+                            @php
+                                $count = 1;
+                            @endphp
+                            @foreach ($attendance as $item)
+                                <tr class="border-2">
+                                    <td class="px-6 py-4 font-normal">
+                                        {{ $count++ }}
+                                    </td>
+                                    <td class="px-6 py-4 font-normal">
+                                        <span class="rounded-lg bg-[#063970] text-white font-semibold py-1 px-6 text-xs">
+                                            {{ $item->event_label }}
+                                        </span>
+
+                                    </td>
+                                    <td class="px-6 py-4 font-normal">
+                                        {{ \Carbon\Carbon::parse($item->event_date)->format('j F, Y') }}
+                                    </td>
+                                    <td class="px-6 py-4 font-normal">
+                                        {{ $item->admitted_at }}
+                                    </td>
+                                    @if (is_null($item->admitted_at))
+                                    <td class="px-6 py-4 font-light text-[#323232] flex space-x-3">
+                                        <a href="#" class="bg-green-600 text-white py-1 px-2 rounded-md" title="Mark Present" wire:click.prevent="markPresent({{ $item->id }})">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                    </td>
+                                    @endif
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -158,31 +220,57 @@
                         <div class="flex justify-between border-b-2 border-gray-200 py-2 mb-4">
                             <h6 class="text-left font-semibold">Status:</h6>
                             <div class="text-left">
-                                <span class="{{ $item->status == 'verified' ? 'bg-green-600' : 'bg-red-600' }} text-white py-1 px-6 rounded-md text-xs">
+                                <span
+                                    class="{{ $item->status == 'verified' ? 'bg-green-600' : 'bg-red-600' }} text-white py-1 px-6 rounded-md text-xs">
                                     {{ ucfirst($item->status) }}
                                 </span>
                             </div>
                         </div>
 
                         @if (!is_null($item->admitted_at))
-                        <div class="flex justify-between border-gray-200 py-2 mb-4">
-                            <h6 class="text-left font-semibold">Time In:</h6>
-                            <div class="text-left">
-                                {{ \Carbon\Carbon::parse($item->admitted_at)->format('j F, Y H:i a') }}
+                            <div class="flex justify-between border-gray-200 py-2 mb-4">
+                                <h6 class="text-left font-semibold">Time In:</h6>
+                                <div class="text-left">
+                                    {{ \Carbon\Carbon::parse($item->admitted_at)->format('j F, Y H:i a') }}
+                                </div>
                             </div>
-                        </div>
                         @endif
 
                         @if ($item->status == 'pending')
-                        <div class="text-center">
-                            <button id="button{{ $key }}" type="button" class="mx-auto bg-red-600 text-white py-2 px-6 rounded-lg" wire:click.prevent="checkIn({{ $item->id }})">Check In
-                                <i id="spinner{{ $key }}" class="fas fa-spinner fa-spin" wire:loading wire:target="checkIn"></i>
-                            </button>
-                        </div>
+                            <div class="text-center">
+                                <button id="button{{ $key }}" type="button"
+                                    class="mx-auto bg-red-600 text-white py-2 px-6 rounded-lg"
+                                    wire:click.prevent="checkIn({{ $item->id }})">Check In
+                                    <i id="spinner{{ $key }}" class="fas fa-spinner fa-spin" wire:loading
+                                        wire:target="checkIn"></i>
+                                </button>
+                            </div>
                         @endif
                     </div>
                 @endforeach
             </div>
         @endif
     </div>
+
 </div>
+@section('javascripts')
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', event => {
+            $('.datatable').DataTable({
+                searching: false,
+                lengthChange: false
+            });
+        });
+
+        window.addEventListener("livewire:load", () => {
+            Livewire.hook('message.processed', (message, component) => {
+                $('.datatable').DataTable({
+                    searching: false,
+                    lengthChange: false
+                });
+            });
+        });
+    </script>
+@endsection
