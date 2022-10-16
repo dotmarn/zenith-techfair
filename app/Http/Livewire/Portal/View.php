@@ -15,7 +15,6 @@ class View extends Component
 
     public function mount($token)
     {
-        // $this->params = $token;
         $this->details = VerificationCode::with('reg_info.super_session.masterclass')->where('token', $token)->first();
         abort_if(!$this->details, 404);
     }
@@ -44,7 +43,5 @@ class View extends Component
         ]);
 
         return $this->alert('success', 'Attendance marked successfully.');
-
-        // $this->flash('success', 'Attendance marked successfully.', [], route('portal.view-registration', ));
     }
 }
