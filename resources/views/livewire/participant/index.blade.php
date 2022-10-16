@@ -3,14 +3,13 @@
     <link href="/assets/css/select2.min.css" rel="stylesheet" />
 @endsection
 <div class="">
-    <div class="text-center mx-auto">
-        <div class="">
-            <img src="/assets/images/banner.jpg" alt="" class="mx-auto">
-        </div>
-    </div>
-    <div class="max-w-3xl py-4 lg:py-8 px-4 mx-auto">
+    <div class="max-w-3xl mx-auto">
         <div class="grid grid-cols-1">
-            <div class="py-8 px-4 lg:px-8">
+            <div class="text-center mx-auto">
+                <img src="/assets/images/banner.jpg" alt="" class="mx-auto">
+            </div>
+
+            <div class="py-8 px-6 sm:px-8 lg:px-12">
                 @if ($step_one)
                     <div>
                         <form method="POST" wire:submit.prevent="nextStepLogic">
@@ -58,8 +57,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- @if ($have_an_account == "yes")
-                                    @endif --}}
                                 </div>
 
                                 <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2">
@@ -418,7 +415,7 @@
         </div>
 
         @if ($final_step)
-            <div class="flex flex-col h-screen">
+            <div class="">
                 <div class="grid grid-cols-1 place-items-center w-full my-auto">
                     <div class="bg-white border border-gray-100 shadow-lg py-4 rounded-2xl">
                         <div class="mb-5 py-4">
