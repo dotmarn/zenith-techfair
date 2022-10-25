@@ -66,7 +66,7 @@ class Index extends Component
         $data = curl_exec($ch);
 
         $result_array = xml_to_array($data, false);
-
+        //convert xml response to array
         $result_data = $result_array['soap:Body']['GetAccountDetailsResponse']['GetAccountDetailsResult'];
         if ($result_data['ResponseCode'] == "00") {
             $account_name = explode(" ", $result_data['AccountName']);
