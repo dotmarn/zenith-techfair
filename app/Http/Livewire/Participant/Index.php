@@ -44,6 +44,38 @@ class Index extends Component
 
     public function verifyAccount()
     {
+        $header = array(
+            "Content-type: text/xml",
+            "SOAPAction: http://zenithbank.com/acctenquiry/GetAccountDetails"
+        );
+
+        $url = "https://newwebservicetest.zenithbank.com:8443/ZenithAcctEnquiry/acctenquiry.asmx?op=GetAccountDetails";
+        $username = config('services.zenith.username');
+        $password = config('services.zenith.password');
+
+        $payload = "<soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'><soap:Body><GetAccountDetails xmlns='http://zenithbank.com/acctenquiry/'><Username>{$username}</Username><Password>{$password}</Password><AccountNo>{$this->account_number}</AccountNo></GetAccountDetails></soap:Body></soap:Envelope>";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+        $data = curl_exec($ch);
+
+        $result_array = xml_to_array($data, false);
+
+        $result_data = $result_array['soap:Body']['GetAccountDetailsResponse']['GetAccountDetailsResult'];
+        if ($result_data['ResponseCode'] == "00") {
+            $account_name = explode(" ", $result_data['AccountName']);
+            $this->firstname = $account_name[0];
+            $this->lastname = $account_name[1];
+            $this->middlename = $account_name[2];
+        } else {
+            return $this->alert('error', $result_data['ResponseMessage']);
+        }
     }
 
     public function add($i)
