@@ -44,6 +44,9 @@ class Index extends Component
 
     public function verifyAccount()
     {
+        if (!$this->account_number) {
+            return $this->alert('error', 'Enter your zenith account number');
+        }
         $header = array(
             "Content-type: text/xml",
             "SOAPAction: http://zenithbank.com/acctenquiry/GetAccountDetails"
