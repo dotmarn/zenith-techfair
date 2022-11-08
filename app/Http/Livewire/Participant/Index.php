@@ -63,6 +63,8 @@ class Index extends Component
                 }
             }
 
+            // merge result
+
             $this->events_date = collect(array_merge($this->event_date ?? [], $session->event_date))->unique();
             $this->events_time = collect(array_merge($this->event_time ?? [], $session->event_time))->unique();
         }
