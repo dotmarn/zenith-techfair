@@ -29,12 +29,43 @@ class Index extends Component
 
     public $inputs = [], $class_session_inputs = [], $i = 1, $s = 0, $platform, $handle, $c_session, $event_date, $event_time;
 
+    public $events_date = [], $events_time = [];
+
+    protected $listeners = [
+        'class_selected'
+    ];
+
     public function mount()
     {
         $this->job_functions = AppUtils::jobFunctionsData();
         $this->area_of_interests = AppUtils::areaOfInterestsData();
         $this->sectors = AppUtils::sectorsData();
         $this->super_sessions = SuperSession::select('id', 'title', 'max_participants', 'event_date', 'event_time')->get();
+    }
+
+    public function class_selected($data)
+    {
+        $selected_date = $this->event_date;
+        $selected_time = $this->event_time;
+        if (!empty($data) || $data != "") {
+
+            $session = collect($this->super_sessions)->where('id', $data)->first();
+
+            if (count($selected_date ?? []) > 0) {
+                foreach ($selected_date as $key => $value) {
+                    $this->event_date[$key] = $value;
+                }
+            }
+
+            if (count($selected_time ?? []) > 0) {
+                foreach ($selected_time as $key => $value) {
+                    $this->event_time[$key] = $value;
+                }
+            }
+
+            $this->events_date = collect(array_merge($this->event_date ?? [], $session->event_date))->unique();
+            $this->events_time = collect(array_merge($this->event_time ?? [], $session->event_time))->unique();
+        }
     }
 
     public function render()
@@ -212,6 +243,11 @@ class Index extends Component
                 return $this->alert('error', 'You can only attend one event per day');
             }
 
+            $duplicate_event_time = collect($this->event_time)->duplicates();
+            if ($duplicate_event_time->isNotEmpty()) {
+                return $this->alert('error', 'You can only attend one event at the specified time');
+            }
+
             $registration = Registration::create([
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
@@ -241,11 +277,11 @@ class Index extends Component
             $event_data = [
                 (object) [
                     "label" => "Day 1",
-                    "date" => "2022-11-22"
+                    "date" => "2022-11-23"
                 ],
                 (object) [
                     "label" => "Day 2",
-                    "date" => "2022-11-23"
+                    "date" => "2022-11-24"
                 ]
             ];
 
@@ -255,6 +291,21 @@ class Index extends Component
                     'event_label' => $ev->label,
                     'event_date' => $ev->date
                 ]);
+            }
+
+            if (count($this->c_session ?? []) > 0) {
+                $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
+                foreach ($this->c_session as $key => $session) {
+                    $count = collect($classes)->where('super_session_id', $session)->count();
+                    $session_details = collect($this->super_sessions)->where('id', $session)->first();
+                    if ($count < $session_details->max_participants) {
+                        $registration->super_session()->create([
+                            'super_session_id' => $session,
+                            'preferred_date' => $this->event_date[$key],
+                            'preferred_time' => $this->event_time[$key]
+                        ]);
+                    }
+                }
             }
 
             $body = "<p style='text-align:center; font-weight:bold'>Thank you,  {$this->firstname} {$this->lastname}</p>";
@@ -280,20 +331,6 @@ class Index extends Component
                 \Log::info($e->getMessage());
             }
 
-            if (count($this->c_session ?? []) > 0) {
-                $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
-                foreach ($this->c_session as $key => $session) {
-                    $count = collect($classes)->where('super_session_id', $session)->count();
-                    $session_details = collect($this->super_sessions)->where('id', $session)->first();
-                    if ($count < $session_details->max_participants) {
-                        $registration->super_session()->create([
-                            'super_session_id' => $session,
-                            'preferred_date' => $this->event_date[$key],
-                            'preferred_time' => $this->event_time[$key]
-                        ]);
-                    }
-                }
-            }
 
             $this->alert('success', 'Registration successful.');
 

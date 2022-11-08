@@ -235,10 +235,7 @@
                         <form method="POST" wire:submit.prevent="bookSummit">
                             {{ csrf_field() }}
                             <div class="py-4">
-                                @php
-                                    $events_date = $super_sessions->first()->event_date;
-                                    $events_time = $super_sessions->first()->event_time;
-                                @endphp
+                                
                                 <div class="w-full relative">
                                     <label for="" class="block font-semibold text-[#544837] mb-4 text-xs">Would you
                                         like to attend our MasterClass?<br>
@@ -247,7 +244,7 @@
                                     <div class="flex justify-between items-center space-x-5 mb-5">
                                         <div class="w-full">
                                             <select wire:model.defer="c_session.0" id="c_session"
-                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white ">
+                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white c_session">
                                                 <option value="">Choose One...</option>
                                                 @foreach ($super_sessions as $key => $item)
                                                     <option value="{{ $item->id }}">{{ $item->title }}</option>
@@ -257,7 +254,7 @@
 
                                         <div class="w-full">
                                             <select wire:model.defer="event_date.0" id="event_date"
-                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white ">
+                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                 <option value="">Choose Date...</option>
                                                 @foreach ($events_date as $date_)
                                                     <option value="{{ $date_ }}">{{ $date_ }}</option>
@@ -267,7 +264,7 @@
 
                                         <div class="w-full">
                                             <select wire:model.defer="event_time.0" id="event_time"
-                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white ">
+                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                 <option value="">Choose Time...</option>
                                                 @foreach ($events_time as $time_)
                                                     <option value="{{ $time_ }}">{{ $time_ }}</option>
@@ -287,7 +284,7 @@
                                             <div class="w-full">
                                                 <select wire:model.defer="c_session.{{ $value }}"
                                                     id="c_session{{ $keyy }}"
-                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white ">
+                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white c_session">
                                                     <option value="">Choose One...</option>
                                                     @foreach ($super_sessions as $item_)
                                                         <option value="{{ $item_->id }}">{{ $item_->title }}
@@ -299,7 +296,7 @@
                                             <div class="w-full">
                                                 <select wire:model.defer="event_date.{{ $value }}"
                                                     id="event_date{{ $keyy }}"
-                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white ">
+                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                     <option value="">Choose Date...</option>
                                                     @foreach ($events_date as $date_item)
                                                         <option value="{{ $date_item }}">{{ $date_item }}
@@ -311,7 +308,7 @@
                                             <div class="w-full">
                                                 <select wire:model.defer="event_time.{{ $value }}"
                                                     id="event_time{{ $keyy }}"
-                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white ">
+                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
                                                     <option value="">Choose Time...</option>
                                                     @foreach ($events_time as $time_item)
                                                         <option value="{{ $time_item }}">{{ $time_item }}
@@ -444,6 +441,11 @@
     <script>
         $('#account_section').hide();
 
+        $(document).on('change','.c_session',function(){
+            var val = $('option:selected',this).val()
+            Livewire.emit('class_selected', val);
+        });
+
         window.addEventListener('DOMContentLoaded', event => {
             $('.js-example-basic-multiple').select2();
 
@@ -460,6 +462,7 @@
                     $('#account_section').hide();
                 }
             })
+
         });
 
         window.addEventListener("livewire:load", () => {
