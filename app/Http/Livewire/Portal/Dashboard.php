@@ -12,7 +12,9 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $this->registrations = Registration::with('tokens')->latest('id')->get();
+        $this->registrations = Registration::select(
+            'id', 'firstname', 'lastname', 'middlename', 'email', 'role', 'phone', 'sector', 'account_number', 'reason', 'status', 'created_at'
+        )->with('tokens:registration_id,token')->latest('id')->get();
     }
 
     public function render()

@@ -284,11 +284,11 @@ class Index extends Component
             $event_data = [
                 (object) [
                     "label" => "Day 1",
-                    "date" => "2022-11-23"
+                    "date" => "2022-11-22"
                 ],
                 (object) [
                     "label" => "Day 2",
-                    "date" => "2022-11-24"
+                    "date" => "2022-11-23"
                 ]
             ];
 

@@ -98,17 +98,6 @@
                             <td class="px-6 py-4 font-normal">
                                 {{ $item->reason }}
                             </td>
-                            {{-- <td class="px-6 py-4 font-normal">
-                                <div class="flex space-x-3">
-                                    @forelse (json_decode($item->interests) as $interest)
-                                    <a href="#" class="bg-[#063970] text-white text-xs rounded-md py-1 px-6">
-                                        <span>{{ ucfirst($interest) }}</span>
-                                    </a>
-                                    @empty
-
-                                    @endforelse
-                                </div>
-                            </td> --}}
                             <td class="px-6 py-4 font-light flex items-center">
                                 <i
                                     class="fas fa-square {{ $item->status == 'verified' ? 'text-[#6dd400]' : 'text-red-600' }}"></i>
