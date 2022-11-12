@@ -292,9 +292,8 @@ class Index extends Component
                 ]
             ];
 
-            $last_att = DB::table('attendances')->select('id')->latest()->first();
-
             foreach ($event_data as $key => $ev) {
+                $last_att = DB::table('attendances')->select('id')->latest()->first();
                 Attendance::create([
                     'id' => $last_att->id + $key + 1,
                     'registration_id' => $registration->id,
@@ -305,8 +304,8 @@ class Index extends Component
 
             if (count($this->c_session ?? []) > 0) {
                 $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
-                $last_class = DB::table('class_registrations')->select('id')->latest()->first();
                 foreach ($this->c_session as $key => $session) {
+                    $last_class = DB::table('class_registrations')->select('id')->latest()->first();
                     $count = collect($classes)->where('super_session_id', $session)->count();
                     $session_details = collect($this->super_sessions)->where('id', $session)->first();
                     if ($count < $session_details->max_participants) {
