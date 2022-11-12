@@ -250,7 +250,10 @@ class Index extends Component
                 return $this->alert('error', 'You can only attend one event at the specified time');
             }
 
+            $last_reg = DB::table('registrations')->select('id')->latest()->first();
+
             $registration = Registration::create([
+                'id' => $last_reg->id + 1,
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
                 'middlename' => $this->middlename,
