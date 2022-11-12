@@ -10,6 +10,7 @@ class ClassRegistration extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'super_session_id',
         'admitted_at',
         'registration_id',

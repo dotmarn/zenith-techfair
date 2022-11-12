@@ -10,6 +10,7 @@ class VerificationCode extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'registration_id',
         'qrcode_url',
         'token',

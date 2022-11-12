@@ -273,7 +273,9 @@ class Index extends Component
             $base64 = "data:image/png;base64," . base64_encode($image);
             $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
 
+            $last_ver = DB::table('verification_codes')->select('id')->latest()->first();
             VerificationCode::create([
+                'id' => $last_ver->id + 1,
                 'registration_id' => $registration->id,
                 'qrcode_url' => $this->qr_code_url,
                 'token' => $token
@@ -290,8 +292,11 @@ class Index extends Component
                 ]
             ];
 
+            $last_att = DB::table('attendances')->select('id')->latest()->first();
+
             foreach ($event_data as $key => $ev) {
                 Attendance::create([
+                    'id' => $last_att->id + $key + 1,
                     'registration_id' => $registration->id,
                     'event_label' => $ev->label,
                     'event_date' => $ev->date
@@ -300,11 +305,13 @@ class Index extends Component
 
             if (count($this->c_session ?? []) > 0) {
                 $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
+                $last_class = DB::table('class_registrations')->select('id')->latest()->first();
                 foreach ($this->c_session as $key => $session) {
                     $count = collect($classes)->where('super_session_id', $session)->count();
                     $session_details = collect($this->super_sessions)->where('id', $session)->first();
                     if ($count < $session_details->max_participants) {
                         $registration->super_session()->create([
+                            'id' => $last_class->id + $key + 1,
                             'super_session_id' => $session,
                             'preferred_date' => $this->event_date[$key],
                             'preferred_time' => $this->event_time[$key]
