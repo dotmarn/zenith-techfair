@@ -4,7 +4,7 @@
 @endsection
 <div>
     <div class="text-center mx-auto w-full">
-        <img src="/assets/images/banner.jpg" alt="" class="mx-auto">
+        <img src="/assets/images/banner2.jpg" alt="" class="mx-auto">
     </div>
     <div class="max-w-3xl px-4 mx-auto">
         <div class="grid grid-cols-1">
@@ -235,7 +235,7 @@
                         <form method="POST" wire:submit.prevent="bookSummit">
                             {{ csrf_field() }}
                             <div class="py-4">
-                                
+
                                 <div class="w-full relative">
                                     <label for="" class="block font-semibold text-[#544837] mb-4 text-xs">Would you
                                         like to attend our MasterClass?<br>
