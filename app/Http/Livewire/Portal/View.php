@@ -22,7 +22,7 @@ class View extends Component
     public function render()
     {
         return view('livewire.portal.view', [
-            'attendance' => Attendance::where('registration_id', $this->details->reg_info->id)->get()
+            'attendance' => Attendance::where('reg_uuid', $this->details->reg_info->reg_uuid)->orderBy('id', 'ASC')->get()
         ])->extends('layouts.portal.dashboard')->section('content');
     }
 
