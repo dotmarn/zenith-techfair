@@ -100,6 +100,10 @@ class Index extends Component
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
         $data = curl_exec($ch);
+        $err = curl_error($ch);
+        if ($err) {
+            return $this->alert('error', 'Whoops!!! Unable to verify account number this time. Please try again');
+        }
 
         $result_array = xml_to_array($data, false);
         //convert xml response to array
