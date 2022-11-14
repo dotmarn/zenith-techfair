@@ -82,14 +82,14 @@ class Index extends Component
         }
         $header = array(
             "Content-type: text/xml",
-            "SOAPAction: acctEnquiry"
+            "SOAPAction: http://zenithbank.com/acctenquiry/GetAccountDetails"
         );
 
-        $url = "https://realtime.zenithbank.com/ZenithAcctEnquiry/acctenquiry.asmx?op=AcctEnquiry";
+        $url = "https://newwebservicetest.zenithbank.com:8443/ZenithAcctEnquiry/acctenquiry.asmx?op=GetAccountDetails";
         $username = config('services.zenith.username');
         $password = config('services.zenith.password');
 
-        $payload = "<soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'><soap:Body><AcctEnquiry xmlns='http://zenithbank.com/acctenquiry/'><AcctEnquiryRequest><Username>{$username}</Username><Password>{$password}</Password><AccountNumber>{$this->account_number}</AccountNumber></AcctEnquiryRequest></AcctEnquiry></soap:Body></soap:Envelope>";
+        $payload = "<soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'><soap:Body><GetAccountDetails xmlns='http://zenithbank.com/acctenquiry/'><Username>{$username}</Username><Password>{$password}</Password><AccountNo>{$this->account_number}</AccountNo></GetAccountDetails></soap:Body></soap:Envelope>";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
