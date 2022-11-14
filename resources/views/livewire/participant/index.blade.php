@@ -422,10 +422,11 @@
                                 <img src="{{ $qr_code_url }}" alt="" srcset="" class="mx-auto w-1/2">
                             </div>
                             <div class="text-center px-6 lg:px-8">
-                                <p class="text-[#4F596A] font-medium mb-4">Hey <strong>{{ $firstname }}</strong>,
+                                <p class="text-[#4F596A] font-medium mb-2">Hey <strong>{{ $firstname }}</strong>,
                                     thank
                                     you for registering for the Zenith Tech Fair.
                                 </p>
+                                <p class="text-[#4F596A] font-medium mb-4">You will need to present the QR code at the venue for access.</p>
                             </div>
                         </div>
                     </div>
