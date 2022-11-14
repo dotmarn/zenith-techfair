@@ -112,7 +112,7 @@ class Index extends Component
             $account_name = explode(" ", $result_data['AccountName']);
             $this->firstname = $account_name[0];
             $this->lastname = $account_name[1];
-            $this->middlename = $account_name[2];
+            $this->middlename = (count($account_name) == 3) ? $account_name[2] : '';
         } else {
             return $this->alert('error', $result_data['ResponseMessage']);
         }
