@@ -11,7 +11,7 @@ class Masterclass extends LivewireDatatable
 {
     public function builder()
     {
-        return SuperSession::query()->leftJoin('class_registrations', 'class_registrations.super_session_id', 'super_sessions.id');
+        return SuperSession::query();
     }
 
     public function columns()
@@ -22,14 +22,12 @@ class Masterclass extends LivewireDatatable
     
             Column::name('max_participants')
                     ->label('Maximum Participant'),
-
-            Column::name('totals.super_session_id:count')
-                    ->label('Number Registered')
         ];
     }
 
-    public function getTotalsProperty() 
+    public function getTotalsProperty()
     {
-        ClassRegistration::all();
+        return ClassRegistration::all();
     }
+
 }

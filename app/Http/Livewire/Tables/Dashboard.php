@@ -23,7 +23,7 @@ class Dashboard extends LivewireDatatable
     {
         return [
             Column::raw("CONCAT(registrations.firstname, ' ', registrations.lastname,' ', registrations.middlename) AS name")
-            ->defaultSort('asc')
+                ->defaultSort('asc')
                 ->label('Name'),
 
             Column::name('email')
@@ -35,25 +35,25 @@ class Dashboard extends LivewireDatatable
             Column::name('account_number')
                 ->label('Account Number'),
 
-                Column::name('role')
+            Column::name('role')
                 ->label('Role'),
 
-                Column::name('sector')
+            Column::name('sector')
                 ->label('Sector'),
 
-                Column::name('reason')
+            Column::name('reason')
                 ->label('Reason for attending'),
 
-                Column::name('status')
+            Column::name('status')
                 ->label('Status'),
 
-                DateColumn::raw('registrations.created_at')
+            DateColumn::raw('registrations.created_at')
                 ->label('Date Registered')
                 ->format('j F, Y H:i a'),
 
-                Column::callback(['verification_codes.token'], function ($token) {
-                    return view('table-actions', ['token' => $token]);
-                })->unsortable()
+            Column::callback(['verification_codes.token'], function ($token) {
+                return view('table-actions', ['token' => $token]);
+            })->unsortable()->excludeFromExport()->unsortable()->label('Action')
 
         ];
     }
