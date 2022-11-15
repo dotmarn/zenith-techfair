@@ -254,8 +254,6 @@ class Index extends Component
                 return $this->alert('error', 'You can only attend one event at the specified time');
             }
 
-            // $last_reg = DB::table('registrations')->select('id')->latest()->first();
-
             $uuid = Str::uuid();
 
             $registration = Registration::create([
@@ -279,8 +277,6 @@ class Index extends Component
             $base64 = "data:image/png;base64," . base64_encode($image);
             $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
 
-            $last_ver = DB::table('verification_codes')->select('id')->latest()->first();
-
             VerificationCode::create([
                 'reg_uuid' => $uuid,
                 'registration_id' => $registration->id,
@@ -300,7 +296,6 @@ class Index extends Component
             ];
 
             foreach ($event_data as $key => $ev) {
-                // $last_att = DB::table('attendances')->select('id')->latest()->first();
                 Attendance::create([
                     'reg_uuid' => $uuid,
                     'registration_id' => $registration->id,
@@ -312,7 +307,6 @@ class Index extends Component
             if (count($this->c_session ?? []) > 0) {
                 $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
                 foreach ($this->c_session as $key => $session) {
-                    // $last_class = DB::table('class_registrations')->select('id')->latest()->first();
                     $count = collect($classes)->where('super_session_id', $session)->count();
                     $session_details = collect($this->super_sessions)->where('id', $session)->first();
                     if ($count < $session_details->max_participants) {
