@@ -44,8 +44,11 @@ class Dashboard extends LivewireDatatable
             Column::name('reason')
                 ->label('Reason for attending'),
 
-            Column::name('status')
-                ->label('Status'),
+            Column::callback(['status'], function ($status) {
+                return $status == 'verified' ? 
+                '<div class="flex items-center"><i class="fas fa-square text-[#6dd400]"></i><label for="" class="ml-2">'. ucfirst($status) .'</label></div>' :
+                '<div class="flex items-center"><i class="fas fa-square text-red-600"></i><label for="" class="ml-2">'. ucfirst($status) .'</label></div>';
+            })->excludeFromExport()->unsortable()->label('Action'),
 
             DateColumn::raw('registrations.created_at')
                 ->label('Date Registered')
