@@ -53,7 +53,7 @@ class Dashboard extends LivewireDatatable
 
             Column::callback(['verification_codes.token'], function ($token) {
                 return view('table-actions', ['token' => $token]);
-            })->unsortable()->excludeFromExport()->unsortable()->label('Action')
+            })->excludeFromExport()->unsortable()->label('Action')
 
         ];
     }
