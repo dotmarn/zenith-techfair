@@ -272,6 +272,29 @@ class Index extends Component
                 'social_media' => $social_media ?? []
             ]);
 
+            if (count($this->c_session ?? []) > 0) {
+                $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
+                foreach ($this->c_session as $key => $session) {
+                    $count = collect($classes)->where('super_session_id', $session)->count();
+                    $session_details = collect($this->super_sessions)->where('id', $session)->first();
+                    if ($count < $session_details->max_participants) {
+                        $registration->super_session()->create([
+                            'reg_uuid' => $uuid,
+                            'super_session_id' => $session,
+                            'preferred_date' => $this->event_date[$key],
+                            'preferred_time' => $this->event_time[$key]
+                        ]);
+                    } else {
+                        DB::rollBack();
+                        return $this->alert('info', "{$session_details->title} has been filled already.", [
+                            'toast' => false,
+                            'timer' => 5000,
+                            'position' => 'center'
+                        ]);
+                    }
+                }
+            }
+
             $image = \QrCode::size(500)->format('png')->generate(route('portal.view-registration', $token));
 
             $base64 = "data:image/png;base64," . base64_encode($image);
@@ -302,22 +325,6 @@ class Index extends Component
                     'event_label' => $ev->label,
                     'event_date' => $ev->date
                 ]);
-            }
-
-            if (count($this->c_session ?? []) > 0) {
-                $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
-                foreach ($this->c_session as $key => $session) {
-                    $count = collect($classes)->where('super_session_id', $session)->count();
-                    $session_details = collect($this->super_sessions)->where('id', $session)->first();
-                    if ($count < $session_details->max_participants) {
-                        $registration->super_session()->create([
-                            'reg_uuid' => $uuid,
-                            'super_session_id' => $session,
-                            'preferred_date' => $this->event_date[$key],
-                            'preferred_time' => $this->event_time[$key]
-                        ]);
-                    }
-                }
             }
 
             $body = "<p style='text-align:center; font-weight:bold'>Thank you,  {$this->firstname} {$this->lastname}</p>";
