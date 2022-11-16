@@ -208,6 +208,19 @@ class Index extends Component
             'sector' => ['nullable', 'string', Rule::in($this->sectors)]
         ]);
 
+        $is_exist = Registration::where(function($query) {
+            $query->where('email', $this->email)
+            ->orWhere('phone', $this->phone);
+        })->first();
+
+        if ($is_exist) {
+            return $this->alert('error', 'Record already exists', [
+                'toast' => false,
+                'position' => 'center',
+                'timer' => 5000
+            ]);
+        }
+
         DB::transaction(function () {
             $token = "ZEN-" . Str::random(5) . "-" . mt_rand(1000, 9999);
 
