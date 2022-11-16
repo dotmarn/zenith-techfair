@@ -285,6 +285,7 @@ class Index extends Component
                             'preferred_time' => $this->event_time[$key]
                         ]);
                     } else {
+                        //rollback changes
                         DB::rollBack();
                         return $this->alert('info', "{$session_details->title} has been filled already.", [
                             'toast' => false,
