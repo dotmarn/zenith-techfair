@@ -178,8 +178,8 @@
                                     </td>
                                     @if (is_null($item->admitted_at))
                                     <td class="px-6 py-4 font-light text-[#323232] flex space-x-3">
-                                        <a href="#" class="bg-green-600 text-white py-1 px-2 rounded-md" title="Mark Present" wire:click.prevent="markPresent({{ $item }})">
-                                            <i class="fas fa-check"></i>
+                                        <a href="#" class="bg-[#063970] text-white py-1 px-2 rounded-md" title="Mark Present" wire:click.prevent="markPresent({{ $item }})">
+                                            <i class="fas fa-check"></i> Mark Present
                                         </a>
                                     </td>
                                     @endif
