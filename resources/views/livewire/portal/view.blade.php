@@ -178,7 +178,7 @@
                                     </td>
                                     @if (is_null($item->admitted_at))
                                     <td class="px-6 py-4 font-light text-[#323232] flex space-x-3">
-                                        <a href="#" class="bg-green-600 text-white py-1 px-2 rounded-md" title="Mark Present" wire:click.prevent="markPresent({{ $item->id }})">
+                                        <a href="#" class="bg-green-600 text-white py-1 px-2 rounded-md" title="Mark Present" wire:click.prevent="markPresent({{ $item }})">
                                             <i class="fas fa-check"></i>
                                         </a>
                                     </td>
@@ -240,7 +240,7 @@
                             <div class="text-center">
                                 <button id="button{{ $key }}" type="button"
                                     class="mx-auto bg-red-600 text-white py-2 px-6 rounded-lg"
-                                    wire:click.prevent="checkIn({{ $item->id }})">Check In
+                                    wire:click.prevent="checkIn({{ $item }})">Check In
                                     <i id="spinner{{ $key }}" class="fas fa-spinner fa-spin" wire:loading
                                         wire:target="checkIn"></i>
                                 </button>

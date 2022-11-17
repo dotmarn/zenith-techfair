@@ -26,9 +26,9 @@ class View extends Component
         ])->extends('layouts.portal.dashboard')->section('content');
     }
 
-    public function checkIn($id)
+    public function checkIn($item)
     {
-        ClassRegistration::where('id', $id)->update([
+        ClassRegistration::where('super_session_id', $item['super_session_id'])->where('reg_uuid', $item['reg_uuid'])->update([
             'admitted_at' => now(),
             'status' => 'verified'
         ]);
@@ -36,9 +36,9 @@ class View extends Component
         return $this->flash('success', 'Event participation verification successful.', [], url()->previous());
     }
 
-    public function markPresent($id)
+    public function markPresent($item)
     {
-        Attendance::where('id', $id)->update([
+        Attendance::where('reg_uuid', $item['reg_uuid'])->where('event_label', $item['event_label'])->update([
             'admitted_at' => now()
         ]);
 
