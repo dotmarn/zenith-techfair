@@ -9,6 +9,7 @@
     </div>
 
     <div class="p-4 bg-white rounded-lg">
+        {{-- <livewire:tables.masterclass /> --}}
         <div class='overflow-x-auto w-full'>
             <table
                 class='mx-auto w-full whitespace-nowrap rounded-lg divide-y divide-gray-300 overflow-hidden'>
