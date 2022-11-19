@@ -362,7 +362,7 @@
                                     </div>
                                 </div>
 
-                                <div class="w-full relative clear-both">
+                                <div class="w-full relative clear-both mb-4">
                                     <label for="" class="block font-semibold text-[#544837] mb-4 text-xs">Reason for
                                         attending this event
                                         <br>
@@ -387,6 +387,20 @@
                                     @error('reason')
                                         <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
                                     @enderror
+                                </div>
+
+                                <div class="w-full">
+                                    <p class="py-2 border border-dashed px-4 bg-gray-100 rounded-lg text-xs mb-2 font-semibold font-Poppins">Zenith Bank is committed to the highest data privacy standards at all times and will only use the personal information you have provided for the purpose of this Tech Fair, update you periodically about our products, services, promo offerings and other information that may be of interest to you.</p>
+
+                                    <label for="" class="block font-semibold text-[#544837] mb-4 text-xs">Please confirm your consent to collecting your personal information and receiving such messages
+                                    </label>
+
+                                    <select wire:model.defer="consent" id="consent"
+                                    class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
+                                        <option value="">Choose One...</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
                                 </div>
 
                             </div>

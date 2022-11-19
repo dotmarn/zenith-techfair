@@ -33,7 +33,8 @@ class Registration extends Model
         'account_number',
         'interests',
         'social_media',
-        'reason'
+        'reason',
+        'consent'
     ];
 
     protected $casts = [

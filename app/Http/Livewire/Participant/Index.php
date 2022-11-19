@@ -25,7 +25,7 @@ class Index extends Component
 
     public $step_one = true, $step_two = false, $final_step = false;
 
-    public $job_functions, $area_of_interests, $sectors;
+    public $job_functions, $area_of_interests, $sectors, $consent;
 
     public $inputs = [], $class_session_inputs = [], $i = 1, $s = 0, $platform, $handle, $c_session, $event_date, $event_time;
 
@@ -199,7 +199,7 @@ class Index extends Component
 
         $this->step_two = true;
         $this->step_one = false;
-        
+
         $this->alert('info', 'Note: All master classes are currently filled.', [
             'timer' => 5000,
             'toast' => false,
@@ -212,7 +212,8 @@ class Index extends Component
         $this->validate([
             'reason' => ['required', 'string', Rule::in(AppUtils::acceptedReasons())],
             'job_function' => ['nullable', 'string', Rule::in($this->job_functions)],
-            'sector' => ['nullable', 'string', Rule::in($this->sectors)]
+            'sector' => ['nullable', 'string', Rule::in($this->sectors)],
+            'consent' => ['required', 'string']
         ]);
 
         $is_exist = Registration::where(function($query) {
@@ -289,7 +290,8 @@ class Index extends Component
                 'account_number' => $this->account_number,
                 'reason' => $this->reason,
                 'interests' => $this->interests,
-                'social_media' => $social_media ?? []
+                'social_media' => $social_media ?? [],
+                'consent' => $this->consent
             ]);
 
             // if (count($this->c_session ?? []) > 0) {
