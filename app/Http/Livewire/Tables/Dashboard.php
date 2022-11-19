@@ -50,6 +50,10 @@ class Dashboard extends LivewireDatatable
                 '<div class="flex items-center"><i class="fas fa-square text-red-600"></i><label for="" class="ml-2">'. ucfirst($status) .'</label></div>';
             })->excludeFromExport()->unsortable()->label('Status'),
 
+            Column::callback(['consent'], function($consent) {
+                return ucfirst($consent);
+            })->label('Consent'),
+
             DateColumn::raw('registrations.created_at')
                 ->label('Date Registered')
                 ->format('j F, Y H:i a'),
