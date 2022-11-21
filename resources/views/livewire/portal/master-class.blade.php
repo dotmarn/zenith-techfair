@@ -27,6 +27,9 @@
                         <th class="font-semibold text-sm px-6 py-4">
                             Number Registered
                         </th>
+                        <th class="font-semibold text-sm px-6 py-4">
+                            Action
+                        </th>
                     </tr>
                 </thead>
 
@@ -49,6 +52,11 @@
                                 <span class="bg-red-600 text-white py-1 px-4 rounded-lg font-semibold">
                                     {{ $item->registrations_count }}
                                 </span>
+                            </td>
+                            <td class="px-6 py-4 font-light text-[#323232] flex space-x-3">
+                                <a href="{{ route('portal.participant', $item->id) }}" class="bg-[#063970] text-white py-1 px-2 rounded-md" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

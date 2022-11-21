@@ -28,6 +28,8 @@ Route::group(['namespace' => '\App\Http\Livewire'], function() {
 
             Route::get('/masterclass', \Portal\MasterClass::class)->name('master-class');
 
+            Route::get('/masterclass/participant/{id}', \Portal\ClassParticipants::class)->name('participant');
+
             Route::get('/registration/view/{token}', \Portal\View::class)->name('view-registration');
 
         });
