@@ -279,19 +279,19 @@ class Index extends Component
 
             $registration = Registration::create([
                 'reg_uuid' => $uuid,
-                'firstname' => $this->firstname,
-                'lastname' => $this->lastname,
-                'middlename' => $this->middlename,
+                'firstname' => strip_tags($this->firstname),
+                'lastname' => strip_tags($this->lastname),
+                'middlename' => strip_tags($this->middlename),
                 'email' => $this->email,
                 'role' => $this->job_function,
                 'phone' => $this->phone,
                 'sector' => $this->sector,
                 'have_an_account' => $this->have_an_account,
                 'account_number' => $this->account_number,
-                'reason' => $this->reason,
+                'reason' => strip_tags($this->reason),
                 'interests' => $this->interests,
                 'social_media' => $social_media ?? [],
-                'consent' => $this->consent
+                // 'consent' => $this->consent
             ]);
 
             // if (count($this->c_session ?? []) > 0) {
