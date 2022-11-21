@@ -209,12 +209,15 @@ class Index extends Component
 
     public function bookSummit()
     {
+
         $this->validate([
             'reason' => ['required', 'string', Rule::in(AppUtils::acceptedReasons())],
             'job_function' => ['nullable', 'string', Rule::in($this->job_functions)],
             'sector' => ['nullable', 'string', Rule::in($this->sectors)],
             'consent' => ['required', 'string']
         ]);
+
+        $this->sanitize();
 
         $is_exist = Registration::where(function($query) {
             $query->where('email', $this->email)
@@ -236,87 +239,24 @@ class Index extends Component
                 $social_media = array_combine($this->platform, $this->handle);
             }
 
-            // if (is_null($this->c_session) && (!is_null($this->event_date) || !is_null($this->event_time))) {
-            //     return $this->alert('error', 'Please fill all the required field(s)');
-            // }
-
-            // if (is_null($this->event_date) && (!is_null($this->c_session) || !is_null($this->event_time))) {
-            //     return $this->alert('error', 'Please fill all the required field(s)');
-            // }
-
-            // if (is_null($this->event_time) && (!is_null($this->c_session) || !is_null($this->event_date))) {
-            //     return $this->alert('error', 'Please fill all the required field(s)');
-            // }
-
-            // if (in_array("", $this->c_session ?? []) || in_array("", $this->event_date ?? []) || in_array("", $this->event_time ?? [])) {
-            //     return $this->alert('error', 'Please fill all the required field(s)');
-            // }
-
-            // if (
-            //     count($this->c_session ?? []) > 0 &&
-            //     (count($this->event_date ?? []) !== count($this->c_session ?? [])) ||
-            //     (count($this->event_time ?? []) !== count($this->c_session ?? []))
-            // ) {
-            //     return $this->alert('error', 'Please fill all the required field(s)');
-            // }
-
-            // $c_dup = collect($this->c_session)->duplicates();
-            // if ($c_dup->isNotEmpty()) {
-            //     return $this->alert('error', 'Master class contains one or more duplicates');
-            // }
-
-            // $d_dup = collect($this->event_date)->duplicates();
-            // if ($d_dup->isNotEmpty()) {
-            //     return $this->alert('error', 'You can only attend one event per day');
-            // }
-
-            // $duplicate_event_time = collect($this->event_time)->duplicates();
-            // if ($duplicate_event_time->isNotEmpty()) {
-            //     return $this->alert('error', 'You can only attend one event at the specified time');
-            // }
-
             $uuid = Str::uuid();
 
             $registration = Registration::create([
                 'reg_uuid' => $uuid,
-                'firstname' => strip_tags($this->firstname),
-                'lastname' => strip_tags($this->lastname),
-                'middlename' => strip_tags($this->middlename),
+                'firstname' => $this->firstname,
+                'lastname' => $this->lastname,
+                'middlename' => $this->middlename,
                 'email' => $this->email,
                 'role' => $this->job_function,
                 'phone' => $this->phone,
                 'sector' => $this->sector,
                 'have_an_account' => $this->have_an_account,
                 'account_number' => $this->account_number,
-                'reason' => strip_tags($this->reason),
+                'reason' => $this->reason,
                 'interests' => $this->interests,
                 'social_media' => $social_media ?? [],
-                // 'consent' => $this->consent
+                'consent' => $this->consent
             ]);
-
-            // if (count($this->c_session ?? []) > 0) {
-            //     $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
-            //     foreach ($this->c_session as $key => $session) {
-            //         $count = collect($classes)->where('super_session_id', $session)->count();
-            //         $session_details = collect($this->super_sessions)->where('id', $session)->first();
-            //         if ($count < $session_details->max_participants) {
-            //             $registration->super_session()->create([
-            //                 'reg_uuid' => $uuid,
-            //                 'super_session_id' => $session,
-            //                 'preferred_date' => $this->event_date[$key],
-            //                 'preferred_time' => $this->event_time[$key]
-            //             ]);
-            //         } else {
-            //             //rollback changes
-            //             DB::rollBack();
-            //             return $this->alert('info', "{$session_details->title} has been filled already.", [
-            //                 'toast' => false,
-            //                 'timer' => 5000,
-            //                 'position' => 'center'
-            //             ]);
-            //         }
-            //     }
-            // }
 
             $image = \QrCode::size(500)->format('png')->generate(route('portal.view-registration', $token));
 
@@ -386,5 +326,13 @@ class Index extends Component
         throw ValidationException::withMessages([
             $key => ""
         ]);
+    }
+
+    public function sanitize()
+    {
+        $this->firstname = filter_var($this->firstname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        $this->lastname = filter_var($this->lastname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        $this->middlename = filter_var($this->middlename, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
     }
 }
