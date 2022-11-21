@@ -23,9 +23,13 @@ class MasterclassParticipants extends LivewireDatatable
     public function columns()
     {
         return [
+            
             Column::raw("CONCAT(registrations.firstname, ' ', registrations.lastname,' ', registrations.middlename) AS name")
-                    ->defaultSort('asc')
-                    ->label('Name'),
+            ->defaultSort('asc')
+            ->label('Name'),
+            
+            Column::raw("registrations.email")
+                    ->label('Email'),
 
             DateColumn::raw('class_registrations.preferred_date')
                 ->label('Date')
