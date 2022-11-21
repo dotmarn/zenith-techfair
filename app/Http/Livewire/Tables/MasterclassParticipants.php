@@ -43,7 +43,6 @@ class MasterclassParticipants extends LivewireDatatable
             DateColumn::raw('class_registrations.admitted_at')
                 ->label('Time Checked In')
                 ->format('j F, Y')
-            
         ];
     }
 }
