@@ -35,7 +35,8 @@ class Masterclass extends LivewireDatatable
             ->label('Name'),
 
             Column::raw("registrations.email")
-                    ->label('Email'),
+                    ->label('Email')
+                    ->searchable(),
 
             Column::callback(['attendances.event_date'], function ($date) {
                 return $date == "2022-11-22" ? 'Day 1' : 'Day 2';
