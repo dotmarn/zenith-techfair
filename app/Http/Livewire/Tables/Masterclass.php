@@ -2,25 +2,48 @@
 
 namespace App\Http\Livewire\Tables;
 
-use App\Models\SuperSession;
+use App\Models\Attendance;
 use Mediconesystems\LivewireDatatables\Column;
+use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 
 class Masterclass extends LivewireDatatable
 {
+    public $exportable = true;
+    public $complex = false;
+    public $persistComplexQuery = true;
+    // protected $listeners = [
+    //     'refreshDataTable' => 'refreshTable'
+    // ];
+
+    // public function refreshTable()
+    // {
+    //     $this->refreshLivewireDatatable();
+    // }
+
     public function builder()
     {
-        return SuperSession::query()->with('registrations');
+        return Attendance::query()->leftJoin('registrations', 'registrations.reg_uuid', 'attendances.reg_uuid')
+        ->where('attendances.event_date', $this->params)->whereNotNull('attendances.admitted_at');
     }
 
     public function columns()
     {
         return [
-            Column::name('title')
-            ->label('Title'),
+            Column::raw("CONCAT(registrations.firstname, ' ', registrations.lastname,' ', registrations.middlename) AS name")
+            ->defaultSort('asc')
+            ->label('Name'),
 
-            Column::name('registrations.id:count')
-            ->label('Number Registered')
+            Column::raw("registrations.email")
+                    ->label('Email'),
+
+            Column::callback(['attendances.event_date'], function ($date) {
+                return $date == "2022-11-22" ? 'Day 1' : 'Day 2';
+            })->unsortable()->label('Event Day'),
+
+            DateColumn::raw('attendances.admitted_at')
+                ->label('Time Checked In')
+                ->format('j F, Y H:s:i a')
         ];
     }
 }
