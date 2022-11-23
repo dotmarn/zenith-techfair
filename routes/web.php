@@ -32,6 +32,10 @@ Route::group(['namespace' => '\App\Http\Livewire'], function() {
 
             Route::get('/registration/view/{token}', \Portal\View::class)->name('view-registration');
 
+            Route::get('/attendance', \Portal\Attendances::class)->name('attendance');
+
+            Route::get('/attendance/{id}', \Portal\Attendances::class)->name('attendance-report');
+
         });
 
         Route::get('/logout', function() {
