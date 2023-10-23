@@ -16,7 +16,7 @@ class Dashboard extends LivewireDatatable
 
     public function builder()
     {
-        return Registration::query()->leftJoin('verification_codes', 'verification_codes.reg_uuid', 'registrations.reg_uuid');
+        return Registration::query()->leftJoin('verification_codes', 'verification_codes.registration_id', 'registrations.id');
     }
 
     public function columns()

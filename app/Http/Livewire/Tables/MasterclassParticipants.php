@@ -16,7 +16,7 @@ class MasterclassParticipants extends LivewireDatatable
     public function builder()
     {
         return SuperSession::query()->leftJoin('class_registrations', 'class_registrations.super_session_id', 'super_sessions.id')
-        ->leftJoin('registrations', 'registrations.reg_uuid', 'class_registrations.reg_uuid')
+        ->leftJoin('registrations', 'registrations.id', 'class_registrations.registration_id')
         ->where('super_sessions.id', $this->params);
     }
 

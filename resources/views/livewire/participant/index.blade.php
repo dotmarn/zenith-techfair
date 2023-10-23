@@ -379,7 +379,7 @@
                                         attending this event
                                         <br>
                                         <small class="text-gray-500 font-light">Why would you be attending the Zenith
-                                            Tech Fair 2022?</small>
+                                            Tech Fair 2023?</small>
                                     </label>
                                     <select wire:model.defer="reason" id="reason"
                                         class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">

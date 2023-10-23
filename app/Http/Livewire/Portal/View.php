@@ -22,13 +22,13 @@ class View extends Component
     public function render()
     {
         return view('livewire.portal.view', [
-            'attendance' => Attendance::where('reg_uuid', $this->details->reg_info->reg_uuid)->orderBy('id', 'ASC')->get()
+            'attendance' => Attendance::where('id', $this->details->reg_info->id)->orderBy('id', 'ASC')->get()
         ])->extends('layouts.portal.dashboard')->section('content');
     }
 
     public function checkIn($item)
     {
-        ClassRegistration::where('super_session_id', $item['super_session_id'])->where('reg_uuid', $item['reg_uuid'])->update([
+        ClassRegistration::where('super_session_id', $item['super_session_id'])->where('registration_id', $item['id'])->update([
             'admitted_at' => now(),
             'status' => 'verified'
         ]);
@@ -38,7 +38,7 @@ class View extends Component
 
     public function markPresent($item)
     {
-        Attendance::where('reg_uuid', $item['reg_uuid'])->where('event_label', $item['event_label'])->update([
+        Attendance::where('registration_id', $item['id'])->where('event_label', $item['event_label'])->update([
             'admitted_at' => now()
         ]);
 

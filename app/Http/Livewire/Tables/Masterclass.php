@@ -23,7 +23,7 @@ class Masterclass extends LivewireDatatable
 
     public function builder()
     {
-        return Attendance::query()->leftJoin('registrations', 'registrations.reg_uuid', 'attendances.reg_uuid')
+        return Attendance::query()->leftJoin('registrations', 'registrations.id', 'attendances.registration_id')
         ->where('attendances.event_date', $this->params)->whereNotNull('attendances.admitted_at');
     }
 
@@ -39,7 +39,7 @@ class Masterclass extends LivewireDatatable
                     ->searchable(),
 
             Column::callback(['attendances.event_date'], function ($date) {
-                return $date == "2022-11-22" ? 'Day 1' : 'Day 2';
+                return $date == "2023-11-22" ? 'Day 1' : 'Day 2';
             })->unsortable()->label('Event Day'),
 
             DateColumn::raw('attendances.admitted_at')

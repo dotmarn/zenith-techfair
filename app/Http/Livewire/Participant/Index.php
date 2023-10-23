@@ -200,11 +200,6 @@ class Index extends Component
         $this->step_two = true;
         $this->step_one = false;
 
-        $this->alert('info', 'Note: All master classes are currently filled.', [
-            'timer' => 5000,
-            'toast' => false,
-            'position' => 'center'
-        ]);
     }
 
     public function bookSummit()
@@ -271,11 +266,11 @@ class Index extends Component
             $event_data = [
                 (object) [
                     "label" => "Day 1",
-                    "date" => "2022-11-22"
+                    "date" => "2023-11-22"
                 ],
                 (object) [
                     "label" => "Day 2",
-                    "date" => "2022-11-23"
+                    "date" => "2023-11-23"
                 ]
             ];
 
@@ -288,10 +283,10 @@ class Index extends Component
             }
 
             $body = "<p style='text-align:center; font-weight:bold'>Thank you,  {$this->firstname} {$this->lastname}</p>";
-            $body .= "<p style='text-align:center;'>You are all signed up for <b>The Zenith Tech Fair 2022</b></p>";
+            $body .= "<p style='text-align:center;'>You are all signed up for <b>The Zenith Tech Fair 2023</b></p>";
             $body .= "<p style='text-align:center; font-weight:bold'>Theme: FUTURE FORWARD 2.0</p>";
             $body .= "<p><b>Address: </b>Eko Hotels, Plot 1415 Adetokunbo Ademola Street, Victoria Island, Lagos.</p>";
-            $body .= "<p><b>Date: </b>22nd and 23rd November 2022</p>";
+            $body .= "<p><b>Date: </b>22nd and 23rd November 2023</p>";
             $body .= "<p><b>Time: </b>8am to 6pm</p>";
             $body .= "<div style='text-align:center'><img src='{$this->qr_code_url}' style='width:50%' /></div>";
 
