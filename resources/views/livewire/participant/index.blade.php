@@ -3,10 +3,10 @@
     <link href="/assets/css/select2.min.css" rel="stylesheet" />
 @endsection
 <div>
-    <div class="text-center mx-auto w-full">
-        <img src="/assets/images/banner2.jpg" alt="" class="mx-auto">
-    </div>
     <div class="max-w-3xl px-4 mx-auto">
+        <div class="text-center mx-auto w-full">
+            <img src="/assets/images/techfair_logo2.png" alt="" class="mx-auto">
+        </div>
         <div class="grid grid-cols-1">
 
             <div class="py-8 px-6 sm:px-8 lg:px-8">
@@ -17,7 +17,8 @@
                             <div class="py-4">
                                 <div class="space-y-5 mb-2">
                                     <div class="w-full">
-                                        <label for="have_an_account" class="block font-semibold text-[#544837] mb-2 text-xs">Do
+                                        <label for="have_an_account"
+                                            class="block font-semibold text-[#544837] mb-2 text-xs">Do
                                             you
                                             have a
                                             zenith
@@ -51,8 +52,9 @@
                                                     class="bg-red-600 text-white px-8 py-2 lg:py-3 rounded-lg border border-[#ccd1d9] "
                                                     wire:click.prevent="verifyAccount">
                                                     Verify
-                                                    <i class="fas fa-spinner fa-spin" wire:loading
-                                                        wire:target="verifyAccount"></i>
+                                                    <span wire:loading wire:target="verifyAccount">
+                                                        <i class="fas fa-spinner fa-spin"></i>
+                                                    </span>
                                                 </button>
                                             </div>
                                         </div>
@@ -61,7 +63,8 @@
 
                                 <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2">
                                     <div class="w-full">
-                                        <label for="firstname" class="block font-semibold text-[#544837] mb-2 text-xs">First
+                                        <label for="firstname"
+                                            class="block font-semibold text-[#544837] mb-2 text-xs">First
                                             Name
                                             <span class="text-red-400">*</span></label>
                                         <input type="text" wire:model.lazy="firstname"
@@ -73,7 +76,8 @@
                                     </div>
 
                                     <div class="w-full">
-                                        <label for="lastname" class="block font-semibold text-[#544837] mb-2 text-xs">Last Name
+                                        <label for="lastname"
+                                            class="block font-semibold text-[#544837] mb-2 text-xs">Last Name
                                             <span class="text-red-400">*</span></label>
                                         <input type="text" wire:model.lazy="lastname"
                                             class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] "
@@ -85,7 +89,8 @@
                                 </div>
 
                                 <div class="w-full mb-2">
-                                    <label for="middlename" class="block font-semibold text-[#544837] mb-2 text-xs">Middle
+                                    <label for="middlename"
+                                        class="block font-semibold text-[#544837] mb-2 text-xs">Middle
                                         Name</label>
                                     <input type="text" wire:model.lazy="middlename"
                                         class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] "
@@ -97,7 +102,8 @@
 
                                 <div class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2">
                                     <div class="w-full">
-                                        <label for="email" class="block font-semibold text-[#544837] mb-2 text-xs">Email
+                                        <label for="email"
+                                            class="block font-semibold text-[#544837] mb-2 text-xs">Email
                                             Address
                                             <span class="text-red-400">*</span></label>
                                         <input type="text" wire:model.lazy="email"
@@ -109,7 +115,8 @@
                                     </div>
 
                                     <div class="w-full">
-                                        <label for="phone" class="block font-semibold text-[#544837] mb-2 text-xs">Phone
+                                        <label for="phone"
+                                            class="block font-semibold text-[#544837] mb-2 text-xs">Phone
                                             <span class="text-red-400">*</span></label>
                                         <input type="text" wire:model.lazy="phone"
                                             class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] "
@@ -121,28 +128,28 @@
                                 </div>
 
                                 <div class="w-full mb-2 clear-both" id="select-class">
-                                    <label for="" class="w-full block font-semibold mb-2 text-[#544837] text-xs">Area
+                                    <label for=""
+                                        class="w-full block font-semibold mb-2 text-[#544837] text-xs">Area
                                         of Interest <br>
-                                        <small class="text-gray-500 font-light">Please select what areas of tech you are involved or interested in. You can select more than one</small>
+                                        <small class="text-gray-500 font-light">Please select what areas of tech you are
+                                            involved or interested in. You can select more than one</small>
                                     </label>
-                                    <div wire:ignore>
-                                        <select wire:model="interests"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]  js-example-basic-multiple appearance-none"
-                                            multiple="multiple">
-                                            @foreach ($area_of_interests as $aoi)
-                                                <option value="{{ $aoi }}">{{ $aoi }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                    <x-simple-select wire:model="interests" name="interests" id="health_conditions"
+                                        :options="$area_of_interests" value-field='' text-field='' placeholder=""
+                                        search-input-placeholder="Search..." :searchable="true" :multiple="true"
+                                        class="form-select" />
+
                                     @error('interests')
                                         <p class="text-red-600 font-bold">{{ $message }}</p>
                                     @enderror
                                 </div>
 
                                 <div>
-                                    <label for="" class="block font-semibold text-[#544837] mb-2 text-xs">Social
+                                    <label for=""
+                                        class="block font-semibold text-[#544837] mb-2 text-xs">Social
                                         Media<br>
-                                        <small class="text-gray-500 font-light">Let's get to know you. Add one or more of your social media handles.</small>
+                                        <small class="text-gray-500 font-light">Let's get to know you. Add one or more
+                                            of your social media handles.</small>
                                     </label>
 
                                     <div class="flex justify-between items-center space-x-5 mb-5">
@@ -223,7 +230,9 @@
                                 <button type="submit"
                                     class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4 uppercase">
                                     Next
-                                    <i class="fas fa-spinner fa-spin" wire:loading wire:target="nextStepLogic"></i>
+                                    <span wire:loading wire:target="nextStepLogic">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
                                 </button>
                             </div>
                         </form>
@@ -237,9 +246,11 @@
                             <div class="py-4">
 
                                 <div class="w-full relative">
-                                    <label for="" class="block font-semibold text-[#544837] mb-4 text-xs">Would you
+                                    <label for=""
+                                        class="block font-semibold text-[#544837] mb-4 text-xs">Would you
                                         like to attend our MasterClass?<br>
-                                        <small class="text-gray-500 font-light">Sign up for any of our MasterClass sessions with leading tech industry experts from different fields.</small>
+                                        <small class="text-gray-500 font-light">Sign up for any of our MasterClass
+                                            sessions with leading tech industry experts from different fields.</small>
                                     </label>
                                     <div class="flex justify-between items-center space-x-5 mb-5">
                                         <div class="w-full">
@@ -329,14 +340,16 @@
                                 <div
                                     class="lg:flex lg:items-center lg:space-x-5 space-y-5 lg:space-y-0 w-full mb-2 clear-both">
                                     <div class="w-full">
-                                        <label for="job_function" class="block font-semibold text-[#544837] mb-2 text-xs">Job Function
-                                            <br><small class="text-gray-500 font-light">What is your current job function/role?</small>
+                                        <label for="job_function"
+                                            class="block font-semibold text-[#544837] mb-2 text-xs">Job Function
+                                            <br><small class="text-gray-500 font-light">What is your current job
+                                                function/role?</small>
                                         </label>
                                         <select wire:model.defer="job_function" id="job_function"
                                             class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
                                             <option value="">Choose One...</option>
                                             @foreach ($job_functions as $jb)
-                                            <option value="{{ $jb }}">{{ $jb }}</option>
+                                                <option value="{{ $jb }}">{{ $jb }}</option>
                                             @endforeach
                                         </select>
                                         @error('job_function')
@@ -345,9 +358,11 @@
                                     </div>
 
                                     <div class="w-full">
-                                        <label for="sector" class="block font-semibold text-[#544837] mb-2 text-xs">Sector
+                                        <label for="sector"
+                                            class="block font-semibold text-[#544837] mb-2 text-xs">Sector
                                             <br>
-                                        <small class="text-gray-500 font-light">What sector/industry, do you operate in?</small>
+                                            <small class="text-gray-500 font-light">What sector/industry, do you
+                                                operate in?</small>
                                         </label>
                                         <select wire:model.defer="sector" id="sector"
                                             class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
@@ -363,10 +378,12 @@
                                 </div>
 
                                 <div class="w-full relative clear-both mb-4">
-                                    <label for="" class="block font-semibold text-[#544837] mb-4 text-xs">Reason for
+                                    <label for=""
+                                        class="block font-semibold text-[#544837] mb-4 text-xs">Reason for
                                         attending this event
                                         <br>
-                                        <small class="text-gray-500 font-light">Why would you be attending the Zenith Tech Fair 2022?</small>
+                                        <small class="text-gray-500 font-light">Why would you be attending the Zenith
+                                            Tech Fair 2022?</small>
                                     </label>
                                     <select wire:model.defer="reason" id="reason"
                                         class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
@@ -390,13 +407,20 @@
                                 </div>
 
                                 <div class="w-full">
-                                    <p class="py-2 border border-dashed px-4 bg-gray-100 rounded-lg text-xs mb-2 font-semibold font-Poppins">Zenith Bank is committed to the highest data privacy standards at all times and will only use the personal information you have provided for the purpose of this Tech Fair, update you periodically about our products, services, promo offerings and other information that may be of interest to you.</p>
+                                    <p
+                                        class="py-2 border border-dashed px-4 bg-gray-100 rounded-lg text-xs mb-2 font-semibold font-Poppins">
+                                        Zenith Bank is committed to the highest data privacy standards at all times and
+                                        will only use the personal information you have provided for the purpose of this
+                                        Tech Fair, update you periodically about our products, services, promo offerings
+                                        and other information that may be of interest to you.</p>
 
-                                    <label for="" class="block font-semibold text-[#544837] mb-4 text-xs">Please confirm your consent to collecting your personal information and receiving such messages
+                                    <label for=""
+                                        class="block font-semibold text-[#544837] mb-4 text-xs">Please confirm your
+                                        consent to collecting your personal information and receiving such messages
                                     </label>
 
                                     <select wire:model.defer="consent" id="consent"
-                                    class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
+                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
                                         <option value="">Choose One...</option>
                                         <option value="yes">Yes</option>
                                         <option value="no">No</option>
@@ -440,7 +464,8 @@
                                     thank
                                     you for registering for the Zenith Tech Fair.
                                 </p>
-                                <p class="text-[#4F596A] font-medium mb-4">You will need to present the QR code at the venue for access.</p>
+                                <p class="text-[#4F596A] font-medium mb-4">You will need to present the QR code at the
+                                    venue for access.</p>
                             </div>
                         </div>
                     </div>
@@ -456,8 +481,8 @@
     <script>
         $('#account_section').hide();
 
-        $(document).on('change','.c_session',function(){
-            var val = $('option:selected',this).val()
+        $(document).on('change', '.c_session', function() {
+            var val = $('option:selected', this).val()
             Livewire.emit('class_selected', val);
         });
 
