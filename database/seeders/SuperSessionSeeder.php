@@ -21,8 +21,8 @@ class SuperSessionSeeder extends Seeder
         ];
 
         $event_date = [
-            "23rd Nov, 2022",
-            "24th Nov, 2022"
+            "22nd Nov, 2023",
+            "23rd Nov, 2023"
         ];
 
         $data = [
