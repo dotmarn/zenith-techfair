@@ -1,7 +1,4 @@
 @section('title', 'Zenith Tech Fair::Welcome')
-@section('styles')
-    <link href="/assets/css/select2.min.css" rel="stylesheet" />
-@endsection
 <div>
     <div class="max-w-3xl px-4 mx-auto">
         <div class="text-center mx-auto w-full">
@@ -118,9 +115,8 @@
                                         <label for="phone"
                                             class="block font-semibold text-[#544837] mb-2 text-xs">Phone
                                             <span class="text-red-400">*</span></label>
-                                        <input type="text" wire:model.lazy="phone"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] "
-                                            id="phone">
+                                        <x-tel-input wire:model.lazy="phone" id="phone" name="phone"
+                                            class="form-input w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]" />
                                         @error('phone')
                                             <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
                                         @enderror
@@ -477,7 +473,6 @@
 
 @section('scripts')
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/select2.min.js"></script>
     <script>
         $('#account_section').hide();
 
@@ -487,12 +482,6 @@
         });
 
         window.addEventListener('DOMContentLoaded', event => {
-            $('.js-example-basic-multiple').select2();
-
-            $('.js-example-basic-multiple').on('change', function(event) {
-                let data = $(this).val();
-                @this.set('interests', data);
-            });
 
             $('#have_an_account').on('change', function(event) {
                 let selected = $(this).val();
@@ -503,12 +492,6 @@
                 }
             })
 
-        });
-
-        window.addEventListener("livewire:load", () => {
-            Livewire.hook('message.processed', (message, component) => {
-                $('.js-example-basic-multiple').select2()
-            });
         });
     </script>
 @endsection
