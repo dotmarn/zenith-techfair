@@ -435,7 +435,9 @@
                                 <button type="submit"
                                     class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4">
                                     Submit
-                                    <i class="fas fa-spinner fa-spin" wire:loading wire:target="bookSummit"></i>
+                                    <span wire:loading wire:target="bookSummit">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
                                 </button>
                             </div>
                         </form>

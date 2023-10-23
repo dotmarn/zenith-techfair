@@ -16,8 +16,8 @@
                                 class="w-full px-4 py-2 rounded border-2 border-[#ccd1d9] outline-none focus:border-[#063970]"
                                 required>
                                 <option value="">Select...</option>
-                                <option value="2022-11-22">Day 1</option>
-                                <option value="2022-11-23">Day 2</option>
+                                <option value="2023-11-22">Day 1</option>
+                                <option value="2023-11-23">Day 2</option>
                             </select>
                         </div>
                     </form>
