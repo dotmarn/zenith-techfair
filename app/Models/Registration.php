@@ -9,19 +9,7 @@ class Registration extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'reg_uuid';
-
-    protected $keyType = 'string';
-
-    /**
-     * Indicates if the model's ID is auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
     protected $fillable = [
-        'reg_uuid',
         'firstname',
         'lastname',
         'middlename',
@@ -39,22 +27,21 @@ class Registration extends Model
 
     protected $casts = [
         'interests' => 'array',
-        'social_media' => 'array',
-        'reg_uuid' => 'string'
+        'social_media' => 'array'
     ];
 
     public function super_session()
     {
-        return $this->hasMany(ClassRegistration::class, 'reg_uuid', 'reg_uuid');
+        return $this->hasMany(ClassRegistration::class, 'registration_id', 'id');
     }
 
     public function tokens()
     {
-        return $this->hasOne(VerificationCode::class, 'reg_uuid', 'reg_uuid');
+        return $this->hasOne(VerificationCode::class, 'registration_id', 'id');
     }
 
     public function attendance()
     {
-        return $this->hasMany(Attendance::class, 'reg_uuid', 'reg_uuid');
+        return $this->hasMany(Attendance::class, 'registration_id', 'id');
     }
 }

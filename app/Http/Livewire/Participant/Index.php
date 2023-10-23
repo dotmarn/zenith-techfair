@@ -177,7 +177,7 @@ class Index extends Component
             'lastname' => ['required', 'string', 'min:3'],
             'middlename' => ['nullable', 'string', 'min:3'],
             'email' => ['required', 'string', 'email', 'unique:registrations,email'],
-            'phone' => ['required', 'numeric', 'digits:11', 'unique:registrations,phone'],
+            'phone' => ['required', 'unique:registrations,phone'],
             'have_an_account' => ['required', Rule::in(['yes', 'no'])],
             'account_number' => $have_an_account_rule
         ], [
@@ -242,7 +242,6 @@ class Index extends Component
             $uuid = Str::uuid();
 
             $registration = Registration::create([
-                'reg_uuid' => $uuid,
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
                 'middlename' => $this->middlename,
@@ -264,7 +263,6 @@ class Index extends Component
             $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
 
             VerificationCode::create([
-                'reg_uuid' => $uuid,
                 'registration_id' => $registration->id,
                 'qrcode_url' => $this->qr_code_url,
                 'token' => $token
@@ -283,7 +281,6 @@ class Index extends Component
 
             foreach ($event_data as $key => $ev) {
                 Attendance::create([
-                    'reg_uuid' => $uuid,
                     'registration_id' => $registration->id,
                     'event_label' => $ev->label,
                     'event_date' => $ev->date
