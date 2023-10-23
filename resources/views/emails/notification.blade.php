@@ -1,6 +1,6 @@
 @component('mail::message')
 <div style="text-align: center; margin-bottom: 5%">
-    <img src="https://res.cloudinary.com/igbalode/image/upload/v1668412040/banner2_aavure.jpg" style="" alt="">
+    <img src="https://res.cloudinary.com/igbalode/image/upload/v1698078411/c3gqsx9wtyvwwn4fshhk.png" style="" alt="">
 </div>
 
 {!! $data->body !!}

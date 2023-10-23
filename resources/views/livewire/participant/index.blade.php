@@ -2,7 +2,7 @@
 <div>
     <div class="max-w-3xl px-4 mx-auto">
         <div class="text-center mx-auto w-full">
-            <img src="/assets/images/techfair_logo2.png" alt="" class="mx-auto">
+            <img src="/assets/images/techfair_logo2.png" alt="" class="mx-auto" loading="lazy">
         </div>
         <div class="grid grid-cols-1">
 
@@ -124,13 +124,13 @@
                                 </div>
 
                                 <div class="w-full mb-2 clear-both" id="select-class">
-                                    <label for=""
+                                    <label for="interests"
                                         class="w-full block font-semibold mb-2 text-[#544837] text-xs">Area
                                         of Interest <br>
                                         <small class="text-gray-500 font-light">Please select what areas of tech you are
                                             involved or interested in. You can select more than one</small>
                                     </label>
-                                    <x-simple-select wire:model="interests" name="interests" id="health_conditions"
+                                    <x-simple-select wire:model="interests" name="interests" id="interests"
                                         :options="$area_of_interests" value-field='' text-field='' placeholder=""
                                         search-input-placeholder="Search..." :searchable="true" :multiple="true"
                                         class="form-select" />

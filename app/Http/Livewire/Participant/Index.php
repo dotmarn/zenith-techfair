@@ -72,7 +72,6 @@ class Index extends Component
 
     public function render()
     {
-
         return view('livewire.participant.index')->extends('layouts.app')->section('content');
     }
 
@@ -199,7 +198,6 @@ class Index extends Component
 
         $this->step_two = true;
         $this->step_one = false;
-
     }
 
     public function bookSummit()
@@ -214,9 +212,9 @@ class Index extends Component
 
         $this->sanitize();
 
-        $is_exist = Registration::where(function($query) {
+        $is_exist = Registration::where(function ($query) {
             $query->where('email', $this->email)
-            ->orWhere('phone', $this->phone);
+                ->orWhere('phone', $this->phone);
         })->first();
 
         if ($is_exist) {
@@ -234,7 +232,44 @@ class Index extends Component
                 $social_media = array_combine($this->platform, $this->handle);
             }
 
-            $uuid = Str::uuid();
+            if (is_null($this->c_session) && (!is_null($this->event_date) || !is_null($this->event_time))) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
+
+            if (is_null($this->event_date) && (!is_null($this->c_session) || !is_null($this->event_time))) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
+
+            if (is_null($this->event_time) && (!is_null($this->c_session) || !is_null($this->event_date))) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
+
+            if (in_array("", $this->c_session ?? []) || in_array("", $this->event_date ?? []) || in_array("", $this->event_time ?? [])) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
+
+            if (
+                count($this->c_session ?? []) > 0 &&
+                (count($this->event_date ?? []) !== count($this->c_session ?? [])) ||
+                (count($this->event_time ?? []) !== count($this->c_session ?? []))
+            ) {
+                return $this->alert('error', 'Please fill all the required field(s)');
+            }
+
+            $c_dup = collect($this->c_session)->duplicates();
+            if ($c_dup->isNotEmpty()) {
+                return $this->alert('error', 'Master class contains one or more duplicates');
+            }
+
+            $d_dup = collect($this->event_date)->duplicates();
+            if ($d_dup->isNotEmpty()) {
+                return $this->alert('error', 'You can only attend one event per day');
+            }
+
+            $duplicate_event_time = collect($this->event_time)->duplicates();
+            if ($duplicate_event_time->isNotEmpty() && $d_dup->isNotEmpty()) {
+                return $this->alert('error', 'You can only attend one event at the specified time');
+            }
 
             $registration = Registration::create([
                 'firstname' => $this->firstname,
@@ -282,12 +317,35 @@ class Index extends Component
                 ]);
             }
 
+            if (count($this->c_session ?? []) > 0) {
+                $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
+                foreach ($this->c_session as $key => $session) {
+                    $count = collect($classes)->where('super_session_id', $session)->count();
+                    $session_details = collect($this->super_sessions)->where('id', $session)->first();
+                    if ($count < $session_details->max_participants) {
+                        $registration->super_session()->create([
+                            'super_session_id' => $session,
+                            'preferred_date' => $this->event_date[$key],
+                            'preferred_time' => $this->event_time[$key]
+                        ]);
+                    } else {
+                        //rollback changes
+                        DB::rollBack();
+                        return $this->alert('info', "{$session_details->title} has been filled already.", [
+                            'toast' => false,
+                            'timer' => 5000,
+                            'position' => 'center'
+                        ]);
+                    }
+                }
+            }
+
             $body = "<p style='text-align:center; font-weight:bold'>Thank you,  {$this->firstname} {$this->lastname}</p>";
             $body .= "<p style='text-align:center;'>You are all signed up for <b>The Zenith Tech Fair 2023</b></p>";
-            $body .= "<p style='text-align:center; font-weight:bold'>Theme: FUTURE FORWARD 2.0</p>";
+            $body .= "<p style='text-align:center; font-weight:bold'>Theme: FUTURE FORWARD 3.0</p>";
             $body .= "<p><b>Address: </b>Eko Hotels, Plot 1415 Adetokunbo Ademola Street, Victoria Island, Lagos.</p>";
             $body .= "<p><b>Date: </b>22nd and 23rd November 2023</p>";
-            $body .= "<p><b>Time: </b>8am to 6pm</p>";
+            $body .= "<p><b>Time: </b>9am to 6pm</p>";
             $body .= "<div style='text-align:center'><img src='{$this->qr_code_url}' style='width:50%' /></div>";
 
             $payload = [
@@ -320,11 +378,10 @@ class Index extends Component
         ]);
     }
 
-    public function sanitize()
+    protected function sanitize(): void
     {
         $this->firstname = filter_var($this->firstname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         $this->lastname = filter_var($this->lastname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         $this->middlename = filter_var($this->middlename, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
     }
 }
