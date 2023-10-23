@@ -165,7 +165,8 @@
                                         {{ $count++ }}
                                     </td>
                                     <td class="px-6 py-4 font-normal">
-                                        <span class="rounded-lg bg-[#063970] text-white font-semibold py-1 px-6 text-xs">
+                                        <span
+                                            class="rounded-lg bg-[#063970] text-white font-semibold py-1 px-6 text-xs">
                                             {{ $item->event_label }}
                                         </span>
 
@@ -177,11 +178,13 @@
                                         {{ $item->admitted_at }}
                                     </td>
                                     @if (is_null($item->admitted_at))
-                                    <td class="px-6 py-4 font-light text-[#323232] flex space-x-3">
-                                        <a href="#" class="bg-[#063970] text-white py-1 px-2 rounded-md" title="Mark Present" wire:click.prevent="markPresent({{ $item }})">
-                                            <i class="fas fa-check"></i> Mark Present
-                                        </a>
-                                    </td>
+                                        <td class="px-6 py-4 font-light text-[#323232] flex space-x-3">
+                                            <a href="#" class="bg-[#063970] text-white py-1 px-2 rounded-md"
+                                                title="Mark Present"
+                                                wire:click.prevent="markPresent({{ $item }})">
+                                                <i class="fas fa-check"></i> Mark Present
+                                            </a>
+                                        </td>
                                     @endif
                                 </tr>
                             @endforeach
@@ -194,26 +197,26 @@
         @if ($details->reg_info->super_session->count())
             <div>
                 <h2 class="font-semibold mb-2">Master Class Events</h2>
-                @foreach ($details->reg_info->super_session as $key => $item)
+                @foreach ($details->reg_info->super_session as $key => $session)
                     <div class="p-4 bg-white rounded-lg mb-4" id="layout{{ $key }}">
                         <div class="flex justify-between border-b-2 border-gray-200 py-2 mb-4">
                             <h6 class="text-left font-semibold">Event Name:</h6>
                             <div class="text-left">
-                                {{ $item->masterclass->title }}
+                                {{ $session->masterclass->title }}
                             </div>
                         </div>
 
                         <div class="flex justify-between border-b-2 border-gray-200 py-2 mb-4">
                             <h6 class="text-left font-semibold">Date:</h6>
                             <div class="text-left">
-                                {{ $item->preferred_date }}
+                                {{ $session->preferred_date }}
                             </div>
                         </div>
 
                         <div class="flex justify-between border-b-2 border-gray-200 py-2 mb-4">
                             <h6 class="text-left font-semibold">Time:</h6>
                             <div class="text-left">
-                                {{ $item->preferred_time }}
+                                {{ $session->preferred_time }}
                             </div>
                         </div>
 
@@ -221,28 +224,29 @@
                             <h6 class="text-left font-semibold">Status:</h6>
                             <div class="text-left">
                                 <span
-                                    class="{{ $item->status == 'verified' ? 'bg-green-600' : 'bg-red-600' }} text-white py-1 px-6 rounded-md text-xs">
-                                    {{ ucfirst($item->status) }}
+                                    class="{{ $session->status == 'verified' ? 'bg-green-600' : 'bg-red-600' }} text-white py-1 px-6 rounded-md text-xs">
+                                    {{ ucfirst($session->status) }}
                                 </span>
                             </div>
                         </div>
 
-                        @if (!is_null($item->admitted_at))
+                        @if (!is_null($session->admitted_at))
                             <div class="flex justify-between border-gray-200 py-2 mb-4">
                                 <h6 class="text-left font-semibold">Time In:</h6>
                                 <div class="text-left">
-                                    {{ \Carbon\Carbon::parse($item->admitted_at)->format('j F, Y H:i a') }}
+                                    {{ \Carbon\Carbon::parse($session->admitted_at)->format('j F, Y H:i a') }}
                                 </div>
                             </div>
                         @endif
 
-                        @if ($item->status == 'pending')
+                        @if ($session->status == 'pending')
                             <div class="text-center">
-                                <button id="button{{ $key }}" type="button"
+                                <button type="button"
                                     class="mx-auto bg-red-600 text-white py-2 px-6 rounded-lg"
-                                    wire:click.prevent="checkIn({{ $item }})">Check In
-                                    <i id="spinner{{ $key }}" class="fas fa-spinner fa-spin" wire:loading
-                                        wire:target="checkIn"></i>
+                                    wire:click.prevent="checkIn({{ $session }})">Check In
+                                    <span wire:loading wire:target="checkIn">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
                                 </button>
                             </div>
                         @endif

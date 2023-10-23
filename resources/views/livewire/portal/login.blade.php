@@ -31,7 +31,9 @@
                     font-medium text-white uppercase
                     focus:outline-none hover:shadow-none">
                     Login
-                    <i class="fas fa-spinner fa-spin" wire:loading wire:target="authenticateUser"></i>
+                    <span wire:loading wire:target="authenticateUser">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
                 </button>
 
             </form>
