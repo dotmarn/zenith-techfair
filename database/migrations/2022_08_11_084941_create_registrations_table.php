@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('role')->nullable();
-            $table->string('phone')->unique();
+            $table->string('phone');
             $table->string('sector')->nullable();
             $table->enum('have_an_account', ['yes', 'no'])->default('no');
             $table->string('account_number')->nullable();
