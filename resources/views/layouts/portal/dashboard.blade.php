@@ -8,9 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <link rel="shortcut icon" type="image/jpg" href=""/>
-    <link href="/css/app.css" rel="stylesheet">
-    <script src="/assets/js/font-awesome.js"></script>
-    <script src="/assets/js/alpine.min.js" defer></script>
+    @vite(['resources/js/app.js'])
     @yield('styles')
     @livewireStyles
 </head>

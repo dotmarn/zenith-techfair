@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
-    <link href="/css/app.css" rel="stylesheet">
-    <script src="/assets/js/font-awesome.js"></script>
+    @vite(['resources/js/app.js'])
+    @laravelTelInputStyles
     @livewireStyles
     @yield('styles')
 </head>
@@ -18,5 +18,6 @@
     <x-livewire-alert::scripts />
     <x-livewire-alert::flash />
     @yield('scripts')
+    @laravelTelInputScripts
 </body>
 </html>
