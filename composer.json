@@ -19,6 +19,7 @@
         "mtownsend/xml-to-array": "^2.0",
         "psr/simple-cache": "^1.0",
         "simplesoftwareio/simple-qrcode": "^1.0.3",
+        "victorybiz/laravel-simple-select": "^1.6",
         "victorybiz/laravel-tel-input": "^1.5"
     },
     "require-dev": {
