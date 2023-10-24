@@ -15,7 +15,7 @@ services:
     volumes:
       - ./:/var/www
     ports:
-      - 8000:8000
+      - 8001:8000
     depends_on:
       - database
       - redis
@@ -39,6 +39,16 @@ services:
     command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
     ports:
       - 6379:6379
+  
+  #Node Server
+  node:
+    build:
+      context: .
+      target: node
+    volumes:
+      - .:/usr/src
+      - ./node_modules:/usr/src/node_modules
+    tty: true
   
 
 volumes:
