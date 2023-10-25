@@ -47,8 +47,6 @@ jobs:
 
             php artisan db:seed --force
 
-            php artisan horizon:publish
-
             php artisan view:cache
 
             php artisan route:cache
