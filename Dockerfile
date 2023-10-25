@@ -26,7 +26,7 @@ COPY . .
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-#ENV PORT=9000
+ENV PORT=8000
 ENTRYPOINT [ "docker/entrypoint.sh" ]
 
 # Create system user to run Composer and Artisan Commands
