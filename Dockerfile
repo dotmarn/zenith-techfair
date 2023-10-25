@@ -21,9 +21,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
 
 # Install Redis
-RUN pecl install -o -f redis \
-    && rm -rf /tmp/pear \
-    && docker-php-ext-enable redis
+# RUN pecl install -o -f redis \
+#     && rm -rf /tmp/pear \
+#     && docker-php-ext-enable redis
 
 #RUN chmod +x docker/entrypoint.sh
 # Set working directory
