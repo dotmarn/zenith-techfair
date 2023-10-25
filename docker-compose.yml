@@ -1,0 +1,52 @@
+version: "3.8"
+services:
+  app:
+    build:
+      args:
+        user: dotty
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: techfair
+    container_name: techfair-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - techfair
+
+  database:
+    image: mysql:8.0
+    container_name: techfair-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - techfair
+
+  nginx:
+    image: nginx:alpine
+    container_name: techfair-nginx
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - techfair
+
+volumes:
+  db-data: ~
+
+networks:
+  techfair:
+    driver: bridge
