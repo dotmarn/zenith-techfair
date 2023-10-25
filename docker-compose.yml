@@ -35,7 +35,7 @@ services:
         container_name: laravel_mysql
         image: mysql:8.0
         ports:
-            - 3306:3306
+            - 3307:3306
         volumes:
             - .docker/db/data:/var/lib/mysql
             - .docker/logs:/var/log/mysql
