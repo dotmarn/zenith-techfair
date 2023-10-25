@@ -6,7 +6,7 @@ COPY .bashrc /root/
 
 RUN apt-get update \
   && apt-get install -y build-essential zlib1g-dev default-mysql-client curl gnupg procps vim git unzip libzip-dev libpq-dev \
-  && docker-php-ext-install zip pdo_mysql pdo_pgsql pgsql
+  && docker-php-ext-install zip pdo_mysql pdo_pgsql pgsql bcmath gd mbstring
 
 RUN apt-get install -y libicu-dev \
 && docker-php-ext-configure intl \
