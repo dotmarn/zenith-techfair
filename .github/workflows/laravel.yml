@@ -29,7 +29,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           script: |
 
-            cd /home/dotman/zenith-techfair
+            cd /var/www/html/projects/zenith-techfair
 
             git checkout -f
 
