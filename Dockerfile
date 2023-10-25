@@ -44,4 +44,6 @@ COPY . .
 
 RUN npm install
 
+RUN npm run build
+
 VOLUME /var/www/node_modules
