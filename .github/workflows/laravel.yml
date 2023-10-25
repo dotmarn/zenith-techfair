@@ -35,10 +35,6 @@ jobs:
 
             git pull
 
-            npm install
-
-            npm run build
-
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev -o
 
             php artisan key:generate
