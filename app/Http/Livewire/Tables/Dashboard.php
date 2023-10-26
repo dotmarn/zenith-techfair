@@ -24,7 +24,7 @@ class Dashboard extends LivewireDatatable
         return [
             Column::raw("CONCAT(registrations.firstname, ' ', registrations.lastname,' ', registrations.middlename) AS name")
                 ->defaultSort('asc')
-                ->label('Name'),
+                ->label('Name')->unwrap(),
 
             Column::name('email')
                 ->label('Email'),
@@ -39,13 +39,13 @@ class Dashboard extends LivewireDatatable
                 ->label('Role'),
 
             Column::name('sector')
-                ->label('Sector'),
+                ->label('Sector')->unwrap(),
 
             Column::name('reason')
-                ->label('Reason for attending'),
+                ->label('Reason for attending')->unwrap(),
 
             Column::callback(['status'], function ($status) {
-                return $status == 'verified' ? 
+                return $status == 'verified' ?
                 '<div class="flex items-center"><i class="fas fa-square text-[#6dd400]"></i><label for="" class="ml-2">'. ucfirst($status) .'</label></div>' :
                 '<div class="flex items-center"><i class="fas fa-square text-red-600"></i><label for="" class="ml-2">'. ucfirst($status) .'</label></div>';
             })->excludeFromExport()->unsortable()->label('Status'),
@@ -56,7 +56,7 @@ class Dashboard extends LivewireDatatable
 
             DateColumn::raw('registrations.created_at')
                 ->label('Date Registered')
-                ->format('j F, Y H:i a'),
+                ->format('j F, Y H:i a')->unwrap(),
 
             Column::callback(['verification_codes.token'], function ($token) {
                 return view('table-actions', ['token' => $token]);
