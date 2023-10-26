@@ -37,8 +37,6 @@ jobs:
 
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev -o
 
-            php artisan key:generate
-
             php artisan migrate --force
 
             php artisan db:seed --force

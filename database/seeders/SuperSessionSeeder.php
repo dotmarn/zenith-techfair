@@ -28,19 +28,19 @@ class SuperSessionSeeder extends Seeder
         $data = [
             (object)[
                 "title" => "Master Class 1",
-                "max_participants" => 5
+                "max_participants" => 500
             ],
             (object)[
                 "title" => "Master Class 2",
-                "max_participants" => 3
+                "max_participants" => 500
             ],
             (object)[
                 "title" => "Master Class 3",
-                "max_participants" => 2
+                "max_participants" => 500
             ],
             (object)[
                 "title" => "Master Class 4",
-                "max_participants" => 2
+                "max_participants" => 500
             ]
         ];
 
