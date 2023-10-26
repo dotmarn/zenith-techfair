@@ -22,7 +22,7 @@
                                             account?
                                             <span class="text-red-400">*</span></label>
                                         <select wire:model.lazy="have_an_account" id="have_an_account"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
+                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base">
                                             <option value="">Choose One...</option>
                                             <option value="yes">Yes</option>
                                             <option value="no">No</option>
@@ -36,7 +36,7 @@
                                         <div class="flex items-center justify-between space-x-3 w-full">
                                             <div class="w-2/3 lg:w-3/4">
                                                 <input type="text" wire:model.lazy="account_number"
-                                                    class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] "
+                                                    class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base"
                                                     id="account_number"
                                                     placeholder="Enter your 10-digit account number">
                                                 @error('account_number')
@@ -46,7 +46,7 @@
 
                                             <div class="">
                                                 <button type="button"
-                                                    class="bg-red-600 text-white px-8 py-2 lg:py-3 rounded-lg border border-[#ccd1d9] "
+                                                    class="bg-red-600 text-white px-8 py-2 lg:py-3 rounded-lg border border-[#ccd1d9] text-xs lg:text-base"
                                                     wire:click.prevent="verifyAccount">
                                                     Verify
                                                     <span wire:loading wire:target="verifyAccount">
@@ -65,7 +65,7 @@
                                             Name
                                             <span class="text-red-400">*</span></label>
                                         <input type="text" wire:model.lazy="firstname"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]"
+                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base"
                                             id="firstname">
                                         @error('firstname')
                                             <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
@@ -77,7 +77,7 @@
                                             class="block font-semibold text-[#544837] mb-2 text-xs">Last Name
                                             <span class="text-red-400">*</span></label>
                                         <input type="text" wire:model.lazy="lastname"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] "
+                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base"
                                             id="lastname">
                                         @error('lastname')
                                             <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
@@ -90,7 +90,7 @@
                                         class="block font-semibold text-[#544837] mb-2 text-xs">Middle
                                         Name</label>
                                     <input type="text" wire:model.lazy="middlename"
-                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] "
+                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base"
                                         id="middlename">
                                     @error('middlename')
                                         <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
@@ -104,7 +104,7 @@
                                             Address
                                             <span class="text-red-400">*</span></label>
                                         <input type="text" wire:model.lazy="email"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] "
+                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base"
                                             id="email">
                                         @error('email')
                                             <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
@@ -116,7 +116,7 @@
                                             class="block font-semibold text-[#544837] mb-2 text-xs">Phone
                                             <span class="text-red-400">*</span></label>
                                         <x-tel-input wire:model.lazy="phone" id="phone" name="phone"
-                                            class="form-input w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970]" />
+                                            class="form-input w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base" />
                                         @error('phone')
                                             <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
                                         @enderror
@@ -151,7 +151,7 @@
                                     <div class="flex justify-between items-center space-x-5 mb-5">
                                         <div class="w-full">
                                             <select wire:model.defer="platform.0"
-                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69]  bg-white">
+                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69]  bg-white text-xs lg:text-base">
                                                 <option value="">Choose One...</option>
                                                 <option value="facebook">Facebook</option>
                                                 <option value="linkedin">LinkedIn</option>
@@ -166,7 +166,7 @@
 
                                         <div class="w-full">
                                             <input type="text" wire:model.defer="handle.0"
-                                                class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none "
+                                                class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none text-xs lg:text-base"
                                                 placeholder="e.g @ john doe">
                                             @error('handle.0')
                                                 <p class="text-red-600 font-semibold text-xs text-left">
@@ -187,7 +187,7 @@
                                             <div class="w-full">
                                                 <select wire:model.defer="platform.{{ $value }}"
                                                     id="platform{{ $key }}"
-                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white ">
+                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white text-xs lg:text-base">
                                                     <option value="">Choose One...</option>
                                                     <option value="facebook">Facebook</option>
                                                     <option value="linkedin">LinkedIn</option>
@@ -203,7 +203,7 @@
                                             <div class="w-full">
                                                 <input type="text" wire:model.defer="handle.{{ $value }}"
                                                     id="handle{{ $key }}"
-                                                    class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none "
+                                                    class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none text-xs lg:text-base"
                                                     placeholder="e.g @ john doe">
                                                 @error('handle.*')
                                                     <p class="text-red-600 font-semibold text-xs text-right">
@@ -212,7 +212,7 @@
                                             </div>
 
                                             <button type="button"
-                                                class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-red-600 text-white font-semibold shadow-sm"
+                                                class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-red-600 text-white font-semibold shadow-sm text-xs lg:text-base"
                                                 wire:click.prevent="remove({{ $key }})">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -224,7 +224,7 @@
 
                             <div class="">
                                 <button type="submit"
-                                    class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4 uppercase">
+                                    class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4 uppercase text-xs lg:text-base">
                                     Next
                                     <span wire:loading wire:target="nextStepLogic">
                                         <i class="fas fa-spinner fa-spin"></i>
@@ -251,7 +251,7 @@
                                     <div class="flex justify-between items-center space-x-5 mb-5">
                                         <div class="w-full">
                                             <select wire:model.defer="c_session.0" id="c_session"
-                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white c_session">
+                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white c_session text-xs lg:text-base">
                                                 <option value="">Choose One...</option>
                                                 @foreach ($super_sessions as $key => $item)
                                                     <option value="{{ $item->id }}">{{ $item->title }}</option>
@@ -261,7 +261,7 @@
 
                                         <div class="w-full">
                                             <select wire:model.defer="event_date.0" id="event_date"
-                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
+                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white text-xs lg:text-base">
                                                 <option value="">Choose Date...</option>
                                                 @foreach ($events_date as $date_)
                                                     <option value="{{ $date_ }}">{{ $date_ }}</option>
@@ -271,7 +271,7 @@
 
                                         <div class="w-full">
                                             <select wire:model.defer="event_time.0" id="event_time"
-                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
+                                                class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white text-xs lg:text-base">
                                                 <option value="">Choose Time...</option>
                                                 @foreach ($events_time as $time_)
                                                     <option value="{{ $time_ }}">{{ $time_ }}</option>
@@ -291,7 +291,7 @@
                                             <div class="w-full">
                                                 <select wire:model.defer="c_session.{{ $value }}"
                                                     id="c_session{{ $keyy }}"
-                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white c_session">
+                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white c_session text-xs lg:text-base">
                                                     <option value="">Choose One...</option>
                                                     @foreach ($super_sessions as $item_)
                                                         <option value="{{ $item_->id }}">{{ $item_->title }}
@@ -303,7 +303,7 @@
                                             <div class="w-full">
                                                 <select wire:model.defer="event_date.{{ $value }}"
                                                     id="event_date{{ $keyy }}"
-                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
+                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white text-xs lg:text-base">
                                                     <option value="">Choose Date...</option>
                                                     @foreach ($events_date as $date_item)
                                                         <option value="{{ $date_item }}">{{ $date_item }}
@@ -315,7 +315,7 @@
                                             <div class="w-full">
                                                 <select wire:model.defer="event_time.{{ $value }}"
                                                     id="event_time{{ $keyy }}"
-                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white">
+                                                    class="w-full block border-[#ccd1d9] py-3 px-4 transition-all rounded-lg focus:border-[#193B69] bg-white text-xs lg:text-base">
                                                     <option value="">Choose Time...</option>
                                                     @foreach ($events_time as $time_item)
                                                         <option value="{{ $time_item }}">{{ $time_item }}
@@ -342,7 +342,7 @@
                                                 function/role?</small>
                                         </label>
                                         <select wire:model.defer="job_function" id="job_function"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
+                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base">
                                             <option value="">Choose One...</option>
                                             @foreach ($job_functions as $jb)
                                                 <option value="{{ $jb }}">{{ $jb }}</option>
@@ -361,7 +361,7 @@
                                                 operate in?</small>
                                         </label>
                                         <select wire:model.defer="sector" id="sector"
-                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
+                                            class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base">
                                             <option value="">Choose One...</option>
                                             @foreach ($sectors as $sect)
                                                 <option value="{{ $sect }}">{{ $sect }}</option>
@@ -382,7 +382,7 @@
                                             Tech Fair 2023?</small>
                                     </label>
                                     <select wire:model.defer="reason" id="reason"
-                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
+                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base">
                                         <option value="">Choose One...</option>
                                         <option value="Source products/services">Source products/services</option>
                                         <option value="Attend workshops/conferences">Attend workshops/conferences
@@ -416,7 +416,7 @@
                                     </label>
 
                                     <select wire:model.defer="consent" id="consent"
-                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] ">
+                                        class="w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#063970] text-xs lg:text-base">
                                         <option value="">Choose One...</option>
                                         <option value="yes">Yes</option>
                                         <option value="no">No</option>
@@ -427,13 +427,13 @@
 
                             <div class="flex items-center justify-between space-x-3">
                                 <a href="#"
-                                    class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4 text-center"
+                                    class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4 text-center text-xs lg:text-base"
                                     wire:click.prevent="goBack">
                                     Prev
                                 </a>
 
                                 <button type="submit"
-                                    class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4">
+                                    class="bg-red-600 text-white px-8 py-3 rounded w-full lg:w-1/4 text-xs lg:text-base">
                                     Submit
                                     <span wire:loading wire:target="bookSummit">
                                         <i class="fas fa-spinner fa-spin"></i>
