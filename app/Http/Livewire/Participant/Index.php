@@ -102,6 +102,7 @@ class Index extends Component
         $data = curl_exec($ch);
         $err = curl_error($ch);
         if ($err) {
+            info("Account Verification Error:".json_encode($err));
             return $this->alert('error', 'Whoops!!! Unable to verify account number this time. Please try again');
         }
 
