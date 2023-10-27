@@ -3,7 +3,7 @@
     <div class="flex items-center justify-center mt-8">
         <div class="flex items-center">
             <a href="{{ route('portal.dashboard') }}">
-                <img src="/assets/images/zfair-logo.png" alt="" class="w-16">
+                <img src="/assets/images/zenith-bank.png" alt="" class="w-16">
             </a>
         </div>
     </div>
