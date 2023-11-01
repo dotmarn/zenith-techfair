@@ -42,6 +42,8 @@ class View extends Component
             'admitted_at' => now()
         ]);
 
-        return $this->alert('success', 'Attendance marked successfully.');
+        $this->alert('success', 'Attendance marked successfully.');
+        $this->dispatchBrowserEvent('start-printer');
+        return;
     }
 }
