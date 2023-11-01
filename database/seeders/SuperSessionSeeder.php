@@ -16,8 +16,7 @@ class SuperSessionSeeder extends Seeder
     public function run()
     {
         $event_time = [
-            "2:00 - 3:00",
-            "3:30 - 4:30"
+            "3:00 - 5:00"
         ];
 
         $event_date = [
@@ -27,19 +26,15 @@ class SuperSessionSeeder extends Seeder
 
         $data = [
             (object)[
-                "title" => "Master Class 1",
+                "title" => "Blockchain Technology - Applications & Challenges",
                 "max_participants" => 500
             ],
             (object)[
-                "title" => "Master Class 2",
+                "title" => "Cybersecurity in Digital Transformation - Challenges & Solutions",
                 "max_participants" => 500
             ],
             (object)[
-                "title" => "Master Class 3",
-                "max_participants" => 500
-            ],
-            (object)[
-                "title" => "Master Class 4",
+                "title" => "Cloud computing - Potential for enhancing business operations",
                 "max_participants" => 500
             ]
         ];
