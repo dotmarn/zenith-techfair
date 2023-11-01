@@ -267,7 +267,7 @@
 
     <div id="printableArea" class="hidden">
         <div class="flex justify-center items-center h-screen">
-            <div>
+            <div class="text-center">
                 <h2 class="font-semibold text-2xl">
                     {{ strtoupper($details->reg_info->lastname) }}
                 </h2>
