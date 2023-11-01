@@ -59,7 +59,7 @@ class Dashboard extends LivewireDatatable
 
             DateColumn::raw('registrations.created_at')
                 ->label('Date Registered')
-                ->format('j F, Y H:i a')->unwrap(),
+                ->format('j F, Y H:i a')->unwrap()->defaultSort('desc'),
 
             Column::callback(['verification_codes.token'], function ($token) {
                 return view('table-actions', ['token' => $token]);
