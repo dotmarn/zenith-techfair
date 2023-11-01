@@ -22,9 +22,12 @@ class Dashboard extends LivewireDatatable
     public function columns()
     {
         return [
-            Column::raw("CONCAT(registrations.firstname, ' ', registrations.lastname,' ', registrations.middlename) AS name")
-                ->defaultSort('asc')
-                ->label('Name')->unwrap(),
+            // Column::raw("CONCAT(registrations.firstname, ' ', registrations.lastname,' ', registrations.middlename) AS name")
+            //     ->defaultSort('asc')
+            //     ->label('Name')->unwrap(),
+            Column::callback(['firstname', 'lastname', 'middlename', 'verification_codes.token'], function($firstname, $lastname, $middlename, $token) {
+                return '<a style="text-decoration:underline;" class="text-blue-500" href="'.route("portal.view-registration", $token).'">'.$lastname." ".$firstname." ".$middlename.'</a>';
+            })->unwrap()->label('Name'),
 
             Column::name('email')
                 ->label('Email'),
@@ -36,7 +39,7 @@ class Dashboard extends LivewireDatatable
                 ->label('Account Number'),
 
             Column::name('role')
-                ->label('Role'),
+                ->label('Role')->unwrap(),
 
             Column::name('sector')
                 ->label('Sector')->unwrap(),
