@@ -258,18 +258,19 @@ class Index extends Component
             }
 
             $c_dup = collect($this->c_session)->duplicates();
-            if ($c_dup->isNotEmpty()) {
-                return $this->alert('error', 'Master class contains one or more duplicates');
+            $d_dup = collect($this->event_date)->duplicates();
+            $duplicate_event_time = collect($this->event_time)->duplicates();
+
+            if ($c_dup->isNotEmpty() && $d_dup->isNotEmpty()) {
+                return $this->alert('error', 'You cannot the same session on the same day.');
             }
 
-            $d_dup = collect($this->event_date)->duplicates();
             if ($d_dup->isNotEmpty()) {
                 return $this->alert('error', 'You can only attend one event per day');
             }
 
-            $duplicate_event_time = collect($this->event_time)->duplicates();
             if ($duplicate_event_time->isNotEmpty() && $d_dup->isNotEmpty()) {
-                return $this->alert('error', 'You can only attend one event at the specified time');
+                return $this->alert('error', 'You can only attend one event on each days.');
             }
 
             $registration = Registration::create([
