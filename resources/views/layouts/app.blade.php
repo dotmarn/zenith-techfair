@@ -11,7 +11,7 @@
     @livewireStyles
     @yield('styles')
 </head>
-<body class="font-Poppins">
+<body class="font-Poppins bg-[#1F262C]">
     @yield('content')
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

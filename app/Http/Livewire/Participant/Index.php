@@ -14,6 +14,7 @@ use App\Models\ClassRegistration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\GeneralNotificationMail;
+use App\Services\AccountVerificationService;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Validation\ValidationException;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -21,9 +22,10 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class Index extends Component
 {
     use LivewireAlert;
-    public $super_sessions, $firstname, $lastname, $middlename, $email, $phone, $job_function, $account_number, $have_an_account, $sector, $interests = [], $qr_code_url, $reason;
 
-    public $step_one = true, $step_two = false, $final_step = false;
+    public $super_sessions, $firstname, $lastname, $middlename, $email, $phone, $job_function, $account_number, $have_an_account, $sector, $interests = [], $reason;
+
+    public $step_one = true, $step_two = false, $final_step = false, $success = false;
 
     public $job_functions, $area_of_interests, $sectors, $consent;
 
@@ -80,35 +82,14 @@ class Index extends Component
         if (!$this->account_number) {
             return $this->alert('error', 'Enter your zenith account number');
         }
-        $header = array(
-            "Content-type: text/xml",
-            "SOAPAction: http://zenithbank.com/acctenquiry/GetAccountDetails"
-        );
 
-        $url = "https://newwebservicetest.zenithbank.com:8443/ZenithAcctEnquiry/acctenquiry.asmx?op=GetAccountDetails";
-        $username = config('services.zenith.username');
-        $password = config('services.zenith.password');
+        $response = (new AccountVerificationService())->verifyAccountNumber($this->account_number);
 
-        $payload = "<soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'><soap:Body><GetAccountDetails xmlns='http://zenithbank.com/acctenquiry/'><Username>{$username}</Username><Password>{$password}</Password><AccountNo>{$this->account_number}</AccountNo></GetAccountDetails></soap:Body></soap:Envelope>";
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-
-        $data = curl_exec($ch);
-        $err = curl_error($ch);
-        if ($err) {
-            info("Account Verification Error:".json_encode($err));
-            return $this->alert('error', 'Whoops!!! Unable to verify account number this time. Please try again');
+        if (is_string($response)) {
+            return $this->alert('error', $response);
         }
 
-        $result_array = xml_to_array($data, false);
-        //convert xml response to array
-        $result_data = $result_array['soap:Body']['GetAccountDetailsResponse']['GetAccountDetailsResult'];
+        $result_data = $response['soap:Body']['GetAccountDetailsResponse']['GetAccountDetailsResult'];
         if ($result_data['ResponseCode'] == "00") {
             $account_name = explode(" ", $result_data['AccountName']);
             $this->firstname = $account_name[0];
@@ -156,9 +137,9 @@ class Index extends Component
                 'have_an_account' => "Please choose from the option"
             ]);
         } else if ($value == "yes") {
-            $this->clearErrorMessage(key: "have_an_account");
+            $this->resetValidation("have_an_account");
         } else {
-            $this->clearErrorMessage(key: "have_an_account");
+            $this->resetValidation("have_an_account");
         }
     }
 
@@ -203,12 +184,22 @@ class Index extends Component
 
     public function bookSummit()
     {
+        $have_an_account_rule = ($this->have_an_account == "yes") ? ['required', 'numeric', 'digits:10'] : ['nullable'];
 
         $this->validate([
+            'firstname' => ['required', 'string', 'min:3'],
+            'lastname' => ['required', 'string', 'min:3'],
+            'middlename' => ['nullable', 'string', 'min:3'],
+            'email' => ['required', 'string', 'email', 'unique:registrations,email'],
+            'phone' => ['required', 'unique:registrations,phone'],
+            'have_an_account' => ['required', Rule::in(['yes', 'no'])],
+            'account_number' => $have_an_account_rule,
             'reason' => ['required', 'string', Rule::in(AppUtils::acceptedReasons())],
             'job_function' => ['nullable', 'string', Rule::in($this->job_functions)],
             'sector' => ['nullable', 'string', Rule::in($this->sectors)],
             'consent' => ['required', 'string']
+        ], [
+            'have_an_account.required' => "This field is required",
         ]);
 
         $this->sanitize();
@@ -226,52 +217,65 @@ class Index extends Component
             ]);
         }
 
-        DB::transaction(function () {
+        if (count($this->platform ?? []) !== count($this->handle ?? [])) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        if (in_array("", $this->platform ?? []) || in_array("", $this->handle ?? [])) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        $duplicates = collect($this->platform)->duplicates();
+        if ($duplicates->isNotEmpty()) {
+            return $this->alert('error', 'Platform field contains one or more duplicates');
+        }
+
+        if (count($this->platform ?? []) > 0) {
+            $social_media = array_combine($this->platform, $this->handle);
+        }
+
+        if (is_null($this->c_session) && (!is_null($this->event_date) || !is_null($this->event_time))) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        if (is_null($this->event_date) && (!is_null($this->c_session) || !is_null($this->event_time))) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        if (is_null($this->event_time) && (!is_null($this->c_session) || !is_null($this->event_date))) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        if (in_array("", $this->c_session ?? []) || in_array("", $this->event_date ?? []) || in_array("", $this->event_time ?? [])) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        if (
+            count($this->c_session ?? []) > 0 &&
+            (count($this->event_date ?? []) !== count($this->c_session ?? [])) ||
+            (count($this->event_time ?? []) !== count($this->c_session ?? []))
+        ) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        $c_dup = collect($this->c_session)->duplicates();
+        $d_dup = collect($this->event_date)->duplicates();
+        $duplicate_event_time = collect($this->event_time)->duplicates();
+
+        if ($c_dup->isNotEmpty() && $d_dup->isNotEmpty()) {
+            return $this->alert('error', 'You cannot the same session on the same day.');
+        }
+
+        if ($d_dup->isNotEmpty()) {
+            return $this->alert('error', 'You can only attend one event per day');
+        }
+
+        if ($duplicate_event_time->isNotEmpty() && $d_dup->isNotEmpty()) {
+            return $this->alert('error', 'You can only attend one event on each days.');
+        }
+
+        DB::transaction(function () use(&$social_media) {
             $token = "ZEN-" . Str::random(5) . "-" . mt_rand(1000, 9999);
-
-            if (count($this->platform ?? []) > 0) {
-                $social_media = array_combine($this->platform, $this->handle);
-            }
-
-            if (is_null($this->c_session) && (!is_null($this->event_date) || !is_null($this->event_time))) {
-                return $this->alert('error', 'Please fill all the required field(s)');
-            }
-
-            if (is_null($this->event_date) && (!is_null($this->c_session) || !is_null($this->event_time))) {
-                return $this->alert('error', 'Please fill all the required field(s)');
-            }
-
-            if (is_null($this->event_time) && (!is_null($this->c_session) || !is_null($this->event_date))) {
-                return $this->alert('error', 'Please fill all the required field(s)');
-            }
-
-            if (in_array("", $this->c_session ?? []) || in_array("", $this->event_date ?? []) || in_array("", $this->event_time ?? [])) {
-                return $this->alert('error', 'Please fill all the required field(s)');
-            }
-
-            if (
-                count($this->c_session ?? []) > 0 &&
-                (count($this->event_date ?? []) !== count($this->c_session ?? [])) ||
-                (count($this->event_time ?? []) !== count($this->c_session ?? []))
-            ) {
-                return $this->alert('error', 'Please fill all the required field(s)');
-            }
-
-            $c_dup = collect($this->c_session)->duplicates();
-            $d_dup = collect($this->event_date)->duplicates();
-            $duplicate_event_time = collect($this->event_time)->duplicates();
-
-            if ($c_dup->isNotEmpty() && $d_dup->isNotEmpty()) {
-                return $this->alert('error', 'You cannot the same session on the same day.');
-            }
-
-            if ($d_dup->isNotEmpty()) {
-                return $this->alert('error', 'You can only attend one event per day');
-            }
-
-            if ($duplicate_event_time->isNotEmpty() && $d_dup->isNotEmpty()) {
-                return $this->alert('error', 'You can only attend one event on each days.');
-            }
 
             $registration = Registration::create([
                 'firstname' => $this->firstname,
@@ -292,11 +296,11 @@ class Index extends Component
             $image = \QrCode::size(500)->format('png')->generate(route('portal.view-registration', $token));
 
             $base64 = "data:image/png;base64," . base64_encode($image);
-            $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
+            $qr_code_url = Cloudinary::upload($base64)->getSecurePath();
 
             VerificationCode::create([
                 'registration_id' => $registration->id,
-                'qrcode_url' => $this->qr_code_url,
+                'qrcode_url' => $qr_code_url,
                 'token' => $token
             ]);
 
@@ -341,6 +345,8 @@ class Index extends Component
                     }
                 }
             }
+            
+            $this->success = true;
 
             $body = "<p style='text-align:center; font-weight:bold'>Thank you,  {$this->firstname} {$this->lastname}</p>";
             $body .= "<p style='text-align:center;'>You are all signed up for <b>The Zenith Tech Fair 2023</b></p>";
@@ -348,7 +354,7 @@ class Index extends Component
             $body .= "<p><b>Address: </b>Eko Hotels, Plot 1415 Adetokunbo Ademola Street, Victoria Island, Lagos.</p>";
             $body .= "<p><b>Date: </b>22nd and 23rd November 2023</p>";
             $body .= "<p><b>Time: </b>9am to 6pm</p>";
-            $body .= "<div style='text-align:center'><img src='{$this->qr_code_url}' style='width:50%' /></div>";
+            $body .= "<div style='text-align:center'><img src='{$qr_code_url}' style='width:50%' /></div>";
 
             $payload = [
                 'username' => $this->firstname,
@@ -357,27 +363,15 @@ class Index extends Component
                 'body' => $body
             ];
 
-            $payload = json_encode($payload);
-
             try {
-                Mail::to($this->email)->send(new GeneralNotificationMail($payload));
+                Mail::to($this->email)->send(new GeneralNotificationMail(
+                    json_encode($payload)
+                ));
             } catch (\Exception $e) {
-                \Log::info($e->getMessage());
+                info($e->getMessage());
             }
 
-
-            $this->alert('success', 'Registration successful.');
-
-            $this->step_two = false;
-            $this->final_step = true;
         });
-    }
-
-    private function clearErrorMessage(string $key)
-    {
-        throw ValidationException::withMessages([
-            $key => ""
-        ]);
     }
 
     protected function sanitize(): void
