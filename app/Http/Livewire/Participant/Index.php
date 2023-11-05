@@ -14,6 +14,7 @@ use App\Models\ClassRegistration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\GeneralNotificationMail;
+use App\Services\AccountVerificationService;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Validation\ValidationException;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -21,7 +22,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class Index extends Component
 {
     use LivewireAlert;
-    
+
     public $super_sessions, $firstname, $lastname, $middlename, $email, $phone, $job_function, $account_number, $have_an_account, $sector, $interests = [], $reason;
 
     public $step_one = true, $step_two = false, $final_step = false, $success = false;
@@ -81,35 +82,14 @@ class Index extends Component
         if (!$this->account_number) {
             return $this->alert('error', 'Enter your zenith account number');
         }
-        $header = array(
-            "Content-type: text/xml",
-            "SOAPAction: http://zenithbank.com/acctenquiry/GetAccountDetails"
-        );
 
-        $url = "https://newwebservicetest.zenithbank.com:8443/ZenithAcctEnquiry/acctenquiry.asmx?op=GetAccountDetails";
-        $username = config('services.zenith.username');
-        $password = config('services.zenith.password');
+        $response = (new AccountVerificationService())->verifyAccountNumber($this->account_number);
 
-        $payload = "<soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'><soap:Body><GetAccountDetails xmlns='http://zenithbank.com/acctenquiry/'><Username>{$username}</Username><Password>{$password}</Password><AccountNo>{$this->account_number}</AccountNo></GetAccountDetails></soap:Body></soap:Envelope>";
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-
-        $data = curl_exec($ch);
-        $err = curl_error($ch);
-        if ($err) {
-            info("Account Verification Error:".json_encode($err));
-            return $this->alert('error', 'Whoops!!! Unable to verify account number this time. Please try again');
+        if (is_string($response)) {
+            return $this->alert('error', $response);
         }
 
-        $result_array = xml_to_array($data, false);
-        //convert xml response to array
-        $result_data = $result_array['soap:Body']['GetAccountDetailsResponse']['GetAccountDetailsResult'];
+        $result_data = $response['soap:Body']['GetAccountDetailsResponse']['GetAccountDetailsResult'];
         if ($result_data['ResponseCode'] == "00") {
             $account_name = explode(" ", $result_data['AccountName']);
             $this->firstname = $account_name[0];
@@ -157,9 +137,9 @@ class Index extends Component
                 'have_an_account' => "Please choose from the option"
             ]);
         } else if ($value == "yes") {
-            $this->clearErrorMessage(key: "have_an_account");
+            $this->resetValidation("have_an_account");
         } else {
-            $this->clearErrorMessage(key: "have_an_account");
+            $this->resetValidation("have_an_account");
         }
     }
 
@@ -392,13 +372,6 @@ class Index extends Component
             }
 
         });
-    }
-
-    private function clearErrorMessage(string $key)
-    {
-        throw ValidationException::withMessages([
-            $key => ""
-        ]);
     }
 
     protected function sanitize(): void
