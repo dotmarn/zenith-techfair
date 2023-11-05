@@ -203,12 +203,22 @@ class Index extends Component
 
     public function bookSummit()
     {
+        $have_an_account_rule = ($this->have_an_account == "yes") ? ['required', 'numeric', 'digits:10'] : ['nullable'];
 
         $this->validate([
+            'firstname' => ['required', 'string', 'min:3'],
+            'lastname' => ['required', 'string', 'min:3'],
+            'middlename' => ['nullable', 'string', 'min:3'],
+            'email' => ['required', 'string', 'email', 'unique:registrations,email'],
+            'phone' => ['required', 'unique:registrations,phone'],
+            'have_an_account' => ['required', Rule::in(['yes', 'no'])],
+            'account_number' => $have_an_account_rule,
             'reason' => ['required', 'string', Rule::in(AppUtils::acceptedReasons())],
             'job_function' => ['nullable', 'string', Rule::in($this->job_functions)],
             'sector' => ['nullable', 'string', Rule::in($this->sectors)],
             'consent' => ['required', 'string']
+        ], [
+            'have_an_account.required' => "This field is required",
         ]);
 
         $this->sanitize();
@@ -226,52 +236,65 @@ class Index extends Component
             ]);
         }
 
-        DB::transaction(function () {
+        if (count($this->platform ?? []) !== count($this->handle ?? [])) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        if (in_array("", $this->platform ?? []) || in_array("", $this->handle ?? [])) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        $duplicates = collect($this->platform)->duplicates();
+        if ($duplicates->isNotEmpty()) {
+            return $this->alert('error', 'Platform field contains one or more duplicates');
+        }
+
+        if (count($this->platform ?? []) > 0) {
+            $social_media = array_combine($this->platform, $this->handle);
+        }
+
+        if (is_null($this->c_session) && (!is_null($this->event_date) || !is_null($this->event_time))) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        if (is_null($this->event_date) && (!is_null($this->c_session) || !is_null($this->event_time))) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        if (is_null($this->event_time) && (!is_null($this->c_session) || !is_null($this->event_date))) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        if (in_array("", $this->c_session ?? []) || in_array("", $this->event_date ?? []) || in_array("", $this->event_time ?? [])) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        if (
+            count($this->c_session ?? []) > 0 &&
+            (count($this->event_date ?? []) !== count($this->c_session ?? [])) ||
+            (count($this->event_time ?? []) !== count($this->c_session ?? []))
+        ) {
+            return $this->alert('error', 'Please fill all the required field(s)');
+        }
+
+        $c_dup = collect($this->c_session)->duplicates();
+        $d_dup = collect($this->event_date)->duplicates();
+        $duplicate_event_time = collect($this->event_time)->duplicates();
+
+        if ($c_dup->isNotEmpty() && $d_dup->isNotEmpty()) {
+            return $this->alert('error', 'You cannot the same session on the same day.');
+        }
+
+        if ($d_dup->isNotEmpty()) {
+            return $this->alert('error', 'You can only attend one event per day');
+        }
+
+        if ($duplicate_event_time->isNotEmpty() && $d_dup->isNotEmpty()) {
+            return $this->alert('error', 'You can only attend one event on each days.');
+        }
+
+        DB::transaction(function () use($social_media) {
             $token = "ZEN-" . Str::random(5) . "-" . mt_rand(1000, 9999);
-
-            if (count($this->platform ?? []) > 0) {
-                $social_media = array_combine($this->platform, $this->handle);
-            }
-
-            if (is_null($this->c_session) && (!is_null($this->event_date) || !is_null($this->event_time))) {
-                return $this->alert('error', 'Please fill all the required field(s)');
-            }
-
-            if (is_null($this->event_date) && (!is_null($this->c_session) || !is_null($this->event_time))) {
-                return $this->alert('error', 'Please fill all the required field(s)');
-            }
-
-            if (is_null($this->event_time) && (!is_null($this->c_session) || !is_null($this->event_date))) {
-                return $this->alert('error', 'Please fill all the required field(s)');
-            }
-
-            if (in_array("", $this->c_session ?? []) || in_array("", $this->event_date ?? []) || in_array("", $this->event_time ?? [])) {
-                return $this->alert('error', 'Please fill all the required field(s)');
-            }
-
-            if (
-                count($this->c_session ?? []) > 0 &&
-                (count($this->event_date ?? []) !== count($this->c_session ?? [])) ||
-                (count($this->event_time ?? []) !== count($this->c_session ?? []))
-            ) {
-                return $this->alert('error', 'Please fill all the required field(s)');
-            }
-
-            $c_dup = collect($this->c_session)->duplicates();
-            $d_dup = collect($this->event_date)->duplicates();
-            $duplicate_event_time = collect($this->event_time)->duplicates();
-
-            if ($c_dup->isNotEmpty() && $d_dup->isNotEmpty()) {
-                return $this->alert('error', 'You cannot the same session on the same day.');
-            }
-
-            if ($d_dup->isNotEmpty()) {
-                return $this->alert('error', 'You can only attend one event per day');
-            }
-
-            if ($duplicate_event_time->isNotEmpty() && $d_dup->isNotEmpty()) {
-                return $this->alert('error', 'You can only attend one event on each days.');
-            }
 
             $registration = Registration::create([
                 'firstname' => $this->firstname,
