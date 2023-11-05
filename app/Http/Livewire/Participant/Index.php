@@ -23,7 +23,7 @@ class Index extends Component
     use LivewireAlert;
     public $super_sessions, $firstname, $lastname, $middlename, $email, $phone, $job_function, $account_number, $have_an_account, $sector, $interests = [], $qr_code_url, $reason;
 
-    public $step_one = true, $step_two = false, $final_step = false;
+    public $step_one = true, $step_two = false, $final_step = false, $success = false;
 
     public $job_functions, $area_of_interests, $sectors, $consent;
 
@@ -364,6 +364,8 @@ class Index extends Component
                     }
                 }
             }
+            
+            $this->success = true;
 
             $body = "<p style='text-align:center; font-weight:bold'>Thank you,  {$this->firstname} {$this->lastname}</p>";
             $body .= "<p style='text-align:center;'>You are all signed up for <b>The Zenith Tech Fair 2023</b></p>";
@@ -379,7 +381,7 @@ class Index extends Component
                 'subject' => "{$this->firstname}, thank you for registering for the event",
                 'body' => $body
             ];
-
+            
             $payload = json_encode($payload);
 
             try {
@@ -388,11 +390,6 @@ class Index extends Component
                 \Log::info($e->getMessage());
             }
 
-
-            $this->alert('success', 'Registration successful.');
-
-            $this->step_two = false;
-            $this->final_step = true;
         });
     }
 
