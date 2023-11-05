@@ -21,7 +21,8 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class Index extends Component
 {
     use LivewireAlert;
-    public $super_sessions, $firstname, $lastname, $middlename, $email, $phone, $job_function, $account_number, $have_an_account, $sector, $interests = [], $qr_code_url, $reason;
+    
+    public $super_sessions, $firstname, $lastname, $middlename, $email, $phone, $job_function, $account_number, $have_an_account, $sector, $interests = [], $reason;
 
     public $step_one = true, $step_two = false, $final_step = false, $success = false;
 
@@ -315,11 +316,11 @@ class Index extends Component
             $image = \QrCode::size(500)->format('png')->generate(route('portal.view-registration', $token));
 
             $base64 = "data:image/png;base64," . base64_encode($image);
-            $this->qr_code_url = Cloudinary::upload($base64)->getSecurePath();
+            $qr_code_url = Cloudinary::upload($base64)->getSecurePath();
 
             VerificationCode::create([
                 'registration_id' => $registration->id,
-                'qrcode_url' => $this->qr_code_url,
+                'qrcode_url' => $qr_code_url,
                 'token' => $token
             ]);
 
@@ -373,7 +374,7 @@ class Index extends Component
             $body .= "<p><b>Address: </b>Eko Hotels, Plot 1415 Adetokunbo Ademola Street, Victoria Island, Lagos.</p>";
             $body .= "<p><b>Date: </b>22nd and 23rd November 2023</p>";
             $body .= "<p><b>Time: </b>9am to 6pm</p>";
-            $body .= "<div style='text-align:center'><img src='{$this->qr_code_url}' style='width:50%' /></div>";
+            $body .= "<div style='text-align:center'><img src='{$qr_code_url}' style='width:50%' /></div>";
 
             $payload = [
                 'username' => $this->firstname,
@@ -381,13 +382,13 @@ class Index extends Component
                 'subject' => "{$this->firstname}, thank you for registering for the event",
                 'body' => $body
             ];
-            
-            $payload = json_encode($payload);
 
             try {
-                Mail::to($this->email)->send(new GeneralNotificationMail($payload));
+                Mail::to($this->email)->send(new GeneralNotificationMail(
+                    json_encode($payload)
+                ));
             } catch (\Exception $e) {
-                \Log::info($e->getMessage());
+                info($e->getMessage());
             }
 
         });
