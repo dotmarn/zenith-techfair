@@ -1,6 +1,7 @@
 @section('title', 'Zenith Tech Fair::Welcome')
 <div>
-    <div class="max-w-3xl px-4 mx-auto">
+    @include('partials.participant.header')
+    {{-- <div class="max-w-3xl px-4 mx-auto">
         <div class="text-center mx-auto w-full">
             <img src="/assets/images/techfair_logo2.png" alt="" class="mx-auto" loading="lazy">
         </div>
@@ -470,7 +471,7 @@
                 </div>
             </div>
         @endif
-    </div>
+    </div> --}}
 </div>
 
 @section('scripts')
