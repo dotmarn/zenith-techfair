@@ -7,7 +7,7 @@
     <title>@yield('title')</title>
     @vite(['resources/js/app.js'])
 </head>
-<body>
+<body class="font-Poppins">
     @yield('content')
 </body>
 </html>

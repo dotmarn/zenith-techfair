@@ -6,10 +6,10 @@
             <div class="text-center">
                 <img src="{{ asset('assets/images/errors/500.svg') }}" alt="500" class="mb-4">
                 <div class="space-y-5">
-                    <h2 class="font-custom-medium text-xl">Internal Server Error</h2>
-                    <p class="font-custom-light text-gray-500">It's not you, it's us. Please try again.</p>
+                    <h2 class="font-semibold text-2xl text-[#1F262C]">Internal Server Error</h2>
+                    <p class="font-light text-gray-500">It's not you, it's us. Please try again.</p>
                     <div class="flex justify-center">
-                        <a href="" class="text-purple-one flex items-center space-x-1 font-custom-semibold">
+                        <a href="{{ route('welcome') }}" class="text-[#1F262C] flex items-center space-x-1 font-semibold">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
