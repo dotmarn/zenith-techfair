@@ -168,7 +168,7 @@
                                         </div>
 
                                         <button type="button"
-                                            class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-[#1e1e1e] text-white font-medium shadow-sm"
+                                            class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-red-600 text-white font-medium shadow-sm"
                                             wire:click.prevent="add({{ $i }})">
                                             <i class="fas fa-plus"></i>
                                         </button>
