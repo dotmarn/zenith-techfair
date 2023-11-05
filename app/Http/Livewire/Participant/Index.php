@@ -293,7 +293,7 @@ class Index extends Component
             return $this->alert('error', 'You can only attend one event on each days.');
         }
 
-        DB::transaction(function () use($social_media) {
+        DB::transaction(function () use(&$social_media) {
             $token = "ZEN-" . Str::random(5) . "-" . mt_rand(1000, 9999);
 
             $registration = Registration::create([

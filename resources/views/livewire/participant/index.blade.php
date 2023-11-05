@@ -423,7 +423,7 @@
                             registration. It should arrive in a couple of minutes
                         </p>
                         <button wire:click="$set('success', false)"
-                            class="bg-red-600 text-white px-8 lg:py-2.5 rounded w-full lg:w-1/4 text-xs lg:text-base font-semibold">
+                            class="bg-red-600 text-white px-8 py-2 lg:py-2.5 rounded w-full lg:w-1/4 text-xs lg:text-base font-semibold">
                             Close
                         </button>
                     </div>
