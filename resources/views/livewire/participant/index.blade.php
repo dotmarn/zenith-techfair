@@ -15,7 +15,8 @@
                                             class="block font-semibold text-white mb-2 text-xs">Do
                                             you
                                             have a
-                                            zenith
+                                            Zenith
+                                            Bank
                                             account?
                                             <span class="text-red-400">*</span></label>
                                         <select wire:model.lazy="have_an_account" id="have_an_account"
@@ -109,7 +110,7 @@
                                         <label for="phone" class="block font-semibold text-white mb-2 text-xs">Phone
                                             <span class="text-red-400">*</span></label>
                                         <x-tel-input wire:model.lazy="phone" id="phone" name="phone"
-                                            class="form-input w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#1F262C] text-xs lg:text-base font-Poppins font-semibold" />
+                                            class="form-input w-full px-4 py-3 rounded-lg border border-[#ccd1d9] outline-none focus:border-[#1F262C] text-xs lg:text-base font-Poppins focus:font-semibold" />
                                         @error('phone')
                                             <p class="text-red-600 font-semibold text-xs">{{ $message }}</p>
                                         @enderror
@@ -158,8 +159,8 @@
 
                                         <div class="w-full">
                                             <input type="text" wire:model.defer="handle.0"
-                                                class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none text-xs lg:text-base font-Poppins font-semibold"
-                                                placeholder="">
+                                                class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none text-xs lg:text-base font-Poppins focus:font-semibold"
+                                                placeholder="@johndoe">
                                             @error('handle.0')
                                                 <p class="text-red-600 font-semibold text-xs text-left">
                                                     {{ $message }}
@@ -195,8 +196,8 @@
                                             <div class="w-full">
                                                 <input type="text" wire:model.defer="handle.{{ $value }}"
                                                     id="handle{{ $key }}"
-                                                    class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none text-xs lg:text-base font-Poppins font-semibold"
-                                                    placeholder="">
+                                                    class="w-full block rounded-lg px-4 py-3 border border-[#ccd1d9] outline-none text-xs lg:text-base font-Poppins focus:font-semibold"
+                                                    placeholder="@johndoe">
                                                 @error('handle.*')
                                                     <p class="text-red-600 font-semibold text-xs text-right">
                                                         {{ $message }}</p>
