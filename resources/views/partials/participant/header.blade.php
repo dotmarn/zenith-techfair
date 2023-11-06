@@ -1,4 +1,4 @@
-<nav class="fixed top-0 inset-x-0 z-50 w-full {{ $success ? 'bg-[#1F262C]' : 'bg-[url("/assets/images/bg-header.svg")]' }}">
+<nav class="fixed top-0 inset-x-0 z-50 w-full {{ $success ? 'bg-[#1F262C]' : 'bg-[url("/assets/images/bg-header.svg")] bg-no-repeat bg-cover' }}">
     <div class="p-3 lg:py-8 lg:px-2 flex justify-between md:justify-around items-center">
         <div>
             <a href="/" class="">
