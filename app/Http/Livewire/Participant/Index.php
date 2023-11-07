@@ -237,15 +237,6 @@ class Index extends Component
             return $this->alert('error', 'Platform field contains one or more duplicates');
         }
 
-        if (count($this->platform ?? []) > 0) {
-            $handles = [];
-            foreach ($this->platform as $key => $value) {
-                $handle = $this->handle[$key] ?? "";
-                $handles[] = $this->cleanInput($handle);
-            }
-            $social_media = array_combine($this->platform, $handles);
-        }
-
         if (is_null($this->c_session) && (!is_null($this->event_date) || !is_null($this->event_time))) {
             return $this->alert('error', 'Please fill all the required field(s)');
         }
@@ -284,6 +275,15 @@ class Index extends Component
 
         if ($duplicate_event_time->isNotEmpty() && $d_dup->isNotEmpty()) {
             return $this->alert('error', 'You can only attend one event on each days.');
+        }
+
+        if (count($this->platform ?? []) > 0) {
+            $handles = [];
+            foreach ($this->platform as $key => $value) {
+                $handle = $this->handle[$key] ?? "";
+                $handles[] = $this->cleanInput($handle);
+            }
+            $social_media = array_combine($this->platform, $handles);
         }
 
         DB::transaction(function () use (&$social_media) {
