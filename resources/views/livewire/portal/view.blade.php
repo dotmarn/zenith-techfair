@@ -101,30 +101,32 @@
                                 <div class="lg:flex lg:space-x-3 lg:overflow-x-scroll lg:w-full">
                                     @foreach ($social_media as $platform => $handle)
                                         <div class="flex items-center space-x-3 mb-2">
-                                            @if ($platform == 'twitter')
-                                                <a href="#" class="py-2 px-3 rounded-full bg-[#00acee]">
-                                                    <i class="fab fa-twitter text-white"></i>
-                                                </a>
-                                            @endif
+                                            @if ($handle !== '')
+                                                @if ($platform == 'twitter')
+                                                    <a href="#" class="py-2 px-3 rounded-full bg-[#00acee]">
+                                                        <i class="fab fa-twitter text-white"></i>
+                                                    </a>
+                                                @endif
 
-                                            @if ($platform == 'facebook')
-                                                <a href="#" class="py-2 px-4 rounded-full bg-[#3b5998]">
-                                                    <i class="fab fa-facebook-f text-white"></i>
-                                                </a>
-                                            @endif
+                                                @if ($platform == 'facebook')
+                                                    <a href="#" class="py-2 px-4 rounded-full bg-[#3b5998]">
+                                                        <i class="fab fa-facebook-f text-white"></i>
+                                                    </a>
+                                                @endif
 
-                                            @if ($platform == 'instagram')
-                                                <a href="#" class="py-2 px-3 rounded-full instagram">
-                                                    <i class="fab fa-instagram text-white"></i>
-                                                </a>
-                                            @endif
+                                                @if ($platform == 'instagram')
+                                                    <a href="#" class="py-2 px-3 rounded-full instagram">
+                                                        <i class="fab fa-instagram text-white"></i>
+                                                    </a>
+                                                @endif
 
-                                            @if ($platform == 'linkedin')
-                                                <a href="#" class="py-2 px-3 rounded-full bg-[#0072B1]">
-                                                    <i class="fab fa-linkedin-in text-white"></i>
-                                                </a>
+                                                @if ($platform == 'linkedin')
+                                                    <a href="#" class="py-2 px-3 rounded-full bg-[#0072B1]">
+                                                        <i class="fab fa-linkedin-in text-white"></i>
+                                                    </a>
+                                                @endif
+                                                <label>{{ $handle }}</label>
                                             @endif
-                                            <label>{{ $handle }}</label>
                                         </div>
                                     @endforeach
                                 </div>
@@ -302,8 +304,7 @@
             printPageArea();
         });
 
-        function printPageArea()
-        {
+        function printPageArea() {
             var printContent = document.getElementById('printableArea').innerHTML;
             var originalContent = document.body.innerHTML;
             document.body.innerHTML = printContent;
