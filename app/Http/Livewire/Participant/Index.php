@@ -29,7 +29,7 @@ class Index extends Component
 
     public $job_functions, $area_of_interests, $sectors, $consent;
 
-    public $inputs = [], $class_session_inputs = [], $i = 1, $s = 0, $platform, $handle, $c_session, $event_date, $event_time;
+    public $inputs = [], $class_session_inputs = [], $i = 0, $s = 0, $platform, $handle, $c_session, $event_date, $event_time;
 
     public $events_date = [], $events_time = [];
 
@@ -118,7 +118,10 @@ class Index extends Component
 
     public function remove($i)
     {
-        unset($this->inputs[$i]);
+        $this->i -= 1;
+        unset($this->inputs[$i - 1]);
+        unset($this->platform[$i]);
+        unset($this->handle[$i]);
     }
 
     public function delete($i)
@@ -217,12 +220,16 @@ class Index extends Component
             ]);
         }
 
-        if (count($this->platform ?? []) !== count($this->handle ?? [])) {
-            return $this->alert('error', 'Please fill all the required field(s)');
-        }
+        // if (count($this->platform ?? []) !== count($this->handle ?? [])) {
+        //     return $this->alert('error', 'Please fill all the required field(s)');
+        // }
 
-        if (in_array("", $this->platform ?? []) || in_array("", $this->handle ?? [])) {
-            return $this->alert('error', 'Please fill all the required field(s)');
+        // if (in_array("", $this->platform ?? []) || in_array("", $this->handle ?? [])) {
+        //     return $this->alert('error', 'Please fill all the required field(s)');
+        // }
+
+        if (count($this->platform ?? []) < count($this->handle ?? [])) {
+            return $this->alert('error', 'One or more social media platform is misssing.');
         }
 
         $duplicates = collect($this->platform)->duplicates();
@@ -231,7 +238,12 @@ class Index extends Component
         }
 
         if (count($this->platform ?? []) > 0) {
-            $social_media = array_combine($this->platform, $this->handle);
+            $handles = [];
+            foreach ($this->platform as $key => $value) {
+                $handle = $this->handle[$key] ?? "";
+                $handles[] = $this->cleanInput($handle);
+            }
+            $social_media = array_combine($this->platform, $handles);
         }
 
         if (is_null($this->c_session) && (!is_null($this->event_date) || !is_null($this->event_time))) {
@@ -274,7 +286,7 @@ class Index extends Component
             return $this->alert('error', 'You can only attend one event on each days.');
         }
 
-        DB::transaction(function () use(&$social_media) {
+        DB::transaction(function () use (&$social_media) {
             $token = "ZEN-" . Str::random(5) . "-" . mt_rand(1000, 9999);
 
             $registration = Registration::create([
@@ -345,7 +357,7 @@ class Index extends Component
                     }
                 }
             }
-            
+
             $this->success = true;
 
             $body = "<p style='text-align:center; font-weight:bold'>Thank you,  {$this->firstname} {$this->lastname}</p>";
@@ -370,7 +382,6 @@ class Index extends Component
             } catch (\Exception $e) {
                 info($e->getMessage());
             }
-
         });
     }
 
@@ -379,5 +390,10 @@ class Index extends Component
         $this->firstname = filter_var($this->firstname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         $this->lastname = filter_var($this->lastname, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         $this->middlename = filter_var($this->middlename, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+    }
+
+    protected function cleanInput(string $input) : string
+    {
+        return filter_var($input, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
     }
 }

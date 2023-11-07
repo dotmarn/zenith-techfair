@@ -206,7 +206,7 @@
 
                                             <button type="button"
                                                 class="py-2 lg:py-3 px-4 lg:px-6 rounded bg-red-600 text-white font-semibold shadow-sm text-xs lg:text-base"
-                                                wire:click.prevent="remove({{ $key }})">
+                                                wire:click.prevent="remove({{ $key + 1 }})">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
