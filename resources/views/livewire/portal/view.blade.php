@@ -271,7 +271,7 @@
                 <h2 class="font-semibold text-4xl mt-8">
                     {{ strtoupper($details->reg_info->lastname) }}
                 </h2>
-                <h2 class="font-semibold text-5xl">
+                <h2 class="font-semibold text-4xl">
                     {{ strtoupper($details->reg_info->firstname) }}
                 </h2>
             </div>
