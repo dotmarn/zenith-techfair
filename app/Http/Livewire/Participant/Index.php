@@ -381,7 +381,7 @@ class Index extends Component
                     json_encode($payload)
                 ));
             } catch (\Exception $e) {
-                info($e->getMessage());
+                info("Mail Sending Error:".json_encode($e->getMessage()));
             }
         });
     }
