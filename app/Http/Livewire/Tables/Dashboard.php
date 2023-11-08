@@ -22,6 +22,7 @@ class Dashboard extends LivewireDatatable
     public function columns()
     {
         return [
+
             Column::callback(['firstname', 'lastname', 'middlename', 'verification_codes.token'], function($firstname, $lastname, $middlename, $token) {
                 return '<a style="text-decoration:underline;" class="text-blue-500" href="'.route("portal.view-registration", $token).'">'.$lastname." ".$firstname." ".$middlename.'</a>';
             })->exportCallback(function ($firstname, $lastname, $middlename) {
