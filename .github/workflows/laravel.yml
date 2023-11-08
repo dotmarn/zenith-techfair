@@ -33,9 +33,7 @@ jobs:
 
             git pull
 
-            php artisan down
-
-            npm install && npm run build
+            npm run build
 
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev -o
 
