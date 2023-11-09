@@ -336,28 +336,28 @@ class Index extends Component
                 ]);
             }
 
-            if (count($this->c_session ?? []) > 0) {
-                $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
-                foreach ($this->c_session as $key => $session) {
-                    $count = collect($classes)->where('super_session_id', $session)->count();
-                    $session_details = collect($this->super_sessions)->where('id', $session)->first();
-                    if ($count < $session_details->max_participants) {
-                        $registration->super_session()->create([
-                            'super_session_id' => $session,
-                            'preferred_date' => $this->event_date[$key],
-                            'preferred_time' => $this->event_time[$key]
-                        ]);
-                    } else {
-                        //rollback changes
-                        DB::rollBack();
-                        return $this->alert('info', "{$session_details->title} has been filled already.", [
-                            'toast' => false,
-                            'timer' => 5000,
-                            'position' => 'center'
-                        ]);
-                    }
-                }
-            }
+            // if (count($this->c_session ?? []) > 0) {
+            //     $classes = ClassRegistration::select('registration_id', 'super_session_id')->whereIn('super_session_id', $this->c_session)->get();
+            //     foreach ($this->c_session as $key => $session) {
+            //         $count = collect($classes)->where('super_session_id', $session)->count();
+            //         $session_details = collect($this->super_sessions)->where('id', $session)->first();
+            //         if ($count < $session_details->max_participants) {
+            //             $registration->super_session()->create([
+            //                 'super_session_id' => $session,
+            //                 'preferred_date' => $this->event_date[$key],
+            //                 'preferred_time' => $this->event_time[$key]
+            //             ]);
+            //         } else {
+
+            //             DB::rollBack();
+            //             return $this->alert('info', "{$session_details->title} has been filled already.", [
+            //                 'toast' => false,
+            //                 'timer' => 5000,
+            //                 'position' => 'center'
+            //             ]);
+            //         }
+            //     }
+            // }
 
             $this->success = true;
 
