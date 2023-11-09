@@ -12,14 +12,16 @@ class Masterclass extends LivewireDatatable
     public $exportable = true;
     public $complex = false;
     public $persistComplexQuery = true;
-    // protected $listeners = [
-    //     'refreshDataTable' => 'refreshTable'
-    // ];
 
-    // public function refreshTable()
-    // {
-    //     $this->refreshLivewireDatatable();
-    // }
+    protected $listeners = [
+        'dayChanged' => 'refreshAttendancesTable'
+    ];
+
+    public function refreshAttendancesTable($param)
+    {
+        $this->params = $param;
+        $this->refreshLivewireDatatable();
+    }
 
     public function builder()
     {

@@ -10,9 +10,9 @@
                     <form class="space-y-3" method="POST">
                         @csrf
                         <div>
-                            <label for="event_day"
-                                class="w-full md:w-4/5 block font-semibold text-[#544837] mb-2">Event Day</label>
-                            <select name="event_day" id="event_day"
+                            <label for="event_day" class="w-full md:w-4/5 block font-semibold text-[#544837] mb-2">Event
+                                Day</label>
+                            <select name="event_day" id="event_day" wire:model="day"
                                 class="w-full px-4 py-2 rounded border-2 border-[#ccd1d9] outline-none focus:border-[#063970]"
                                 required>
                                 <option value="">Select...</option>
@@ -26,24 +26,10 @@
         </div>
     </div>
 
-    @if ($param)
     <div class="p-4 bg-white rounded-lg">
         <div class='overflow-x-auto w-full'>
-            <livewire:tables.masterclass :params="$param" />
+            <livewire:tables.masterclass  />
         </div>
     </div>
-    @endif
+
 </div>
-@section('javascripts')
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    <script>
-        window.addEventListener('DOMContentLoaded', event => {
-            $('#event_day').on('change', function(event) {
-                let selected = $(this).val();
-                if (selected != "") {
-                    window.location.href = "/portal/attendance/"+selected;
-                }
-            })
-        });
-    </script>
-@endsection

@@ -6,16 +6,18 @@ use Livewire\Component;
 
 class Attendances extends Component
 {
-    public $param;
-
-    public function mount($id = null)
-    {
-        $this->param = $id;
-    }
+    public $param, $day;
 
     public function render()
     {
         return view('livewire.portal.attendances')->extends('layouts.portal.dashboard')->section('content');
     }
 
+    public function updatedDay($event)
+    {
+        $this->emit(
+            'dayChanged',
+            $event
+        );
+    }
 }
