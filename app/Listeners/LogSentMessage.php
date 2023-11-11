@@ -25,6 +25,6 @@ class LogSentMessage
      */
     public function handle($event)
     {
-        info("Mail Sent:".json_encode($event->data->data->username));
+        info("Mail Sent:".json_encode($event->data['data']['username']));
     }
 }
