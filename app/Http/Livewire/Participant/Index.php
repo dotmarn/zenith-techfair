@@ -91,7 +91,6 @@ class Index extends Component
 
         $result_data = $response['soap:Body']['GetAccountDetailsResponse']['GetAccountDetailsResult'];
         if ($result_data['ResponseCode'] == "00") {
-            info("Account details:".json_encode($result_data['AccountName']));
             $account_name = explode(" ", $result_data['AccountName']);
             $this->firstname = $account_name[0] ?? "";
             $this->lastname = $account_name[1] ?? "";
