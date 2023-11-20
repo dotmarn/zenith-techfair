@@ -33,7 +33,7 @@ class AccountVerificationService
         $err = curl_error($ch);
 
         if ($err) {
-            info("Account Verification Error:".json_encode($err));
+            // info("Account Verification Error:".json_encode($err));
             return ('Whoops!!! Unable to verify account number this time. Please try again');
         }
 
