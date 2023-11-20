@@ -318,7 +318,9 @@
         });
 
         function printPageArea() {
-            var printContent = document.getElementById('printableArea').innerHTML;
+            var prtContent = document.getElementById("printableArea");
+            prtContent.style.display = "";
+            var printContent = prtContent.innerHTML;
             var originalContent = document.body.innerHTML;
             document.body.innerHTML = printContent;
             window.print();
