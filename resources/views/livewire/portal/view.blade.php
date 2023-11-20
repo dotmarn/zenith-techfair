@@ -7,6 +7,19 @@
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
             box-shadow: 0px 3px 10px rgba(0, 0, 0, .25);
         }
+
+        @media print {
+            body {
+                visibility: hidden;
+            }
+
+            #printableArea {
+                visibility: visible;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
     </style>
 @endsection
 <div class="container mx-auto px-6 py-8">
