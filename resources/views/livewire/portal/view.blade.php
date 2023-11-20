@@ -8,7 +8,7 @@
             box-shadow: 0px 3px 10px rgba(0, 0, 0, .25);
         }
 
-        @media print {
+        /* @media print {
             body {
                 visibility: hidden;
             }
@@ -19,7 +19,7 @@
                 left: 0;
                 top: 0;
             }
-        }
+        } */
     </style>
 @endsection
 <div class="container mx-auto px-6 py-8">
