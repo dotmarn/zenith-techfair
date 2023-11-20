@@ -270,10 +270,10 @@
     <div id="printableArea" class="hidden">
         <div class="flex justify-center items-center h-screen">
             <div class="text-center">
-                <h2 class="font-semibold text-4xl mt-8">
+                <h2 class="font-semibold text-5xl mt-8">
                     {{ strtoupper($details->reg_info->lastname) }}
                 </h2>
-                <h2 class="font-semibold text-4xl">
+                <h2 class="font-semibold text-5xl">
                     {{ strtoupper($details->reg_info->firstname) }}
                 </h2>
             </div>
