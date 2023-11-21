@@ -29,11 +29,11 @@
     });
 
     // redirect back to the previous route when printer dialog closes
-    window.onafterprint = () => {
-        setTimeout(() => {
-            location.href = '{{ url()->previous() }}';
-        }, 10000);
-    };
+    // window.onafterprint = () => {
+    //     setTimeout(() => {
+    //         location.href = '{{ url()->previous() }}';
+    //     }, 10000);
+    // };
 </script>
 
 </html>
