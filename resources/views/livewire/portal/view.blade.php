@@ -8,26 +8,14 @@
             box-shadow: 0px 3px 10px rgba(0, 0, 0, .25);
         }
 
-        /* @media print {
-            body {
-                visibility: hidden;
-            }
-
-            #printableArea {
-                visibility: visible;
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
-        } */
     </style>
 @endsection
 <div class="container mx-auto px-6 py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 gap-y-5 mb-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8 gap-y-5 mb-4" id="non-printable">
         <div class="lg:col-span-2">
             <div class="p-4 bg-white rounded-lg mb-4">
                 <div>
-                    <a href="javascript:void(0);" class="flex items-center place-content-end" onclick="printPageArea()">
+                    <a href="{{ route('print', 'name='.$details->reg_info->lastname.' '.$details->reg_info->firstname) }}" class="flex items-center place-content-end">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -297,6 +285,8 @@
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="/assets/js/datatables.min.js"></script>
     <script>
+        var prtContent = document.getElementById("printableArea");
+
         window.addEventListener('DOMContentLoaded', event => {
             $('.datatable').DataTable({
                 searching: false,
@@ -318,13 +308,12 @@
         });
 
         function printPageArea() {
-            var prtContent = document.getElementById("printableArea");
-            prtContent.style.display = "";
             var printContent = prtContent.innerHTML;
             var originalContent = document.body.innerHTML;
             document.body.innerHTML = printContent;
             window.print();
             document.body.innerHTML = originalContent;
         }
+
     </script>
 @endsection
