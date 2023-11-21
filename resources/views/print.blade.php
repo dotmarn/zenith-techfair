@@ -32,7 +32,7 @@
     window.onafterprint = () => {
         setTimeout(() => {
             location.href = '{{ url()->previous() }}';
-        }, 300);
+        }, 10000);
     };
 </script>
 
