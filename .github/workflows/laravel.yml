@@ -17,8 +17,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Directory Permissions
-        run: chmod -R 775 storage/logs bootstrap/cache
       - name: Deploy to production
         uses: appleboy/ssh-action@v0.1.6
         with:
@@ -41,9 +39,15 @@ jobs:
 
             php artisan db:seed --force
 
+            php artisan view:clear
+
             php artisan view:cache
 
+            php artisan route:clear
+
             php artisan route:cache
+
+            php artisan config:clear
 
             php artisan config:cache
 
