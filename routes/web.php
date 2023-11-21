@@ -49,7 +49,6 @@ Route::group(['namespace' => '\App\Http\Livewire'], function() {
 
 Route::get('/portal/registration/details', function(Request $request) {
     $name = $request->query('name');
-    // split name into two
     if (strpos($name, ' ') !== false) {
         list($first_name, $last_name) = explode(" ", $name);
     }
