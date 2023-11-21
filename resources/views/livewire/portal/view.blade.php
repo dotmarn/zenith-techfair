@@ -268,25 +268,11 @@
         @endif
     </div>
 
-    <div id="printableArea" class="hidden">
-        <div class="flex justify-center items-center h-screen">
-            <div class="text-center">
-                <h2 class="font-semibold text-5xl mt-8">
-                    {{ strtoupper($details->reg_info->lastname) }}
-                </h2>
-                <h2 class="font-semibold text-5xl">
-                    {{ strtoupper($details->reg_info->firstname) }}
-                </h2>
-            </div>
-        </div>
-    </div>
 </div>
 @section('javascripts')
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="/assets/js/datatables.min.js"></script>
     <script>
-        var prtContent = document.getElementById("printableArea");
-
         window.addEventListener('DOMContentLoaded', event => {
             $('.datatable').DataTable({
                 searching: false,
@@ -304,16 +290,8 @@
         });
 
         window.addEventListener('start-printer', event => {
-            printPageArea();
+            location.href = '/portal/registration/details?name=' + event.detail;
         });
-
-        function printPageArea() {
-            var printContent = prtContent.innerHTML;
-            var originalContent = document.body.innerHTML;
-            document.body.innerHTML = printContent;
-            window.print();
-            document.body.innerHTML = originalContent;
-        }
 
     </script>
 @endsection
