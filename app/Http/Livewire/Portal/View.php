@@ -43,7 +43,8 @@ class View extends Component
         ]);
 
         $this->alert('success', 'Attendance marked successfully.');
-        $this->dispatchBrowserEvent('start-printer');
+        $name = $this->details->reg_info->lastname.' '.$this->details->reg_info->firstname;
+        $this->dispatchBrowserEvent('start-printer', $name);
         return;
     }
 }
