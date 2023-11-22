@@ -363,8 +363,6 @@ class Index extends Component
             //     }
             // }
 
-            $this->success = true;
-
             $body = "<p style='text-align:center; font-weight:bold'>Thank you,  {$this->firstname} {$this->lastname}</p>";
             $body .= "<p style='text-align:center;'>You are all signed up for <b>The Zenith Tech Fair 2023</b></p>";
             $body .= "<p style='text-align:center; font-weight:bold'>Theme: FUTURE FORWARD 3.0</p>";
@@ -385,8 +383,12 @@ class Index extends Component
                     json_encode($payload)
                 ));
             } catch (\Exception $e) {
+                DB::rollback();
                 info("Mail Sending Error:".json_encode($e->getMessage()));
             }
+
+            $this->success = true;
+
         });
     }
 
