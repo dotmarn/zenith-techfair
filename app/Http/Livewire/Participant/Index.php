@@ -290,10 +290,10 @@ class Index extends Component
             $token = "ZEN-" . Str::random(5) . "-" . mt_rand(1000, 9999);
 
             $registration = Registration::create([
-                'firstname' => $this->firstname,
-                'lastname' => $this->lastname,
-                'middlename' => $this->middlename,
-                'email' => $this->email,
+                'firstname' => trim($this->firstname),
+                'lastname' => trim($this->lastname),
+                'middlename' => trim($this->middlename),
+                'email' => trim($this->email),
                 'role' => $this->job_function,
                 'phone' => $this->phone,
                 'sector' => $this->sector,
