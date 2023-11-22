@@ -31,7 +31,7 @@ jobs:
 
             git pull
 
-            npm install && npm run build
+            npm install && npm run build && npm audit fix
 
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev -o
 
