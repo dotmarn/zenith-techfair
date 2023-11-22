@@ -13,7 +13,7 @@
     <div class="container mx-auto">
         <div class="flex justify-center items-center h-screen">
             <div class="text-center">
-                <h2 class="font-semibold text-5xl mt-8">
+                <h2 class="font-semibold text-5xl mt-2">
                     {{ strtoupper($last_name) }}
                 </h2>
                 <h2 class="font-semibold text-5xl">
@@ -27,13 +27,5 @@
     window.addEventListener('DOMContentLoaded', function() {
         window.print();
     });
-
-    // redirect back to the previous route when printer dialog closes
-    // window.onafterprint = () => {
-    //     setTimeout(() => {
-    //         location.href = '{{ url()->previous() }}';
-    //     }, 10000);
-    // };
 </script>
-
 </html>
