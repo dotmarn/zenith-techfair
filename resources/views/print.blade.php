@@ -10,7 +10,7 @@
 </head>
 
 <body class="font-Poppins">
-    <div class="container mx-auto">
+    <div class="container mx-auto my-auto overflow-hidden">
         <div class="flex justify-center items-center h-screen">
             <div class="text-center">
                 <h2 class="font-semibold text-5xl mt-2">
