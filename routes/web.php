@@ -49,11 +49,14 @@ Route::group(['namespace' => '\App\Http\Livewire'], function() {
 
 Route::get('/portal/registration/details', function(Request $request) {
     $name = $request->query('name');
-    if (strpos($name, ' ') !== false) {
-        list($first_name, $last_name) = explode(" ", $name);
+    if (!$name) {
+        return redirect()->back();
     }
+
+    $parts = explode(" ", $name);
+
     return view('print', [
-        'first_name' => $first_name,
-        'last_name' => $last_name
+        'first_name' => $parts[1] ?? null,
+        'last_name' => $parts[0] ?? null
     ]);
 })->name('print')->middleware('auth');
