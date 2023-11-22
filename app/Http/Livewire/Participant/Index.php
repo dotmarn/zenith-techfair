@@ -89,6 +89,11 @@ class Index extends Component
             return $this->alert('error', $response);
         }
 
+        if (!isset($response['soap:Body']['GetAccountDetailsResponse']['GetAccountDetailsResult'])) {
+            $this->alert('error', 'Account verification could not be completed at this time.');
+            return;
+        }
+
         $result_data = $response['soap:Body']['GetAccountDetailsResponse']['GetAccountDetailsResult'];
         if ($result_data['ResponseCode'] == "00") {
             $account_name = explode(" ", $result_data['AccountName']);
